@@ -3,49 +3,55 @@ import {
   useGetAllRobotsQuery,
   useLazyGetRobotByIdQuery,
 } from "../../../app/services/robotApiSlice";
-import { useDispatch } from "react-redux";
-import { addRobot,deleteAllRobots  } from "../../../app/redux/compareSlice";
+import { compareMultipleRobots } from "../../../helpers/utils";
 import { useSelector } from "react-redux";
 import Loading from "../../../components/Loading";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const CompareForm = () => {
   const queryParams = {
     fields: "model"
   }
+
   const lang = useSelector((state) => state.language.lang);
   const { data: allModels, isLoading: allModelsLoading, isError } =
   useGetAllRobotsQuery(queryParams);
-  const dispatch = useDispatch();
   const [triggerCompare1] = useLazyGetRobotByIdQuery();
   const [triggerComapre2] = useLazyGetRobotByIdQuery();
   const [Model1, setModel1] = useState("");
   const [Model2, setModel2] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
 
-  function handleCompare() {
+  async function handleCompare() {
     const foundItem1 = allModels.content.find((item) => item.model === Model1);
     const foundItem2 = allModels.content.find((item) => item.model === Model2);
 
-    if (foundItem1 && foundItem2 && foundItem1.id !== foundItem2.id) {
-      dispatch(deleteAllRobots());
-      let id = foundItem1.id;
-      triggerCompare1({id}).then((response) => {
-        dispatch(addRobot(response.data));
-      });
-      id = foundItem2.id;
-      triggerComapre2({id}).then((response) => {
-        dispatch(addRobot(response.data));
-      })
-      navigate("/compare");
-    } else {
-      console.error(
-        "Invalid selection for comparison. Please select two different robots."
-      );
+    if (!foundItem1 || !foundItem2) {
+        console.error("Invalid selection. Please select valid robot models.");
+        return;
     }
-    setModel1("");
-    setModel2("");
-  }
+
+    if (foundItem1.id === foundItem2.id) {
+        console.error("Please select two different robots for comparison.");
+        return;
+    }
+
+    try {
+        const [response1, response2] = await Promise.all([
+            triggerCompare1({ id: foundItem1.id }).unwrap(),
+            triggerComapre2({ id: foundItem2.id }).unwrap()
+        ]);
+
+        compareMultipleRobots([response1.id, response2.id], navigate);
+    } catch (error) {
+        console.error("Error during comparison:", error);
+    } finally {
+        setModel1("");
+        setModel2("");
+    }
+}
 
   return (
     <div>

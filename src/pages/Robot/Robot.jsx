@@ -12,6 +12,7 @@ import Loading from "../../components/Loading";
 import { addRobot } from "../../app/redux/compareSlice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import { compareMultipleRobots } from "../../helpers/utils";
 
 const Robot = () => {
   const [Tab,setTab] = useState("Specs");
@@ -38,14 +39,15 @@ const Robot = () => {
 
     if (foundItem && foundItem.id !== data.id) {
       let id = data.id;
-      triggerCompare({ id }).then((response) => {
-        dispatch(addRobot(response.data));
-      });
-      id = foundItem.id;
-      triggerCompare({ id }).then((response) => {
-        dispatch(addRobot(response.data));
-      });
-      navigate("/compare");
+      // triggerCompare({ id }).then((response) => {
+      //   dispatch(addRobot(response.data));
+      // });
+      let id2 = foundItem.id;
+      compareMultipleRobots([id,id2],navigate)
+      // triggerCompare({ id }).then((response) => {
+      //   dispatch(addRobot(response.data));
+      // });
+      // navigate("/compare");
     }
     setModel("");
   }

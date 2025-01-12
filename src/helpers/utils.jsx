@@ -33,21 +33,31 @@ export const addIdToUrl = (search, newId, navigate) => {
   const ids = getRobotIdsFromUrl(search);
 
   if (!ids.includes(newId)) {
-    ids.push(newId);
+      ids.push(newId);
   }
   params.set("id", ids.join(","));
-  navigate(`?${decodeURIComponent(params.toString())}`);
+  navigate(`/compare?${decodeURIComponent(params.toString())}`);
 };
 
-export const removeIdFromUrl = (search, idToRemove,navigate) => {
+export const removeIdFromUrl = (search, idToRemove, navigate) => {
   const params = new URLSearchParams(search);
   const ids = getRobotIdsFromUrl(search);
 
   const filteredIds = ids.filter((id) => id !== idToRemove);
   if (filteredIds.length > 0) {
-    params.set("id", filteredIds.join(","));
+      params.set("id", filteredIds.join(","));
   } else {
-    params.delete("id");
+      params.delete("id");
   }
-  navigate(`?${decodeURIComponent(params.toString())}`);
+  navigate(`/compare?${decodeURIComponent(params.toString())}`);
+};
+
+export const compareMultipleRobots = (ids, navigate) => {
+  if (!Array.isArray(ids) || ids.length === 0) {
+      console.error("Invalid input: Please provide a non-empty array of IDs.");
+      return;
+  }
+  const params = new URLSearchParams();
+  params.set("id", ids.join(","));
+  navigate(`/compare?${decodeURIComponent(params.toString())}`);
 };

@@ -1,31 +1,20 @@
 import { useGetAllMostComparesQuery } from "../../../app/services/mostComparesApiSlice";
-import { useLazyGetRobotByIdQuery } from "../../../app/services/robotApiSlice";
 import Loading from "../../../components/Loading";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { addRobot, deleteAllRobots } from "../../../app/redux/compareSlice";
-import Error from "../../../components/Error";
+import { compareMultipleRobots } from "../../../helpers/utils";
 
 const PopularComparisons = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const lang = useSelector((state) => state.language.lang);
   const {
     data,
     isLoading,
     isError,
   } = useGetAllMostComparesQuery();
-  const [trigger] = useLazyGetRobotByIdQuery();
   const handleComparisonClick = (id1, id2, id3) => {
     const ids = [id1, id2, id3].filter(Boolean);
-    dispatch(deleteAllRobots());
-    ids.forEach((id) => {
-      trigger({ id }).then((response) => {
-        dispatch(addRobot(response.data));
-      });
-    });
-    navigate("/compare");
+    compareMultipleRobots(ids,navigate)
   };
 
   return (

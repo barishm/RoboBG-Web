@@ -18,7 +18,6 @@ const Compare = () => {
   useEffect(() => {
     const fetchRobots = async () => {
       const ids = getRobotIdsFromUrl(location.search);
-      if (ids.length === 0) return;
 
       try {
         const currentRobotIds = robots.map((robot) => robot.id);
@@ -43,7 +42,7 @@ const Compare = () => {
 
   return (
     <div>
-      {robots.length <= 1 ? (
+      {robots.length === 0 ? (
         <div>
           <CompareForm />
           <PopularComparisons/>
