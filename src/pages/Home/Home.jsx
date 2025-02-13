@@ -2,6 +2,7 @@ import Bests from './components/Bests';
 import PopularComparisons from '../Compare/components/PopularComparisons';
 import YoutubeVideos from './components/YoutubeVideos';
 import HomePageCompareForm from './components/HomePageCompareForm';
+import Ozone from '../../ads/Ozone';
 
 const Home = (props) => {
   const setIds = props.setIds;
@@ -23,6 +24,9 @@ const Home = (props) => {
               <div className="card-body" style={{ paddingBottom: '20px'}}>
                 <HomePageCompareForm />
               </div>
+            </div>
+            <div className="d-none d-lg-block">
+              <Ozone />
             </div>
             <div className="d-none d-lg-block">
               <PopularComparisons />
