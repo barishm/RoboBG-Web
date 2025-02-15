@@ -1,14 +1,14 @@
 import './App.css'
 import Header from './components/Header'
 import Footer from './components/Footer'
-import Home from './pages/Home/Home'
-import Compare from './pages/Compare/Compare'
-import Robots from './pages/Robots/Robots'
-import Robot from './pages/Robot/Robot'
-import Profile from './pages/Profile/Profile'
-import Login from './pages/Login/Login'
-import Register from './pages/Register/Register';
-import Dashboard from './pages/Dashboard/Dashboard'
+import Home from './pages/Home'
+import Compare from './pages/Compare'
+import Robots from './pages/Robots'
+import Robot from './pages/Robot'
+import Profile from './pages/Profile'
+import Login from './pages/Login'
+import Register from './pages/Register';
+import Dashboard from './pages/Dashboard'
 import ProtectedRoutes from './app/ProtectedRoutes';
 import { Routes,Route } from "react-router-dom";
 import { useEffect } from "react";
@@ -16,7 +16,7 @@ import { useReauthMutation } from './app/services/authApiSlice'
 import { jwtDecode } from "jwt-decode";
 import { useDispatch } from 'react-redux'
 import { setCredentials, logOut } from './app/redux/authSlice'
-import Contact from './pages/Contact/Contact'
+import Contact from './pages/Contact'
 
 function App() {
   const [reauth] = useReauthMutation()
