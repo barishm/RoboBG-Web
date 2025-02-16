@@ -39,15 +39,8 @@ const Robot = () => {
 
     if (foundItem && foundItem.id !== data.id) {
       let id = data.id;
-      // triggerCompare({ id }).then((response) => {
-      //   dispatch(addRobot(response.data));
-      // });
       let id2 = foundItem.id;
       compareMultipleRobots([id,id2],navigate)
-      // triggerCompare({ id }).then((response) => {
-      //   dispatch(addRobot(response.data));
-      // });
-      // navigate("/compare");
     }
     setModel("");
   }

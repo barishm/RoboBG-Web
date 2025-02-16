@@ -11,48 +11,17 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard'
 import ProtectedRoutes from './app/ProtectedRoutes';
 import { Routes,Route } from "react-router-dom";
-import { useEffect } from "react";
-import { useReauthMutation } from './app/services/authApiSlice'
-import { jwtDecode } from "jwt-decode";
-import { useDispatch } from 'react-redux'
-import { setCredentials, logOut } from './app/redux/authSlice'
 import Contact from './pages/Contact'
+import useAuth from './hooks/useAuth'
+import { useState } from 'react'
 
 function App() {
-  const [reauth] = useReauthMutation()
-  const dispatch = useDispatch()
-  let updateToken = async () => {
-    try {
-      if (localStorage.getItem("refreshToken")) {
-        const refreshTokenWithQuotes = localStorage.getItem("refreshToken");
-        const refreshToken = refreshTokenWithQuotes.replace(/^"(.*)"$/, '$1');
-        const userData = await reauth(refreshToken);
-        const decoded = jwtDecode(userData.data.access_token);
-        const user = decoded.sub;
-        const role = decoded.role;
-        const accessToken = userData.data.access_token;
-        dispatch(setCredentials({ user, role, accessToken }))
-      }
-    } catch (error) {
-      console.error('Error while refreshing token:', error);
-      dispatch(logOut());
-      localStorage.clear();
-    }
-  };
-  useEffect(() => {
-    updateToken();
-  }, []);
-  useEffect(() => {
-    const tokenInterval = setInterval(() => {
-      updateToken();
-    }, 900000);
-    return () => clearInterval(tokenInterval);
-  }, [dispatch]);
-  
+  const [dashboardsActiveComponent, setDashboardsActiveComponent] = useState("Robots");
+  useAuth();
   
   return (
     <div className="App">
-      <Header/>
+      <Header setDashboardsActiveComponent={setDashboardsActiveComponent} />
       <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path='/compare' element={<Compare/>}/>
@@ -63,7 +32,7 @@ function App() {
         <Route path='/login'  element={<Login/>}/>
         <Route path='/register'  element={<Register/>}/>
         <Route element={<ProtectedRoutes/>}>
-        <Route path='/dashboard' element={<Dashboard/>}/>
+        <Route path='/dashboard' element={<Dashboard dashboardsActiveComponent={dashboardsActiveComponent} />}/>
         </Route>
       </Routes>
       <Footer/>

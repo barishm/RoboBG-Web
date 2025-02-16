@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { logOut } from '../app/redux/authSlice';
 import { setLanguage } from '../app/redux/languageSlice';
 
-const Header = () => {
+const Header = ({ setDashboardsActiveComponent }) => {
   const dispatch = useDispatch();
   const { username, role } = useSelector((state) => state.auth);
   const lang = useSelector((state) => state.language.lang);
@@ -24,7 +24,13 @@ const Header = () => {
     if (isCollapsed) {
       navbar.classList.remove('show');
     }
-  }
+  };
+
+  const navigateToDashboard = (activeComponent) => {
+    setDashboardsActiveComponent(activeComponent);
+    closeCollapse();
+    navigate('/dashboard');
+  };
 
   return (
     <nav className="navbar navbar-expand-md bg-body-tertiary">
@@ -79,7 +85,23 @@ const Header = () => {
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              {lang === "bg" ? <img className='mb-1' src="/images/bulgaria.png" alt="Bulgarian" width="18" height="18" /> : <img className='mb-1' src="/images/united-kingdom.png" alt="English" width="18" height="18" />}
+              {lang === 'bg' ? (
+                <img
+                  className="mb-1"
+                  src="/images/bulgaria.png"
+                  alt="Bulgarian"
+                  width="18"
+                  height="18"
+                />
+              ) : (
+                <img
+                  className="mb-1"
+                  src="/images/united-kingdom.png"
+                  alt="English"
+                  width="18"
+                  height="18"
+                />
+              )}
             </button>
             <ul
               className="dropdown-menu dropdown-menu-end"
@@ -170,18 +192,58 @@ const Header = () => {
               </a>
             </li>
             {(role === 'ADMIN' || role === 'MODERATOR') && (
-              <li className="nav-item">
-                <a
-                  className="nav-link active"
-                  aria-current="page"
-                  style={{ cursor: 'pointer' }}
-                  onClick={() => {
-                    navigate('/dashboard');
-                    closeCollapse();
+              // <li className="nav-item">
+              //   <a
+              //     className="nav-link active"
+              //     aria-current="page"
+              //     style={{ cursor: 'pointer' }}
+              //     onClick={() => {
+              //       navigate('/dashboard');
+              //       closeCollapse();
+              //     }}
+              //   >
+              //     {lang === 'en' ? 'Dashboard' : 'Панел'}
+              //   </a>
+              // </li>
+              <li className="nav-item" style={{alignContent:"center"}}>
+              <div className="dropdown">
+                <button
+                  className="dropdown-toggle ps-md-2 ps-0"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                  style={{
+                    background: "none",
+                    border: "none",
+                    color: "inherit",
+                    font: "inherit",
+                    cursor: "pointer"
                   }}
                 >
-                  {lang === 'en' ? 'Dashboard' : 'Панел'}
-                </a>
+                  <span>Dashboard</span>
+                </button>
+                <ul className="dropdown-menu">
+                <li>
+                    <button className="dropdown-item" onClick={() => navigateToDashboard("Robots")}>
+                      {lang === 'en' ? 'Robots' : 'Robots'}
+                    </button>
+                  </li>
+                  <li>
+                    <button className="dropdown-item" onClick={() => navigateToDashboard("Users")}>
+                      {lang === 'en' ? 'Users' : 'Users'}
+                    </button>
+                  </li>
+                  <li>
+                    <button className="dropdown-item" onClick={() => navigateToDashboard("Most Compared")}>
+                      {lang === 'en' ? 'Most Compared' : 'Most Compared'}
+                    </button>
+                  </li>
+                  <li>
+                    <button className="dropdown-item" onClick={() => navigateToDashboard("Latest Questions")}>
+                      {lang === 'en' ? 'Latest Questions' : 'Latest Questions'}
+                    </button>
+                  </li>
+                </ul>
+              </div>
               </li>
             )}
           </ul>
@@ -224,7 +286,23 @@ const Header = () => {
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              {lang === "bg" ? <img className='mb-1' src="/images/bulgaria.png" alt="Bulgarian" width="18" height="18" /> : <img className='mb-1' src="/images/united-kingdom.png" alt="English" width="18" height="18" />}
+              {lang === 'bg' ? (
+                <img
+                  className="mb-1"
+                  src="/images/bulgaria.png"
+                  alt="Bulgarian"
+                  width="18"
+                  height="18"
+                />
+              ) : (
+                <img
+                  className="mb-1"
+                  src="/images/united-kingdom.png"
+                  alt="English"
+                  width="18"
+                  height="18"
+                />
+              )}
             </button>
             <ul
               className="dropdown-menu dropdown-menu-end"
