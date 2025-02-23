@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
-import { useGetAllRobotsQuery } from '../app/services/robotApiSlice';
+import { useGetAllRobotsQuery, useLazyGetAllRobotsNewQuery } from '../app/services/robotApiSlice';
 import { useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PopularComparisons from '../components/PopularComparisons';
 import Loading from '../components/Loading';
 import Error from '../components/Error';
@@ -18,23 +18,60 @@ const Robots = () => {
   const [MaxDustbinCapacity, setMaxDustbinCapacity] = useState(0);
   const [MinSuctionPower, setMinSuctionPower] = useState(0);
   const [MaxSuctionPower, setMaxSuctionPower] = useState(0);
-  const queryParams = {
-    fields: 'model,image,links',
-    page: Page,
-    model: Model,
-    brands: Brands.join(','),
-    startYear: StartYear,
-    endYear: EndYear,
-    minDustbinCapacity: MinDustbinCapacity,
-    maxDustbinCapacity: MaxDustbinCapacity,
-    minSuctionPower: MinSuctionPower,
-    maxSuctionPower: MaxSuctionPower,
-  };
+
+  // Commented server-side filters 
+  // const queryParams = {
+  //   fields: 'model,image,links',
+  //   page: Page,
+  //   model: Model,
+  //   brands: Brands.join(','),
+  //   startYear: StartYear,
+  //   endYear: EndYear,
+  //   minDustbinCapacity: MinDustbinCapacity,
+  //   maxDustbinCapacity: MaxDustbinCapacity,
+  //   minSuctionPower: MinSuctionPower,
+  //   maxSuctionPower: MaxSuctionPower,
+  // };
+  // const { data, isLoading, isError } = useGetAllRobotsQuery(queryParams);
+  // const isLast = data?.last;
+
   const lang = useSelector((state) => state.language.lang);
   const navigate = useNavigate();
-  const { data, isLoading, isError } = useGetAllRobotsQuery(queryParams);
+
+  const [allRobots, setAllRobots] = useState([]);
+  const [filteredRobots, setFilteredRobots] = useState([]);
+
+  const [trigger, { data, isLoading, isError }] = useLazyGetAllRobotsNewQuery();
   const noImage = 'images/no-image.jpg';
-  const isLast = data?.last;
+  const robotsPerPage = 12;
+
+  useEffect(() => {
+    trigger().then((response) => {
+      if (response.data) {
+        setAllRobots(response.data);
+        setFilteredRobots(response.data);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    let filtered = allRobots.filter((robot) => {
+      return (
+        (Model ? robot.model.toLowerCase().includes(Model.toLowerCase()) : true) &&
+        (Brands.length > 0 ? Brands.includes(robot.brand) : true) &&
+        (StartYear ? robot.year >= StartYear : true) &&
+        (EndYear ? robot.year <= EndYear : true) &&
+        (MinDustbinCapacity ? robot.dustbinCapacity >= MinDustbinCapacity : true) &&
+        (MaxDustbinCapacity ? robot.dustbinCapacity <= MaxDustbinCapacity : true) &&
+        (MinSuctionPower ? robot.suctionPower >= MinSuctionPower : true) &&
+        (MaxSuctionPower ? robot.suctionPower <= MaxSuctionPower : true)
+      );
+    });
+    setFilteredRobots(filtered);
+    setPage(0);
+  }, [Model, Brands, StartYear, EndYear, MinDustbinCapacity, MaxDustbinCapacity, MinSuctionPower, MaxSuctionPower, allRobots]);
+  const paginatedRobots = filteredRobots.slice(Page * robotsPerPage, (Page + 1) * robotsPerPage);
+  const isLast = (Page + 1) * robotsPerPage >= filteredRobots.length;
 
   const details = (robotId) => {
     navigate('/robots/' + robotId);
@@ -68,9 +105,9 @@ const Robots = () => {
             <>
               <Loading />
             </>
-          ) : data.content ? (
+          ) : paginatedRobots ? (
             <div className="row mt-4">
-              {data.content.map((item) => (
+              {paginatedRobots.map((item) => (
                 <div
                   className="col-6 col-sm-6 col-md-4 col-lg-4 col-xl-3 mb-3"
                   key={item.id}

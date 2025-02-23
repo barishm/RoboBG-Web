@@ -74,6 +74,13 @@ export const robotApiSlice = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ['Robot'],
         }),
+        getAllRobotsNew: builder.query({
+            query: () => ({
+                url: `v1/robots/all`,
+                method: 'GET'
+            }),
+            providesTags: ['Robot'],
+        }),
     })
 })
 export const {
@@ -85,4 +92,5 @@ export const {
     useDeleteRobotMutation,
     useUpdateRobotMutation,
     useUploadRobotImageMutation,
+    useLazyGetAllRobotsNewQuery,
 } = robotApiSlice;
