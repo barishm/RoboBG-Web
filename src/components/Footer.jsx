@@ -47,7 +47,7 @@ const Footer = () => {
             </div>
 
             <div className="text-center p-3" style={{ backgroundColor: "rgba(0, 0, 0, 0.05)" }}>
-                © 2024 Copyright: RoboBG
+                © 2025 Copyright: RoboBG
             </div>
         </footer>
     );

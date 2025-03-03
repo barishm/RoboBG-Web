@@ -92,5 +92,5 @@ export const {
     useDeleteRobotMutation,
     useUpdateRobotMutation,
     useUploadRobotImageMutation,
-    useLazyGetAllRobotsNewQuery,
+    useGetAllRobotsNewQuery,
 } = robotApiSlice;

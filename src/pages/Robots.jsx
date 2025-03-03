@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useGetAllRobotsQuery, useLazyGetAllRobotsNewQuery } from '../app/services/robotApiSlice';
+import { useGetAllRobotsQuery, useGetAllRobotsNewQuery } from '../app/services/robotApiSlice';
 import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import PopularComparisons from '../components/PopularComparisons';
@@ -38,24 +38,20 @@ const Robots = () => {
   const lang = useSelector((state) => state.language.lang);
   const navigate = useNavigate();
 
-  const [allRobots, setAllRobots] = useState([]);
   const [filteredRobots, setFilteredRobots] = useState([]);
 
-  const [trigger, { data, isLoading, isError }] = useLazyGetAllRobotsNewQuery();
+  const { data = [], isLoading, isError } = useGetAllRobotsNewQuery();
   const noImage = 'images/no-image.jpg';
   const robotsPerPage = 12;
 
   useEffect(() => {
-    trigger().then((response) => {
-      if (response.data) {
-        setAllRobots(response.data);
-        setFilteredRobots(response.data);
-      }
-    });
-  }, []);
+    if (!isLoading && Array.isArray(data)) {
+      setFilteredRobots([...data]);
+    }
+  }, [data, isLoading]);
 
   useEffect(() => {
-    let filtered = allRobots.filter((robot) => {
+    let filtered = data.filter((robot) => {
       return (
         (Model ? robot.model.toLowerCase().includes(Model.toLowerCase()) : true) &&
         (Brands.length > 0 ? Brands.includes(robot.brand) : true) &&
@@ -69,7 +65,7 @@ const Robots = () => {
     });
     setFilteredRobots(filtered);
     setPage(0);
-  }, [Model, Brands, StartYear, EndYear, MinDustbinCapacity, MaxDustbinCapacity, MinSuctionPower, MaxSuctionPower, allRobots]);
+  }, [Model, Brands, StartYear, EndYear, MinDustbinCapacity, MaxDustbinCapacity, MinSuctionPower, MaxSuctionPower, data]);
   const paginatedRobots = filteredRobots.slice(Page * robotsPerPage, (Page + 1) * robotsPerPage);
   const isLast = (Page + 1) * robotsPerPage >= filteredRobots.length;
 

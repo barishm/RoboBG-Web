@@ -178,7 +178,6 @@ const CreateMostCompared = () => {
               type="submit"
               className="btn btn-success"
               data-bs-dismiss="modal"
-              onClick={create}
             >
               Add
             </button>

@@ -4,6 +4,7 @@ import ManageUsers from "../components/ManageUsers";
 import ManageMostCompared from "../components/ManageMostCompared";
 import LatestQuestions from "../components/LatestQuestions";
 import { ToastContainer } from 'react-toastify';
+import ManageConsumables from "../components/ManageConsumables";
 
 const Dashboard = ({ dashboardsActiveComponent }) => {
 
@@ -17,6 +18,8 @@ const Dashboard = ({ dashboardsActiveComponent }) => {
         return <ManageMostCompared />;
       case "Latest Questions":
         return <LatestQuestions />;
+      case "Manage Consumables":
+          return <ManageConsumables />;
       default:
         return null;
     }
