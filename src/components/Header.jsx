@@ -223,28 +223,28 @@ const Header = ({ setDashboardsActiveComponent }) => {
                 </button>
                 <ul className="dropdown-menu">
                 <li>
-                    <button className="dropdown-item" onClick={() => navigateToDashboard("Robots")}>
-                      {lang === 'en' ? 'Robots' : 'Robots'}
-                    </button>
-                  </li>
-                  <li>
-                    <button className="dropdown-item" onClick={() => navigateToDashboard("Users")}>
-                      {lang === 'en' ? 'Users' : 'Users'}
-                    </button>
-                  </li>
-                  <li>
-                    <button className="dropdown-item" onClick={() => navigateToDashboard("Most Compared")}>
-                      {lang === 'en' ? 'Most Compared' : 'Most Compared'}
-                    </button>
-                  </li>
-                  <li>
-                    <button className="dropdown-item" onClick={() => navigateToDashboard("Latest Questions")}>
-                      {lang === 'en' ? 'Latest Questions' : 'Latest Questions'}
+                    <button className="dropdown-item" onClick={() => navigateToDashboard("Manage Robots")}>
+                      {lang === 'en' ? 'Manage Robots' : 'Manage Robots'}
                     </button>
                   </li>
                   <li>
                     <button className="dropdown-item" onClick={() => navigateToDashboard("Manage Consumables")}>
                       {lang === 'en' ? 'Manage Consumables' : 'Manage Consumables'}
+                    </button>
+                  </li>
+                  <li>
+                    <button className="dropdown-item" onClick={() => navigateToDashboard("Manage Users")}>
+                      {lang === 'en' ? 'Manage Users' : 'Manage Users'}
+                    </button>
+                  </li>
+                  <li>
+                    <button className="dropdown-item" onClick={() => navigateToDashboard("Manage Most Compared")}>
+                      {lang === 'en' ? 'Manage Most Compared' : 'Manage Most Compared'}
+                    </button>
+                  </li>
+                  <li>
+                    <button className="dropdown-item" onClick={() => navigateToDashboard("Latest Questions")}>
+                      {lang === 'en' ? 'Latest Questions' : 'Latest Questions'}
                     </button>
                   </li>
                 </ul>

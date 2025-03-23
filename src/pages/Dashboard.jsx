@@ -10,11 +10,11 @@ const Dashboard = ({ dashboardsActiveComponent }) => {
 
   const renderActiveComponent = () => {
     switch (dashboardsActiveComponent) {
-      case "Robots":
+      case "Manage Robots":
         return <ManageRobots />;
-      case "Users":
+      case "Manage Users":
         return <ManageUsers />;
-      case "Most Compared":
+      case "Manage Most Compared":
         return <ManageMostCompared />;
       case "Latest Questions":
         return <LatestQuestions />;
