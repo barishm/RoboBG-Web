@@ -8,6 +8,7 @@ import CreateConsumables from './CreateConsumable';
 import UpdateConsumables from './UpdateConsumable';
 import Loading from './Loading';
 import { useState, useEffect } from 'react';
+import DeletePopup from './DeletePopup';
 
 const ManageConsumables = () => {
   const { data, isLoading } = useGetAllConsumablesQuery();
@@ -16,6 +17,7 @@ const ManageConsumables = () => {
   const noImage = 'images/no-image.jpg';
   const [consumable, setConsumable] = useState('');
   const [selectedConsumableToUpdate, setSelectedConsumableToUpdate] = useState(null);
+  const [consumableId, setConsumableId] = useState(null);
 
   function filterConsumables(searchText) {
     setConsumable(searchText);
@@ -50,16 +52,17 @@ const ManageConsumables = () => {
       >
         <button
           type="button"
-          className="btn btn-success btn-sm ml-2 me-1"
+          className="btn btn-success btn-sm ml-2 me-1 mt-3"
           data-bs-toggle="modal"
           data-bs-target="#create"
         >
           Create
         </button>
+        <DeletePopup id={consumableId} deleteMutationHook={useDeleteConsumableMutation} message={"ARE YOU SURE YOU WANT TO DELETE THIS CONSUMABLE?"} modalId={"DeleteConsumableModal"}/>
         <UpdateConsumables consumable={selectedConsumableToUpdate} />
         <CreateConsumables />
         <input
-          className="form-control form-control-sm"
+          className="form-control form-control-sm mt-3"
           value={consumable}
           onChange={(e) => filterConsumables(e.target.value)}
           type="text"
@@ -96,7 +99,7 @@ const ManageConsumables = () => {
                         className="btn btn-light btn-sm ms-1 mt-1"
                         value={consumable.id}
                         onClick={(e) => {
-                          setRobotId(e.currentTarget.value);
+                          setConsumableId(e.currentTarget.value);
                         }}
                         data-bs-toggle="modal"
                         data-bs-target="#uploadImage"
@@ -121,10 +124,10 @@ const ManageConsumables = () => {
                         className="btn btn-danger btn-sm me-1 mt-1"
                         value={consumable.id}
                         onClick={(e) => {
-                          setRobotId(e.target.value);
+                          setConsumableId(e.target.value);
                         }}
                         data-bs-toggle="modal"
-                        data-bs-target="#DeleteRobotModal"
+                        data-bs-target="#DeleteConsumableModal"
                       >
                         Delete
                       </button>

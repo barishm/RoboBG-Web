@@ -3,26 +3,22 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import RobotDetails from "../components/RobotDetails";
 import QnA from "../components/QnA";
+import ConsumableTab from "../components/ConsumableTab";
 import {
   useGetRobotByIdQuery,
   useGetAllRobotsQuery,
-  useLazyGetRobotByIdQuery,
 } from "../app/services/robotApiSlice";
 import Loading from "../components/Loading";
-import { addRobot } from "../app/redux/compareSlice";
-import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { compareMultipleRobots } from "../helpers/utils";
 
 const Robot = () => {
-  const [Tab,setTab] = useState("Specs");
+  const [Tab, setTab] = useState("Specs");
   const queryParams = {
     fields: "model",
   };
-  const dispatch = useDispatch();
   const lang = useSelector((state) => state.language.lang);
 
-  const [triggerCompare] = useLazyGetRobotByIdQuery();
 
   const { id } = useParams();
   const [Model, setModel] = useState("");
@@ -40,23 +36,22 @@ const Robot = () => {
     if (foundItem && foundItem.id !== data.id) {
       let id = data.id;
       let id2 = foundItem.id;
-      compareMultipleRobots([id,id2],navigate)
+      compareMultipleRobots([id, id2], navigate);
     }
     setModel("");
-  }
+  };
   const changeTab = (tabName) => {
     setTab(tabName);
-  }
+  };
 
   const [screenSize, setScreenSize] = useState(window.innerWidth);
   useEffect(() => {
     const handleResize = () => {
       setScreenSize(window.innerWidth);
     };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
-
 
   return (
     <div>
@@ -68,9 +63,23 @@ const Robot = () => {
         </>
       ) : data ? (
         <>
-          <div className={screenSize > 575 ? "container mt-4" : "container"} style={screenSize > 575 ? {} : {backgroundColor:"white"}}>
+          <div
+            className={screenSize > 575 ? "container mt-4" : "container"}
+            style={screenSize > 575 ? {} : { backgroundColor: "white" }}
+          >
             <div className="row">
-              <div className={screenSize > 575 ? 'col-12 shadow-sm rounded card p-sm-5 mb-5' : 'col-12 p-sm-5 mb-5'}  style={{maxWidth:"900px",marginRight:"auto",marginLeft:"auto"}}>
+              <div
+                className={
+                  screenSize > 575
+                    ? "col-12 shadow-sm rounded card p-sm-5 mb-5"
+                    : "col-12 p-sm-5 mb-5"
+                }
+                style={{
+                  maxWidth: "900px",
+                  marginRight: "auto",
+                  marginLeft: "auto",
+                }}
+              >
                 <div className="row">
                   <div className="col-8 col-md-4 mb-4">
                     <img
@@ -103,7 +112,7 @@ const Robot = () => {
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
-                      {lang === "en" ? ("Check price") : ("Проверка на цена")}
+                      {lang === "en" ? "Check price" : "Проверка на цена"}
                     </button>
                     <ul className="dropdown-menu">
                       {data.purchaseLinks &&
@@ -146,21 +155,52 @@ const Robot = () => {
                 <div className="row mt-5 p-2">
                   <ul className="nav nav-tabs">
                     <li className="nav-item">
-                      <a  className={`nav-link ${Tab === "Specs" ? "active" : ""}`} style={{color:"black"}} onClick={() => changeTab("Specs")} href="#">
+                      <a
+                        className={`nav-link ${
+                          Tab === "Specs" ? "active" : ""
+                        }`}
+                        style={{ color: "black" }}
+                        onClick={() => changeTab("Specs")}
+                        href="#"
+                      >
                         Specs
                       </a>
                     </li>
                     <li className="nav-item">
-                      <a value="Q&A" className={`nav-link ${Tab === "Q&A" ? "active" : ""}`} style={{color:"black"}} onClick={() => changeTab("Q&A")} href="#">
+                      <a
+                        value="Q&A"
+                        className={`nav-link ${Tab === "Q&A" ? "active" : ""}`}
+                        style={{ color: "black" }}
+                        onClick={() => changeTab("Q&A")}
+                        href="#"
+                      >
                         Q&A
                       </a>
                     </li>
+                    <li className="nav-item">
+                      <a
+                        value="Consumables"
+                        className={`nav-link ${
+                          Tab === "Consumables" ? "active" : ""
+                        }`}
+                        style={{ color: "black" }}
+                        onClick={() => changeTab("Consumables")}
+                        href="#"
+                      >
+                        Consumables
+                      </a>
+                    </li>
                   </ul>
-                  {Tab === "Specs" ? <RobotDetails robot={data} /> : <QnA Id={id} />}
+                  {Tab === "Specs" ? (
+                    <RobotDetails robot={data} />
+                  ) : Tab === "Q&A" ? (
+                    <QnA Id={id} />
+                  ) : Tab === "Consumables" ? (
+                    <ConsumableTab robot={data} />
+                  ) : null}
                 </div>
               </div>
-              <div className="col-12">
-              </div>
+              <div className="col-12"></div>
             </div>
           </div>
         </>

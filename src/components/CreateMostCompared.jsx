@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import { useGetAllRobotsQuery } from "../app/services/robotApiSlice";
 import { useCreateMostComparesMutation } from "../app/services/mostComparesApiSlice";
 import { useState } from "react";
+
 const CreateMostCompared = () => {
   const queryParams = {
     fields: "model",
@@ -178,6 +179,7 @@ const CreateMostCompared = () => {
               type="submit"
               className="btn btn-success"
               data-bs-dismiss="modal"
+              onClick={create}
             >
               Add
             </button>

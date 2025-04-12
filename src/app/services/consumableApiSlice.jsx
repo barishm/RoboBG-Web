@@ -43,6 +43,14 @@ export const consumableSlice = apiSlice.injectEndpoints({
             }),
             providesTags: ['Consumable'],
         }),
+        getConsumableById: builder.query({
+            query: ({id,queryParams}) => ({
+                url: `v1/consumable/${id}`,
+                method: 'GET',
+                params: {...queryParams}
+            }),
+            providesTags: ['Consumable'],
+        }),
     })
 })
 
@@ -50,5 +58,6 @@ export const {
     useCreateConsumableMutation,
     useUpdateConsumableMutation,
     useDeleteConsumableMutation,
-    useGetAllConsumablesQuery
+    useGetAllConsumablesQuery,
+    useGetConsumableByIdQuery
 } = consumableSlice;

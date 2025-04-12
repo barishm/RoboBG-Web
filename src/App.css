@@ -9,6 +9,10 @@
   background-color: rgb(245, 245, 245);
 }
 
+.App main {
+  flex-grow: 1;
+}
+
  /*compare table css START*/
 .table-container .stickycell {
   position: absolute;

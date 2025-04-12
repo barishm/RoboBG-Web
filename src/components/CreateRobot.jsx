@@ -98,7 +98,7 @@ const CreateRobot = () => {
       <>
       <button
         type="button"
-        className="btn btn-success btn-sm ml-2 me-1"
+        className="btn btn-success btn-sm ml-2 me-1 mt-3"
         data-bs-toggle="modal"
         data-bs-target="#create"
       >

@@ -1,5 +1,6 @@
 import {
-  useGetAllRobotsQuery
+  useGetAllRobotsQuery,
+  useDeleteRobotMutation
 } from "../app/services/robotApiSlice";
 import {
   useDeleteLinkMutation,
@@ -13,7 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Pagination from "../components/Pagination";
 import UploadRobotImage from "./UploadRobotImage";
 import CreateLink from "./CreateLink";
-import DeleteRobot from "./DeleteRobot";
+import DeletePopup from "./DeletePopup";
 
 const ManageRobots = () => {
   const [Page, setPage] = useState(0);
@@ -46,11 +47,11 @@ const ManageRobots = () => {
           maxWidth: "500px",
         }}
       >
-        <DeleteRobot id={robotId} />
-        <CreateRobot />
+        <DeletePopup id={robotId} deleteMutationHook={useDeleteRobotMutation} message={"ARE YOU SURE YOU WANT TO DELETE THIS ROBOT?"} modalId={"DeleteRobotModal"}/>
+        <CreateRobot/>
         <UpdateRobot id={robotId} />
         <input
-          className="form-control form-control-sm"
+          className="form-control form-control-sm mt-3"
           value={Model}
           onChange={(e) => {
             setModel(e.target.value);

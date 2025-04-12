@@ -19,7 +19,7 @@ const ManageMostCompared = () => {
     <div>
       <button
         type="button"
-        className="btn btn-success btn-sm mb-1 ml-2"
+        className="btn btn-success btn-sm mb-1 ml-2 mt-3"
         data-bs-toggle="modal"
         data-bs-target="#create"
       >

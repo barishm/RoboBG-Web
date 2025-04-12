@@ -14,6 +14,8 @@ import { Routes,Route } from "react-router-dom";
 import Contact from './pages/Contact'
 import useAuth from './hooks/useAuth'
 import { useState } from 'react'
+import Consumables from './pages/Consumables'
+import Consumable from './pages/Consumable'
 
 function App() {
   const [dashboardsActiveComponent, setDashboardsActiveComponent] = useState("Robots");
@@ -22,11 +24,14 @@ function App() {
   return (
     <div className="App">
       <Header setDashboardsActiveComponent={setDashboardsActiveComponent} />
+      <main>
       <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path='/compare' element={<Compare/>}/>
         <Route path='/robots' element={<Robots/>}/>
+        <Route path='/consumables' element={<Consumables/>}/>
         <Route path='/robots/:id' element={<Robot/>}/>
+        <Route path='/consumables/:id' element={<Consumable/>}/>
         <Route path='/contact' element={<Contact/>}/>
         <Route path='/profile' element={<Profile/>}/>
         <Route path='/login'  element={<Login/>}/>
@@ -35,6 +40,7 @@ function App() {
         <Route path='/dashboard' element={<Dashboard dashboardsActiveComponent={dashboardsActiveComponent} />}/>
         </Route>
       </Routes>
+      </main>
       <Footer/>
     </div>
   );

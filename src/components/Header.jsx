@@ -171,6 +171,19 @@ const Header = ({ setDashboardsActiveComponent }) => {
                 aria-current="page"
                 style={{ cursor: 'pointer' }}
                 onClick={() => {
+                  navigate('/consumables');
+                  closeCollapse();
+                }}
+              >
+                {lang === 'en' ? 'Consumables' : 'Консумативи'}
+              </a>
+            </li>
+            <li className="nav-item">
+              <a
+                className="nav-link active"
+                aria-current="page"
+                style={{ cursor: 'pointer' }}
+                onClick={() => {
                   navigate('/compare');
                   closeCollapse();
                 }}

@@ -11,16 +11,18 @@ const CreateConsumables = () => {
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [price, setPrice] = useState('');
   const [robotIds, setRobotIds] = useState([]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const json = { title, description, robotIds };
+    const json = { title, description, price, robotIds };
     await createConsumable({ json, accessToken }).unwrap();
 
     setTitle('');
     setDescription('');
+    setPrice('');
     setRobotIds([]);
     setRobotsCount(1);
   };
@@ -67,6 +69,16 @@ const CreateConsumables = () => {
                     name="description"
                     onChange={(e) => setDescription(e.target.value)}
                     value={description}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label className="form-label">Price</label>
+                  <input
+                    className="form-control form-control-sm"
+                    type="number"
+                    name="price"
+                    onChange={(e) => setPrice(e.target.value)}
+                    value={price}
                   />
                 </div>
                 <div className="mb-3">
