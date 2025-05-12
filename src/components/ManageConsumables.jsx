@@ -9,6 +9,7 @@ import UpdateConsumables from './UpdateConsumable';
 import Loading from './Loading';
 import { useState, useEffect } from 'react';
 import DeletePopup from './DeletePopup';
+import UploadConsumableImages from './UploadConsumableImages';
 
 const ManageConsumables = () => {
   const { data, isLoading } = useGetAllConsumablesQuery();
@@ -60,6 +61,7 @@ const ManageConsumables = () => {
         </button>
         <DeletePopup id={consumableId} deleteMutationHook={useDeleteConsumableMutation} message={"ARE YOU SURE YOU WANT TO DELETE THIS CONSUMABLE?"} modalId={"DeleteConsumableModal"}/>
         <UpdateConsumables consumable={selectedConsumableToUpdate} />
+        <UploadConsumableImages consumable={consumableId} />
         <CreateConsumables />
         <input
           className="form-control form-control-sm mt-3"
@@ -92,7 +94,7 @@ const ManageConsumables = () => {
                     <td>
                       <img
                         style={{ height: '50px' }}
-                        src={consumable.image || noImage}
+                        src={consumable.images[0] || noImage}
                         alt="..."
                       ></img>
                       <button
@@ -102,7 +104,7 @@ const ManageConsumables = () => {
                           setConsumableId(e.currentTarget.value);
                         }}
                         data-bs-toggle="modal"
-                        data-bs-target="#uploadImage"
+                        data-bs-target="#uploadConsumableImage"
                       >
                         <i className="fa-regular fa-pen-to-square"></i>
                       </button>

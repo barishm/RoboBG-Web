@@ -88,7 +88,7 @@ const Consumables = () => {
                       value={item.id}
                       style={{ cursor: "pointer" }}
                       onClick={() => details(item.id)}
-                      src={item.image || noImage}
+                      src={item.images[0] || noImage}
                       alt="..."
                     />
                     <div className="card-body">

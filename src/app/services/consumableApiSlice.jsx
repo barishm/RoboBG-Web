@@ -43,6 +43,18 @@ export const consumableSlice = apiSlice.injectEndpoints({
             }),
             providesTags: ['Consumable'],
         }),
+        uploadConsumableImages: builder.mutation({
+            query: ({id,accessToken,formData}) => ({
+                url: `v1/moderator/consumable/${id}/images`,
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                },
+                body: formData,
+                formData:true
+            }),
+            invalidatesTags: ['Consumable'],
+        }),
         getConsumableById: builder.query({
             query: ({id,queryParams}) => ({
                 url: `v1/consumable/${id}`,
@@ -59,5 +71,6 @@ export const {
     useUpdateConsumableMutation,
     useDeleteConsumableMutation,
     useGetAllConsumablesQuery,
-    useGetConsumableByIdQuery
+    useGetConsumableByIdQuery,
+    useUploadConsumableImagesMutation
 } = consumableSlice;
