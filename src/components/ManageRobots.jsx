@@ -157,7 +157,7 @@ const ManageRobots = () => {
                         data-bs-toggle="modal"
                         data-bs-target="#update"
                       >
-                        Update
+                        Edit
                       </button>
                       <button
                         type="button"

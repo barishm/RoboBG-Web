@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import Loading from "../components/Loading";
 import { useSelector } from "react-redux";
 import { useGetConsumableByIdQuery } from "../app/services/consumableApiSlice";
+import { PhotoProvider, PhotoView } from 'react-photo-view';
+import 'react-photo-view/dist/react-photo-view.css';
 
 const Consumable = () => {
   const [Tab, setTab] = useState("Specs");
@@ -91,7 +93,7 @@ const Consumable = () => {
                         ))}
                       </div>
 
-                      <div className="carousel-inner">
+                      <div className="carousel-inner rounded-3">
                         {data.images?.map((imageSrc, index) => (
                           <div
                             className={`carousel-item ${
@@ -106,6 +108,7 @@ const Consumable = () => {
                                 paddingTop: "100%",
                               }}
                             >
+                              <PhotoView key={index} src={imageSrc}>
                               <img
                                 src={imageSrc || noImage}
                                 alt={`Slide ${index + 1}`}
@@ -118,6 +121,7 @@ const Consumable = () => {
                                   objectFit: "cover",
                                 }}
                               />
+                              </PhotoView>
                             </div>
                           </div>
                         ))}
@@ -151,6 +155,8 @@ const Consumable = () => {
                   </div>
                   <div className="col-12 col-md-8 mt-2 p-4">
                     <h3 className="fw-border mb-3">{data.title}</h3>
+                    <h5 className="fw-light mb-3">{data.description}</h5>
+                    <h5 className="fw-border mb-3 text-danger">{data.price} {lang === "en" ? "Leva" : "лв."}</h5>
                   </div>
                 </div>
                 <div className="row mt-5 p-2">
@@ -164,7 +170,7 @@ const Consumable = () => {
                         onClick={() => changeTab("Specs")}
                         href="#"
                       >
-                        Robots
+                        {lang === "en" ? "Compatibility" : "Съвместимост"}
                       </a>
                     </li>
                   </ul>

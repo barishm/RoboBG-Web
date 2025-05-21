@@ -105,8 +105,8 @@ const Consumables = () => {
                     </div>
                     <div className="card-footer mb-2 border-top-0 bg-transparent d-flex justify-content-evenly">
                       <div className="btn-group text-center">
-                        <h5>
-                        {lang === "en" ? "Price" : "Цена"}: {item.price}
+                        <h5 className="text-danger">
+                        {item.price}  {lang === "en" ? "Leva" : "лв."}
                         </h5>
                       </div>
                     </div>

@@ -16,6 +16,7 @@ import useAuth from './hooks/useAuth'
 import { useState } from 'react'
 import Consumables from './pages/Consumables'
 import Consumable from './pages/Consumable'
+import { PhotoProvider, PhotoView } from 'react-photo-view';
 
 function App() {
   const [dashboardsActiveComponent, setDashboardsActiveComponent] = useState("Robots");
@@ -23,6 +24,7 @@ function App() {
   
   return (
     <div className="App">
+      <PhotoProvider>
       <Header setDashboardsActiveComponent={setDashboardsActiveComponent} />
       <main>
       <Routes>
@@ -42,6 +44,7 @@ function App() {
       </Routes>
       </main>
       <Footer/>
+      </PhotoProvider>
     </div>
   );
 }

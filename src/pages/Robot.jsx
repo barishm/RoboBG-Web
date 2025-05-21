@@ -11,6 +11,8 @@ import {
 import Loading from "../components/Loading";
 import { useSelector } from "react-redux";
 import { compareMultipleRobots } from "../helpers/utils";
+import { PhotoProvider, PhotoView } from 'react-photo-view';
+import 'react-photo-view/dist/react-photo-view.css';
 
 const Robot = () => {
   const [Tab, setTab] = useState("Specs");
@@ -82,11 +84,13 @@ const Robot = () => {
               >
                 <div className="row">
                   <div className="col-8 col-md-4 mb-4">
+                    <PhotoView src={data.image}>
                     <img
-                      className="mt-4 ms-4"
+                      className="mt-4 ms-4 rounded-3"
                       style={{ maxWidth: "200px", height: "auto" }}
                       src={data.image || noImage}
                     />
+                    </PhotoView>
                   </div>
                   <div className="col-12 col-md-8 mt-2 p-4">
                     <h3 className="fw-border mb-3">{data.model}</h3>
