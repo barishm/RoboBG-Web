@@ -84,9 +84,12 @@ const HomePageCompareForm = () => {
               onChange={(e) => setModel1(e.target.value)}
             />
             <datalist id="datalistOptions1">
-              {allModels.content.map((item) => (
-                <option key={item.id} value={item.model} />
-              ))}
+            {allModels.content
+                .slice()
+                .sort((a, b) => a.model.localeCompare(b.model))
+                .map((item) => (
+                  <option key={item.id} value={item.model} />
+                ))}
             </datalist>
             <span className="fw-bold mx-2 mb-2">VS.</span>
             <input
@@ -104,9 +107,12 @@ const HomePageCompareForm = () => {
               onChange={(e) => setModel2(e.target.value)}
             />
             <datalist id="datalistOptions2">
-              {allModels.content.map((item) => (
-                <option key={item.id} value={item.model} />
-              ))}
+            {allModels.content
+                .slice()
+                .sort((a, b) => a.model.localeCompare(b.model))
+                .map((item) => (
+                  <option key={item.id} value={item.model} />
+                ))}
             </datalist>
           </div>
           <div>

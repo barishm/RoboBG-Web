@@ -76,7 +76,10 @@ const CompareForm = () => {
                 onChange={(e) => setModel1(e.target.value)}
               />
               <datalist id="datalistOptions1">
-                {allModels.content.map((item) => (
+              {allModels.content
+                .slice()
+                .sort((a, b) => a.model.localeCompare(b.model))
+                .map((item) => (
                   <option key={item.id} value={item.model} />
                 ))}
               </datalist>
@@ -92,7 +95,10 @@ const CompareForm = () => {
                 onChange={(e) => setModel2(e.target.value)}
               />
               <datalist id="datalistOptions2">
-                {allModels.content.map((item) => (
+              {allModels.content
+                .slice()
+                .sort((a, b) => a.model.localeCompare(b.model))
+                .map((item) => (
                   <option key={item.id} value={item.model} />
                 ))}
               </datalist>

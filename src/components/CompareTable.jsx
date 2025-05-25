@@ -1,25 +1,25 @@
-import { useSelector } from "react-redux";
-import Loading from "./Loading";
+import { useSelector } from 'react-redux';
+import Loading from './Loading';
 import {
   useLazyGetRobotByIdQuery,
   useGetAllRobotsQuery,
-} from "../app/services/robotApiSlice";
-import { useState, useEffect } from "react";
-import ReleaseDateDisplay from "./ReleaseDateDisplay";
-import SpecsRenderer from "./SpecsRenderer";
-import { addIdToUrl,removeIdFromUrl } from "../helpers/utils";
-import { useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+} from '../app/services/robotApiSlice';
+import { useState, useEffect } from 'react';
+import ReleaseDateDisplay from './ReleaseDateDisplay';
+import SpecsRenderer from './SpecsRenderer';
+import { addIdToUrl, removeIdFromUrl } from '../helpers/utils';
+import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 const CompareTable = () => {
   const queryParams = {
-    fields: "model",
+    fields: 'model',
   };
-  const noImage = "images/no-image.jpg";
+  const noImage = 'images/no-image.jpg';
   const lang = useSelector((state) => state.language.lang);
   const { robots } = useSelector((state) => state.compare);
   const { data: allModels } = useGetAllRobotsQuery(queryParams);
-  const [Model, setModel] = useState("");
+  const [Model, setModel] = useState('');
   const [triggerAdd] = useLazyGetRobotByIdQuery();
   const navigate = useNavigate();
   const location = useLocation();
@@ -43,37 +43,37 @@ const CompareTable = () => {
     if (foundItem) {
       const id = foundItem.id;
       triggerAdd({ id }).then((response) => {
-        console.log("Response data:", response.data);
+        console.log('Response data:', response.data);
         addIdToUrl(location.search, id, navigate);
       });
     }
-    setModel("");
+    setModel('');
   }
 
   const renderRow = (field) => {
     return robots.map((item) => {
-      let value = field.includes(".")
+      let value = field.includes('.')
         ? getFieldByPath(item, field)
         : item[field];
       return (
         <td
           key={item.id}
           style={{
-            height: "80px",
-            verticalAlign: "bottom",
-            textAlign: "left",
-            whiteSpace: "normal",
+            height: '80px',
+            verticalAlign: 'bottom',
+            textAlign: 'left',
+            whiteSpace: 'normal',
           }}
           className="border"
         >
           {value === null ? (
-            <span style={{ color: "grey" }}>N/A</span>
+            <span style={{ color: 'grey' }}>N/A</span>
           ) : value === true ? (
-            <span style={{ color: "green" }}>
-              {lang === "en" ? "YES" : "ДА"}
+            <span style={{ color: 'green' }}>
+              {lang === 'en' ? 'YES' : 'ДА'}
             </span>
           ) : value === false ? (
-            <span style={{ color: "red" }}>{lang === "en" ? "NO" : "НЕ"}</span>
+            <span style={{ color: 'red' }}>{lang === 'en' ? 'NO' : 'НЕ'}</span>
           ) : (
             value
           )}
@@ -83,25 +83,25 @@ const CompareTable = () => {
   };
   const renderStringRow = (field, addition) => {
     return robots.map((item) => {
-      let value = field.includes(".")
+      let value = field.includes('.')
         ? getFieldByPath(item, field)
         : item[field];
       return (
         <td
           key={item.id}
           style={{
-            height: "80px",
-            verticalAlign: "bottom",
-            textAlign: "left",
-            whiteSpace: "normal",
+            height: '80px',
+            verticalAlign: 'bottom',
+            textAlign: 'left',
+            whiteSpace: 'normal',
           }}
           className="border"
         >
           {value === null ? (
-            <span style={{ color: "grey" }}>N/A</span>
+            <span style={{ color: 'grey' }}>N/A</span>
           ) : (
             <>
-              {value} {addition === "m²" ? <>m&sup2;</> : addition}
+              {value} {addition === 'm²' ? <>m&sup2;</> : addition}
             </>
           )}
         </td>
@@ -109,10 +109,10 @@ const CompareTable = () => {
     });
   };
   function getFieldByPath(obj, path) {
-    const keys = path.split(".");
+    const keys = path.split('.');
     let value = obj;
     for (const key of keys) {
-      if (value && typeof value === "object") {
+      if (value && typeof value === 'object') {
         value = value[key];
       } else {
         value = null;
@@ -126,21 +126,21 @@ const CompareTable = () => {
     <div
       className="table-container"
       style={{
-        overflowX: "auto",
-        marginBottom: "50px",
-        maxWidth: "1000px",
-        marginLeft: "auto",
-        marginRight: "auto",
+        overflowX: 'auto',
+        marginBottom: '50px',
+        maxWidth: '1000px',
+        marginLeft: 'auto',
+        marginRight: 'auto',
       }}
     >
       {robots ? (
         <div className="table-responsive">
           <div
             style={{
-              display: "flex",
-              maxWidth: "350px",
-              marginLeft: "auto",
-              marginRight: "auto",
+              display: 'flex',
+              maxWidth: '350px',
+              marginLeft: 'auto',
+              marginRight: 'auto',
             }}
             className="mb-1 mt-5"
           >
@@ -151,28 +151,27 @@ const CompareTable = () => {
               list="datalistOptions"
               id="Model"
               placeholder={
-                lang === "en"
-                  ? "Choose robot from the list"
-                  : "Изберете робот от списъка"
+                lang === 'en'
+                  ? 'Choose robot from the list'
+                  : 'Изберете робот от списъка'
               }
               onChange={(e) => setModel(e.target.value)}
             />
             <button type="button" className="btn btn-dark" onClick={handleAdd}>
-              {lang === "en" ? "Add" : "Добави"}
+              {lang === 'en' ? 'Add' : 'Добави'}
             </button>
             <datalist id="datalistOptions">
-              {allModels?.content?.length > 0 ? (
-                allModels.content.map((item) => (
+              {allModels.content
+                .slice()
+                .sort((a, b) => a.model.localeCompare(b.model))
+                .map((item) => (
                   <option key={item.id} value={item.model} />
-                ))
-              ) : (
-                <></>
-              )}
+                ))}
             </datalist>
           </div>
           <table
             className="table table-comparison"
-            style={{ width: "auto", marginLeft: "auto", marginRight: "auto" }}
+            style={{ width: 'auto', marginLeft: 'auto', marginRight: 'auto' }}
           >
             <thead></thead>
             <tbody>
@@ -182,7 +181,7 @@ const CompareTable = () => {
                   <td
                     key={item.id}
                     className="border"
-                    style={{ backgroundColor: "#212529", color: "#F5F5F5" }}
+                    style={{ backgroundColor: '#212529', color: '#F5F5F5' }}
                   >
                     {item.model}
                   </td>
@@ -194,9 +193,9 @@ const CompareTable = () => {
                   <td
                     key={item.id}
                     style={{
-                      height: "90px",
-                      verticalAlign: "bottom",
-                      textAlign: "left",
+                      height: '90px',
+                      verticalAlign: 'bottom',
+                      textAlign: 'left',
                     }}
                     className="border"
                   >
@@ -204,15 +203,15 @@ const CompareTable = () => {
                       <img
                         src={item.image || noImage}
                         alt="..."
-                        style={{ width: "70px", display: "block" }}
+                        style={{ width: '70px', display: 'block' }}
                       ></img>
                       <div className="image-overlay ms-1">
                         <i
                           className="fa-solid fa-xmark"
                           style={{
-                            color: "#D60000",
-                            fontSize: "25px",
-                            cursor: "pointer",
+                            color: '#D60000',
+                            fontSize: '25px',
+                            cursor: 'pointer',
                           }}
                           data-id={item.id}
                           onClick={deleteHandler}
@@ -225,7 +224,7 @@ const CompareTable = () => {
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "mapping" })}{" "}
+                    {SpecsRenderer({ textKey: 'mapping' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -233,20 +232,20 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "mappingDesc",
+                        textKey: 'mappingDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderRow("mapping")}
+                {renderRow('mapping')}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "mappingSensorType" })}{" "}
+                    {SpecsRenderer({ textKey: 'mappingSensorType' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -254,20 +253,20 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "mappingSensorTypeDesc",
+                        textKey: 'mappingSensorTypeDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderRow("mappingSensorType")}
+                {renderRow('mappingSensorType')}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "highPrecisionMap" })}{" "}
+                    {SpecsRenderer({ textKey: 'highPrecisionMap' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -275,20 +274,20 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "highPrecisionMapDesc",
+                        textKey: 'highPrecisionMapDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderRow("highPrecisionMap")}
+                {renderRow('highPrecisionMap')}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "frontCamera" })}{" "}
+                    {SpecsRenderer({ textKey: 'frontCamera' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -296,20 +295,20 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "frontCameraDesc",
+                        textKey: 'frontCameraDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderRow("frontCamera")}
+                {renderRow('frontCamera')}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "rechargeResume" })}{" "}
+                    {SpecsRenderer({ textKey: 'rechargeResume' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -317,20 +316,20 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "rechargeResumeDesc",
+                        textKey: 'rechargeResumeDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderRow("rechargeResume")}
+                {renderRow('rechargeResume')}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "autoDockAndRecharge" })}{" "}
+                    {SpecsRenderer({ textKey: 'autoDockAndRecharge' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -338,20 +337,20 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "autoDockAndRechargeDesc",
+                        textKey: 'autoDockAndRechargeDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderRow("autoDockAndRecharge")}
+                {renderRow('autoDockAndRecharge')}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "noiseLevel" })}{" "}
+                    {SpecsRenderer({ textKey: 'noiseLevel' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -359,20 +358,20 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "noiseLevelDesc",
+                        textKey: 'noiseLevelDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderStringRow("noiseLevel", "dB")}
+                {renderStringRow('noiseLevel', 'dB')}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "display" })}{" "}
+                    {SpecsRenderer({ textKey: 'display' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -380,20 +379,20 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "displayDesc",
+                        textKey: 'displayDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderRow("display")}
+                {renderRow('display')}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "sideBrushes" })}{" "}
+                    {SpecsRenderer({ textKey: 'sideBrushes' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -401,20 +400,20 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "sideBrushesDesc",
+                        textKey: 'sideBrushesDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderRow("sideBrushes")}
+                {renderRow('sideBrushes')}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "voicePrompts" })}{" "}
+                    {SpecsRenderer({ textKey: 'voicePrompts' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -422,21 +421,21 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "voicePromptsDesc",
+                        textKey: 'voicePromptsDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderRow("voicePrompts")}
+                {renderRow('voicePrompts')}
               </tr>
               <tr>
                 <th></th>
                 <td
                   colSpan={robots.length}
-                  style={{ backgroundColor: "#212529", color: "#F5F5F5" }}
+                  style={{ backgroundColor: '#212529', color: '#F5F5F5' }}
                 >
                   Cleaning Features
                 </td>
@@ -444,7 +443,7 @@ const CompareTable = () => {
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "suctionPower" })}{" "}
+                    {SpecsRenderer({ textKey: 'suctionPower' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -452,20 +451,20 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "suctionPowerDesc",
+                        textKey: 'suctionPowerDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderStringRow("cleaningFeatures.suctionPower", "Pa")}
+                {renderStringRow('cleaningFeatures.suctionPower', 'Pa')}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "cleaningArea" })}{" "}
+                    {SpecsRenderer({ textKey: 'cleaningArea' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -473,20 +472,20 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "cleaningAreaDesc",
+                        textKey: 'cleaningAreaDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderStringRow("cleaningFeatures.cleaningArea", "m²")}
+                {renderStringRow('cleaningFeatures.cleaningArea', 'm²')}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "dustbinCapacity" })}{" "}
+                    {SpecsRenderer({ textKey: 'dustbinCapacity' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -494,20 +493,20 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "dustbinCapacityDesc",
+                        textKey: 'dustbinCapacityDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderStringRow("cleaningFeatures.dustbinCapacity", "ml")}
+                {renderStringRow('cleaningFeatures.dustbinCapacity', 'ml')}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "disposableDustBagCapacity" })}{" "}
+                    {SpecsRenderer({ textKey: 'disposableDustBagCapacity' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -515,23 +514,23 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "disposableDustBagCapacityDesc",
+                        textKey: 'disposableDustBagCapacityDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
                 {renderStringRow(
-                  "cleaningFeatures.disposableDustBagCapacity",
-                  "L"
+                  'cleaningFeatures.disposableDustBagCapacity',
+                  'L'
                 )}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "autoDirtDisposal" })}{" "}
+                    {SpecsRenderer({ textKey: 'autoDirtDisposal' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -539,20 +538,20 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "autoDirtDisposalDesc",
+                        textKey: 'autoDirtDisposalDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderRow("cleaningFeatures.autoDirtDisposal")}
+                {renderRow('cleaningFeatures.autoDirtDisposal')}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "barrierCrossHeight" })}{" "}
+                    {SpecsRenderer({ textKey: 'barrierCrossHeight' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -560,20 +559,20 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "barrierCrossHeightDesc",
+                        textKey: 'barrierCrossHeightDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderStringRow("cleaningFeatures.barrierCrossHeight", "mm")}
+                {renderStringRow('cleaningFeatures.barrierCrossHeight', 'mm')}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "hepaFilter" })}{" "}
+                    {SpecsRenderer({ textKey: 'hepaFilter' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -581,20 +580,20 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "hepaFilterDesc",
+                        textKey: 'hepaFilterDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderRow("cleaningFeatures.hepaFilter")}
+                {renderRow('cleaningFeatures.hepaFilter')}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "washableFilter" })}{" "}
+                    {SpecsRenderer({ textKey: 'washableFilter' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -602,21 +601,21 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "washableFilterDesc",
+                        textKey: 'washableFilterDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderRow("cleaningFeatures.washableFilter")}
+                {renderRow('cleaningFeatures.washableFilter')}
               </tr>
               <tr>
                 <th></th>
                 <td
                   colSpan={robots.length}
-                  style={{ backgroundColor: "#212529", color: "#F5F5F5" }}
+                  style={{ backgroundColor: '#212529', color: '#F5F5F5' }}
                 >
                   Mopping Features
                 </td>
@@ -624,7 +623,7 @@ const CompareTable = () => {
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "wetMopping" })}{" "}
+                    {SpecsRenderer({ textKey: 'wetMopping' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -632,20 +631,20 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "wetMoppingDesc",
+                        textKey: 'wetMoppingDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderRow("moppingFeatures.wetMopping")}
+                {renderRow('moppingFeatures.wetMopping')}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "electricWaterFlowControl" })}{" "}
+                    {SpecsRenderer({ textKey: 'electricWaterFlowControl' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -653,20 +652,20 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "electricWaterFlowControlDesc",
+                        textKey: 'electricWaterFlowControlDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderRow("moppingFeatures.electricWaterFlowControl")}
+                {renderRow('moppingFeatures.electricWaterFlowControl')}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "waterTankCapacity" })}{" "}
+                    {SpecsRenderer({ textKey: 'waterTankCapacity' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -674,20 +673,20 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "waterTankCapacityDesc",
+                        textKey: 'waterTankCapacityDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderStringRow("moppingFeatures.waterTankCapacity", "ml")}
+                {renderStringRow('moppingFeatures.waterTankCapacity', 'ml')}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "vibratingMoppingPad" })}{" "}
+                    {SpecsRenderer({ textKey: 'vibratingMoppingPad' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -695,20 +694,20 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "vibratingMoppingPadDesc",
+                        textKey: 'vibratingMoppingPadDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderRow("moppingFeatures.vibratingMoppingPad")}
+                {renderRow('moppingFeatures.vibratingMoppingPad')}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "autoMopLifting" })}{" "}
+                    {SpecsRenderer({ textKey: 'autoMopLifting' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -716,20 +715,20 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "autoMopLiftingDesc",
+                        textKey: 'autoMopLiftingDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderRow("moppingFeatures.autoMopLifting")}
+                {renderRow('moppingFeatures.autoMopLifting')}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "autoWaterTankRefilling" })}{" "}
+                    {SpecsRenderer({ textKey: 'autoWaterTankRefilling' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -737,20 +736,20 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "autoWaterTankRefillingDesc",
+                        textKey: 'autoWaterTankRefillingDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderRow("moppingFeatures.autoWaterTankRefilling")}
+                {renderRow('moppingFeatures.autoWaterTankRefilling')}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "autoMopWashing" })}{" "}
+                    {SpecsRenderer({ textKey: 'autoMopWashing' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -758,21 +757,21 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "autoMopWashingDesc",
+                        textKey: 'autoMopWashingDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderRow("moppingFeatures.autoMopWashing")}
+                {renderRow('moppingFeatures.autoMopWashing')}
               </tr>
               <tr>
                 <th></th>
                 <td
                   colSpan={robots.length}
-                  style={{ backgroundColor: "#212529", color: "#F5F5F5" }}
+                  style={{ backgroundColor: '#212529', color: '#F5F5F5' }}
                 >
                   Battery
                 </td>
@@ -780,7 +779,7 @@ const CompareTable = () => {
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "batteryCapacity" })}{" "}
+                    {SpecsRenderer({ textKey: 'batteryCapacity' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -788,20 +787,20 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "batteryCapacityDesc",
+                        textKey: 'batteryCapacityDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderStringRow("battery.batteryCapacity", "mAh")}
+                {renderStringRow('battery.batteryCapacity', 'mAh')}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "batteryLife" })}{" "}
+                    {SpecsRenderer({ textKey: 'batteryLife' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -809,20 +808,20 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "batteryLifeDesc",
+                        textKey: 'batteryLifeDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderStringRow("battery.batteryLife", "min")}
+                {renderStringRow('battery.batteryLife', 'min')}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "chargingTime" })}{" "}
+                    {SpecsRenderer({ textKey: 'chargingTime' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -830,20 +829,20 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "chargingTimeDesc",
+                        textKey: 'chargingTimeDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderStringRow("battery.chargingTime", "min")}
+                {renderStringRow('battery.chargingTime', 'min')}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "ratedPower" })}{" "}
+                    {SpecsRenderer({ textKey: 'ratedPower' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -851,21 +850,21 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "ratedPowerDesc",
+                        textKey: 'ratedPowerDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderStringRow("battery.ratedPower", "W")}
+                {renderStringRow('battery.ratedPower', 'W')}
               </tr>
               <tr>
                 <th></th>
                 <td
                   colSpan={robots.length}
-                  style={{ backgroundColor: "#212529", color: "#F5F5F5" }}
+                  style={{ backgroundColor: '#212529', color: '#F5F5F5' }}
                 >
                   Control
                 </td>
@@ -873,7 +872,7 @@ const CompareTable = () => {
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "scheduling" })}{" "}
+                    {SpecsRenderer({ textKey: 'scheduling' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -881,20 +880,20 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "schedulingDesc",
+                        textKey: 'schedulingDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderRow("control.scheduling")}
+                {renderRow('control.scheduling')}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "wifiSmartphoneApp" })}{" "}
+                    {SpecsRenderer({ textKey: 'wifiSmartphoneApp' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -902,20 +901,20 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "wifiSmartphoneAppDesc",
+                        textKey: 'wifiSmartphoneAppDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderRow("control.wifiSmartphoneApp")}
+                {renderRow('control.wifiSmartphoneApp')}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "wifiFrequencyBand" })}{" "}
+                    {SpecsRenderer({ textKey: 'wifiFrequencyBand' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -923,20 +922,20 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "wifiFrequencyBandDesc",
+                        textKey: 'wifiFrequencyBandDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderStringRow("control.wifiFrequencyBand", "GHz")}
+                {renderStringRow('control.wifiFrequencyBand', 'GHz')}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "amazonAlexaSupport" })}{" "}
+                    {SpecsRenderer({ textKey: 'amazonAlexaSupport' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -944,20 +943,20 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "amazonAlexaSupportDesc",
+                        textKey: 'amazonAlexaSupportDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderRow("control.amazonAlexaSupport")}
+                {renderRow('control.amazonAlexaSupport')}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "googleAssistantSupport" })}{" "}
+                    {SpecsRenderer({ textKey: 'googleAssistantSupport' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -965,20 +964,20 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "googleAssistantSupportDesc",
+                        textKey: 'googleAssistantSupportDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderRow("control.googleAssistantSupport")}
+                {renderRow('control.googleAssistantSupport')}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "magneticVirtualWalls" })}{" "}
+                    {SpecsRenderer({ textKey: 'magneticVirtualWalls' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -986,20 +985,20 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "magneticVirtualWallsDesc",
+                        textKey: 'magneticVirtualWallsDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderRow("control.magneticVirtualWalls")}
+                {renderRow('control.magneticVirtualWalls')}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "irRfRemoteControl" })}{" "}
+                    {SpecsRenderer({ textKey: 'irRfRemoteControl' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -1007,21 +1006,21 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "irRfRemoteControlDesc",
+                        textKey: 'irRfRemoteControlDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderRow("control.irRfRemoteControl")}
+                {renderRow('control.irRfRemoteControl')}
               </tr>
               <tr>
                 <th></th>
                 <td
                   colSpan={robots.length}
-                  style={{ backgroundColor: "#212529", color: "#F5F5F5" }}
+                  style={{ backgroundColor: '#212529', color: '#F5F5F5' }}
                 >
                   App Features
                 </td>
@@ -1029,7 +1028,7 @@ const CompareTable = () => {
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "realTimeTracking" })}{" "}
+                    {SpecsRenderer({ textKey: 'realTimeTracking' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -1037,20 +1036,20 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "realTimeTrackingDesc",
+                        textKey: 'realTimeTrackingDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderRow("appFeatures.realTimeTracking")}
+                {renderRow('appFeatures.realTimeTracking')}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "digitalBlockedAreas" })}{" "}
+                    {SpecsRenderer({ textKey: 'digitalBlockedAreas' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -1058,20 +1057,20 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "digitalBlockedAreasDesc",
+                        textKey: 'digitalBlockedAreasDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderRow("appFeatures.digitalBlockedAreas")}
+                {renderRow('appFeatures.digitalBlockedAreas')}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "zonedCleaning" })}{" "}
+                    {SpecsRenderer({ textKey: 'zonedCleaning' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -1079,20 +1078,20 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "zonedCleaning",
+                        textKey: 'zonedCleaning',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderRow("appFeatures.zonedCleaning")}
+                {renderRow('appFeatures.zonedCleaning')}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "multiFloorMaps" })}{" "}
+                    {SpecsRenderer({ textKey: 'multiFloorMaps' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -1100,20 +1099,20 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "multiFloorMapsDesc",
+                        textKey: 'multiFloorMapsDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderRow("appFeatures.multiFloorMaps")}
+                {renderRow('appFeatures.multiFloorMaps')}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "manualMovementControl" })}{" "}
+                    {SpecsRenderer({ textKey: 'manualMovementControl' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -1121,20 +1120,20 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "manualMovementControlDesc",
+                        textKey: 'manualMovementControlDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderRow("appFeatures.manualMovementControl")}
+                {renderRow('appFeatures.manualMovementControl')}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "selectedRoomCleaning" })}{" "}
+                    {SpecsRenderer({ textKey: 'selectedRoomCleaning' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -1142,20 +1141,20 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "selectedRoomCleaningDesc",
+                        textKey: 'selectedRoomCleaningDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderRow("appFeatures.selectedRoomCleaning")}
+                {renderRow('appFeatures.selectedRoomCleaning')}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "noMopZones" })}{" "}
+                    {SpecsRenderer({ textKey: 'noMopZones' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -1163,21 +1162,21 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "noMopZonesDesc",
+                        textKey: 'noMopZonesDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderRow("appFeatures.noMopZones")}
+                {renderRow('appFeatures.noMopZones')}
               </tr>
               <tr>
                 <th></th>
                 <td
                   colSpan={robots.length}
-                  style={{ backgroundColor: "#212529", color: "#F5F5F5" }}
+                  style={{ backgroundColor: '#212529', color: '#F5F5F5' }}
                 >
                   Sensor
                 </td>
@@ -1185,7 +1184,7 @@ const CompareTable = () => {
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "carpetBoost" })}{" "}
+                    {SpecsRenderer({ textKey: 'carpetBoost' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -1193,20 +1192,20 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "carpetBoostDesc",
+                        textKey: 'carpetBoostDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderRow("sensor.carpetBoost")}
+                {renderRow('sensor.carpetBoost')}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "cliffSensor" })}{" "}
+                    {SpecsRenderer({ textKey: 'cliffSensor' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -1214,20 +1213,20 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "cliffSensorDesc",
+                        textKey: 'cliffSensorDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderRow("sensor.cliffSensor")}
+                {renderRow('sensor.cliffSensor')}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "dirtSensor" })}{" "}
+                    {SpecsRenderer({ textKey: 'dirtSensor' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -1235,20 +1234,20 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "dirtSensorDesc",
+                        textKey: 'dirtSensorDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderRow("sensor.dirtSensor")}
+                {renderRow('sensor.dirtSensor')}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "fullDustbinSensor" })}{" "}
+                    {SpecsRenderer({ textKey: 'fullDustbinSensor' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -1256,21 +1255,21 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "fullDustbinSensorDesc",
+                        textKey: 'fullDustbinSensorDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderRow("sensor.fullDustbinSensor")}
+                {renderRow('sensor.fullDustbinSensor')}
               </tr>
               <tr>
                 <th></th>
                 <td
                   colSpan={robots.length}
-                  style={{ backgroundColor: "#212529", color: "#F5F5F5" }}
+                  style={{ backgroundColor: '#212529', color: '#F5F5F5' }}
                 >
                   Other Specifications
                 </td>
@@ -1278,65 +1277,65 @@ const CompareTable = () => {
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "weight" })}{" "}
+                    {SpecsRenderer({ textKey: 'weight' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
                       data-bs-toggle="popover"
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
-                      data-bs-content={SpecsRenderer({ textKey: "weightDesc" })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      data-bs-content={SpecsRenderer({ textKey: 'weightDesc' })}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderStringRow("otherSpecifications.weight", "kg")}
+                {renderStringRow('otherSpecifications.weight', 'kg')}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "width" })}{" "}
+                    {SpecsRenderer({ textKey: 'width' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
                       data-bs-toggle="popover"
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
-                      data-bs-content={SpecsRenderer({ textKey: "widthDesc" })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      data-bs-content={SpecsRenderer({ textKey: 'widthDesc' })}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
-                {renderStringRow("otherSpecifications.width", "cm")}
+                {renderStringRow('otherSpecifications.width', 'cm')}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "height" })}{" "}
+                    {SpecsRenderer({ textKey: 'height' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
                       data-bs-toggle="popover"
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
-                      data-bs-content={SpecsRenderer({ textKey: "heightDesc" })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      data-bs-content={SpecsRenderer({ textKey: 'heightDesc' })}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
                   </span>
                 </th>
 
-                {renderStringRow("otherSpecifications.height", "cm")}
+                {renderStringRow('otherSpecifications.height', 'cm')}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "inTheBox" })}{" "}
+                    {SpecsRenderer({ textKey: 'inTheBox' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -1344,9 +1343,9 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "inTheBoxDesc",
+                        textKey: 'inTheBoxDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
@@ -1356,23 +1355,23 @@ const CompareTable = () => {
                   <td
                     key={item.id}
                     style={{
-                      paddingTop: "30px",
-                      verticalAlign: "bottom",
-                      textAlign: "left",
-                      width: "50px",
+                      paddingTop: '30px',
+                      verticalAlign: 'bottom',
+                      textAlign: 'left',
+                      width: '50px',
                     }}
                     className="border text-break"
                   >
                     {item.otherSpecifications.inTheBox
                       ? item.otherSpecifications.inTheBox
-                      : "N/A"}
+                      : 'N/A'}
                   </td>
                 ))}
               </tr>
               <tr>
                 <th scope="row">
                   <span className="stickycell">
-                    {SpecsRenderer({ textKey: "releaseDate" })}{" "}
+                    {SpecsRenderer({ textKey: 'releaseDate' })}{' '}
                     <a
                       tabIndex="0"
                       data-bs-container="body"
@@ -1380,9 +1379,9 @@ const CompareTable = () => {
                       data-bs-trigger="hover focus"
                       data-bs-placement="right"
                       data-bs-content={SpecsRenderer({
-                        textKey: "releaseDateDesc",
+                        textKey: 'releaseDateDesc',
                       })}
-                      style={{ color: "#000000", cursor: "pointer" }}
+                      style={{ color: '#000000', cursor: 'pointer' }}
                     >
                       <i className="fa-regular fa-circle-question fa-xs"></i>
                     </a>
@@ -1392,10 +1391,10 @@ const CompareTable = () => {
                   <td
                     key={item.id}
                     style={{
-                      height: "80px",
-                      verticalAlign: "bottom",
-                      textAlign: "left",
-                      whiteSpace: "normal",
+                      height: '80px',
+                      verticalAlign: 'bottom',
+                      textAlign: 'left',
+                      whiteSpace: 'normal',
                     }}
                     className="border"
                   >

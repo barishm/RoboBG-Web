@@ -3,19 +3,17 @@ import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import Loading from "../components/Loading";
 import Error from "../components/Error";
-import Filters from "../components/Filters";
 import Pagination from "../components/Pagination";
 import PopularComparisons from "../components/PopularComparisons";
 import ConsumableFilters from "../components/ConsumableFilters";
 import { useNavigate } from 'react-router-dom';
+import usePagination from "../hooks/usePagination";
+import { NO_IMAGE, DEFAULT_ENTITIES_PER_PAGE } from "../constants";
 
 const Consumables = () => {
   const lang = useSelector((state) => state.language.lang);
-  const [Page, setPage] = useState(0);
   const [filterByModels, setFilterByModels] = useState([]);
   const { data = [], isLoading, isError } = useGetAllConsumablesQuery();
-  const noImage = "images/no-image.jpg";
-  const entitiesPerPage = 12;
   const [filteredConsumables, setFilteredConsumables] = useState([]);
   const navigate = useNavigate();
 
@@ -32,35 +30,25 @@ const Consumables = () => {
     }
   }, [data, isLoading, filterByModels]);
 
-  const paginatedEntities = filteredConsumables.slice(
-    Page * entitiesPerPage,
-    (Page + 1) * entitiesPerPage
-  );
-  const isLast = (Page + 1) * entitiesPerPage >= filteredConsumables.length;
+  const {
+    page,
+    setPage,
+    paginatedData: paginatedEntities,
+    isLast
+  } = usePagination(filteredConsumables, DEFAULT_ENTITIES_PER_PAGE);
 
-  const details = (id) => {
-    navigate('/consumables/' + id);
-  };
+  const details = (id) => navigate('/consumables/' + id);
+  const handleFilterChange = (selectedModels) => setFilterByModels(selectedModels);
 
-
-  const handleFilterChange = (selectedModels) => {
-    setFilterByModels(selectedModels);
-  };
-
-  if (isError) {
-    return <Error />;
-  }
+  if (isError) return <Error />;
 
   return (
     <section className="mt-4">
       <div className="container d-flex">
         <div className="col-12 col-md-12 col-lg-9">
-          <h3
-            className="fw-bolder"
-            style={{ marginTop: "10px", textAlign: "center" }}
-          >
+          <h3 className="fw-bolder" style={{ marginTop: "10px", textAlign: "center" }}>
             {lang === "en" ? "All consumables" : "Всички консумативи"}
-            <br></br>
+            <br />
             <button
               className="btn btn-dark mt-3 d-lg-none"
               type="button"
@@ -68,27 +56,22 @@ const Consumables = () => {
               data-bs-target="#offcanvasExample"
               aria-controls="offcanvasExample"
             >
-              <i className="fa-solid fa-filter fa-sm"></i>&nbsp; Filters
+              <i className="fa-solid fa-filter fa-sm"></i>&nbsp; {lang === "en" ? "Filters" : "Филтри"}
             </button>
           </h3>
           {isLoading ? (
-            <>
-              <Loading />
-            </>
+            <Loading />
           ) : paginatedEntities ? (
             <div className="row mt-4">
               {paginatedEntities.map((item) => (
-                <div
-                  className="col-6 col-sm-6 col-md-4 col-lg-4 col-xl-3 mb-3"
-                  key={item.id}
-                >
+                <div className="col-6 col-sm-6 col-md-4 col-lg-4 col-xl-3 mb-3" key={item.id}>
                   <div className="card h-100 shadow-sm bg-body-tertiary rounded">
                     <img
                       className="rounded-top"
                       value={item.id}
                       style={{ cursor: "pointer" }}
                       onClick={() => details(item.id)}
-                      src={item.images[0] || noImage}
+                      src={item.images[0] || NO_IMAGE}
                       alt="..."
                     />
                     <div className="card-body">
@@ -106,7 +89,7 @@ const Consumables = () => {
                     <div className="card-footer mb-2 border-top-0 bg-transparent d-flex justify-content-evenly">
                       <div className="btn-group text-center">
                         <h5 className="text-danger">
-                        {item.price}  {lang === "en" ? "Leva" : "лв."}
+                          {item.price} {lang === "en" ? "Leva" : "лв."}
                         </h5>
                       </div>
                     </div>
@@ -115,17 +98,17 @@ const Consumables = () => {
               ))}
             </div>
           ) : null}
-          <Pagination Page={Page} setPage={setPage} isLast={isLast} />
+          <Pagination Page={page} setPage={setPage} isLast={isLast} />
         </div>
-        <div
-          className="col-12 col-md-12 col-lg-3"
-          style={{ marginTop: "48px", padding: "20px" }}
-        >
+        <div className="col-12 col-md-12 col-lg-3" style={{ marginTop: "48px", padding: "20px" }}>
           <ConsumableFilters onFilterChange={handleFilterChange} />
-          <div className="d-none d-lg-block"><PopularComparisons/></div>
+          <div className="d-none d-lg-block">
+            <PopularComparisons />
+          </div>
         </div>
       </div>
     </section>
   );
 };
+
 export default Consumables;

@@ -4,8 +4,9 @@ import { useNavigate } from "react-router-dom";
 import Loading from "../components/Loading";
 import { useSelector } from "react-redux";
 import { useGetConsumableByIdQuery } from "../app/services/consumableApiSlice";
-import { PhotoProvider, PhotoView } from 'react-photo-view';
+import { PhotoView } from 'react-photo-view';
 import 'react-photo-view/dist/react-photo-view.css';
+import { NO_IMAGE } from "../constants";
 
 const Consumable = () => {
   const [Tab, setTab] = useState("Specs");
@@ -13,25 +14,11 @@ const Consumable = () => {
     fields: "model",
   };
   const lang = useSelector((state) => state.language.lang);
+  const navigate = useNavigate();
 
   const { id } = useParams();
-  const [Model, setModel] = useState("");
-  const navigate = useNavigate();
   const { data, isLoading, error } = useGetConsumableByIdQuery({ id });
-  const noImage = "../../../public/images/no-image.jpg";
 
-  const compare = (e) => {
-    const newModel = e.target.value;
-    setModel(newModel);
-    const foundItem = allModels.content.find((item) => item.model === newModel);
-
-    if (foundItem && foundItem.id !== data.id) {
-      let id = data.id;
-      let id2 = foundItem.id;
-      compareMultipleRobots([id, id2], navigate);
-    }
-    setModel("");
-  };
   const changeTab = (tabName) => {
     setTab(tabName);
   };
@@ -64,7 +51,7 @@ const Consumable = () => {
                 className={
                   screenSize > 575
                     ? "col-12 shadow-sm rounded card p-sm-5 mb-5"
-                    : "col-12 p-sm-5 mb-5"
+                    : "col-12 p-sm-5 mb-5 mt-5"
                 }
                 style={{
                   maxWidth: "900px",
@@ -110,7 +97,7 @@ const Consumable = () => {
                             >
                               <PhotoView key={index} src={imageSrc}>
                               <img
-                                src={imageSrc || noImage}
+                                src={imageSrc || NO_IMAGE}
                                 alt={`Slide ${index + 1}`}
                                 style={{
                                   position: "absolute",
@@ -178,7 +165,10 @@ const Consumable = () => {
                 {data.robots && data.robots.length > 0 ? (
                   <ul>
                     {data.robots.map((robot, index) => (
-                      <li key={index}>{robot.model}</li>
+                      <li key={index}
+                      onClick={() => navigate(`/robots/${robot.id}`)}
+                      style={{ cursor: 'pointer', color: 'black', textDecoration: 'underline' }}
+                      >{robot.model}</li>
                     ))}
                   </ul>
                 ) : (

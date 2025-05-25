@@ -11,7 +11,7 @@ import {
 import Loading from "../components/Loading";
 import { useSelector } from "react-redux";
 import { compareMultipleRobots } from "../helpers/utils";
-import { PhotoProvider, PhotoView } from 'react-photo-view';
+import { PhotoView } from 'react-photo-view';
 import 'react-photo-view/dist/react-photo-view.css';
 
 const Robot = () => {
@@ -66,30 +66,30 @@ const Robot = () => {
       ) : data ? (
         <>
           <div
-            className={screenSize > 575 ? "container mt-4" : "container"}
-            style={screenSize > 575 ? {} : { backgroundColor: "white" }}
+            className={screenSize > 575 ? 'container mt-4' : 'container'}
+            style={screenSize > 575 ? {} : { backgroundColor: 'white' }}
           >
             <div className="row">
               <div
                 className={
                   screenSize > 575
-                    ? "col-12 shadow-sm rounded card p-sm-5 mb-5"
-                    : "col-12 p-sm-5 mb-5"
+                    ? 'col-12 shadow-sm rounded card p-sm-5 mb-5'
+                    : 'col-12 p-sm-5 mb-5 mt-5'
                 }
                 style={{
-                  maxWidth: "900px",
-                  marginRight: "auto",
-                  marginLeft: "auto",
+                  maxWidth: '900px',
+                  marginRight: 'auto',
+                  marginLeft: 'auto',
                 }}
               >
                 <div className="row">
                   <div className="col-8 col-md-4 mb-4">
                     <PhotoView src={data.image}>
-                    <img
-                      className="mt-4 ms-4 rounded-3"
-                      style={{ maxWidth: "200px", height: "auto" }}
-                      src={data.image || noImage}
-                    />
+                      <img
+                        className="mt-4 ms-4 rounded-3"
+                        style={{ maxWidth: '200px', height: 'auto' }}
+                        src={data.image || noImage}
+                      />
                     </PhotoView>
                   </div>
                   <div className="col-12 col-md-8 mt-2 p-4">
@@ -97,7 +97,7 @@ const Robot = () => {
                     <h6 className="ms-1 mb-2 mt-3">Brand: {data.brand}</h6>
                     <button
                       type="button"
-                      style={{ marginTop: "20px", marginBottom: "10px" }}
+                      style={{ marginTop: '20px', marginBottom: '10px' }}
                       className="btn btn-dark"
                       data-bs-toggle="collapse"
                       data-bs-target="#collapseExample"
@@ -110,13 +110,13 @@ const Robot = () => {
                       type="button"
                       className="btn btn-warning btn dropdown-toggle ms-4"
                       style={{
-                        marginTop: "20px",
-                        marginBottom: "10px",
+                        marginTop: '20px',
+                        marginBottom: '10px',
                       }}
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
-                      {lang === "en" ? "Check price" : "Проверка на цена"}
+                      {lang === 'en' ? 'Check price' : 'Проверка на цена'}
                     </button>
                     <ul className="dropdown-menu">
                       {data.purchaseLinks &&
@@ -135,7 +135,7 @@ const Robot = () => {
                       <input
                         className="form-control"
                         value={Model}
-                        style={{ maxWidth: "241px" }}
+                        style={{ maxWidth: '241px' }}
                         name="Model"
                         list="datalistOptions"
                         id="Model"
@@ -147,9 +147,12 @@ const Robot = () => {
                       ) : (
                         <>
                           <datalist id="datalistOptions">
-                            {allModels.content.map((item) => (
-                              <option key={item.id} value={item.model} />
-                            ))}
+                            {allModels.content
+                              .slice()
+                              .sort((a, b) => a.model.localeCompare(b.model))
+                              .map((item) => (
+                                <option key={item.id} value={item.model} />
+                              ))}
                           </datalist>
                         </>
                       )}
@@ -161,45 +164,45 @@ const Robot = () => {
                     <li className="nav-item">
                       <a
                         className={`nav-link ${
-                          Tab === "Specs" ? "active" : ""
+                          Tab === 'Specs' ? 'active' : ''
                         }`}
-                        style={{ color: "black" }}
-                        onClick={() => changeTab("Specs")}
+                        style={{ color: 'black' }}
+                        onClick={() => changeTab('Specs')}
                         href="#"
                       >
-                        Specs
+                        {lang === 'en' ? "Specs" : "Спецификации" }
                       </a>
                     </li>
                     <li className="nav-item">
                       <a
                         value="Q&A"
-                        className={`nav-link ${Tab === "Q&A" ? "active" : ""}`}
-                        style={{ color: "black" }}
-                        onClick={() => changeTab("Q&A")}
+                        className={`nav-link ${Tab === 'Q&A' ? 'active' : ''}`}
+                        style={{ color: 'black' }}
+                        onClick={() => changeTab('Q&A')}
                         href="#"
                       >
-                        Q&A
+                        {lang === 'en' ? "Q&A" : "В&О" }
                       </a>
                     </li>
                     <li className="nav-item">
                       <a
                         value="Consumables"
                         className={`nav-link ${
-                          Tab === "Consumables" ? "active" : ""
+                          Tab === 'Consumables' ? 'active' : ''
                         }`}
-                        style={{ color: "black" }}
-                        onClick={() => changeTab("Consumables")}
+                        style={{ color: 'black' }}
+                        onClick={() => changeTab('Consumables')}
                         href="#"
                       >
-                        Consumables
+                        {lang === 'en' ? "Consumables" : "Консумативи" }
                       </a>
                     </li>
                   </ul>
-                  {Tab === "Specs" ? (
+                  {Tab === 'Specs' ? (
                     <RobotDetails robot={data} />
-                  ) : Tab === "Q&A" ? (
+                  ) : Tab === 'Q&A' ? (
                     <QnA Id={id} />
-                  ) : Tab === "Consumables" ? (
+                  ) : Tab === 'Consumables' ? (
                     <ConsumableTab robot={data} />
                   ) : null}
                 </div>

@@ -1,7 +1,8 @@
 import { useGetAvailableBrandsQuery } from "../app/services/availableBrandsApiSlice";
 import Loading from "./Loading";
+import { useSelector } from 'react-redux';
 
-const Filters = ({
+const RobotFilters = ({
   Model,
   setPage,
   setModel,
@@ -14,6 +15,7 @@ const Filters = ({
   setMaxSuctionPower,
   Brands,
 }) => {
+  const lang = useSelector((state) => state.language.lang);
   const { data: availableBrands, isLoading: availableBrandsIsLoading } =
     useGetAvailableBrandsQuery();
   const handleCheckboxChange = (event) => {
@@ -25,7 +27,6 @@ const Filters = ({
       setBrands((prev) => prev.filter((brand) => brand !== value));
     }
     setPage(0);
-    console.log(Brands);
   };
   function clearAllInputs() {
     ['startYearInput', 'endYearInput', 'minDustbinCapacityInput', 'maxDustbinCapacityInput', 'minSuctionPowerInput', 'maxSuctionPowerInput', 'startYearInputM', 'endYearInputM', 'minDustbinCapacityInputM', 'maxDustbinCapacityInputM', 'minSuctionPowerInputM', 'maxSuctionPowerInputM'].forEach(id => document.getElementById(id).value = '');
@@ -147,7 +148,7 @@ const Filters = ({
       >
         <div className="offcanvas-header">
           <h5 className="offcanvas-title" id="offcanvasExampleLabel">
-            Filters
+          {lang === "en" ? "Filters" : "Филтри"}
           </h5>
           <button
             type="button"
@@ -294,7 +295,7 @@ const Filters = ({
             data-bs-dismiss="offcanvas"
             aria-label="Close"
           >
-            Apply
+            {lang === "en" ? "Apply" : "Приложи"}
           </button>
         </div>
       </div>
@@ -303,7 +304,7 @@ const Filters = ({
           {" "}
           <h5 style={{ marginBottom: "0px" }}>
             {" "}
-            <i className="fa-solid fa-filter fa-sm"></i> Filters
+            <i className="fa-solid fa-filter fa-sm"></i> {lang === "en" ? "Filters" : "Филтри"}
           </h5>
         </div>
         <div className="card-body p-4">
@@ -444,4 +445,4 @@ const Filters = ({
   );
 };
 
-export default Filters;
+export default RobotFilters;

@@ -1,5 +1,5 @@
 import {
-  useGetAllRobotsQuery,
+  useGetAllRobotsNewQuery,
   useDeleteRobotMutation
 } from "../app/services/robotApiSlice";
 import {
@@ -9,33 +9,43 @@ import Loading from "../components/Loading";
 import CreateRobot from "./CreateRobot";
 import { useSelector } from "react-redux";
 import UpdateRobot from "./UpdateRobot";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import Pagination from "../components/Pagination";
 import UploadRobotImage from "./UploadRobotImage";
 import CreateLink from "./CreateLink";
 import DeletePopup from "./DeletePopup";
+import usePagination from "../hooks/usePagination";
+
+import { NO_IMAGE, DEFAULT_ENTITIES_PER_PAGE } from "../constants";
 
 const ManageRobots = () => {
-  const [Page, setPage] = useState(0);
   const [Model, setModel] = useState("");
-  const queryParams = {
-    fields: "model,image,links",
-    page: Page,
-    model: Model,
-  };
-  const { data: allRobots, isLoading: allRobotsLoading } =
-    useGetAllRobotsQuery(queryParams);
+
+  const [filteredRobots, setFilteredRobots] = useState([]);
+  const { data = [], isLoading, isError } =
+  useGetAllRobotsNewQuery();
   const [robotId, setRobotId] = useState(null);
   const [deleteLink] = useDeleteLinkMutation();
-  const noImage = "images/no-image.jpg";
   const { accessToken } = useSelector((state) => state.auth);
-  const isLast = allRobots?.last;
+
+  const {
+    page,
+    setPage,
+    paginatedData: paginatedEntities,
+    isLast
+  } = usePagination(filteredRobots, DEFAULT_ENTITIES_PER_PAGE);
 
   const deleteLinkHandler = (e) => {
     const id = e.target.value;
     deleteLink({ id, accessToken });
   };
+
+    useEffect(() => {
+      if (!isLoading && Array.isArray(data)) {
+        setFilteredRobots([...data]);
+      }
+    }, [data, isLoading]);
 
   return (
     <div>
@@ -63,7 +73,7 @@ const ManageRobots = () => {
         ></input>
       </div>
 
-      {allRobotsLoading ? (
+      {isLoading ? (
         <Loading />
       ) : (
         <>
@@ -77,14 +87,14 @@ const ManageRobots = () => {
               </tr>
             </thead>
             <tbody>
-              {allRobots &&
-                allRobots.content.map((robot) => (
+              {paginatedEntities &&
+                paginatedEntities.map((robot) => (
                   <tr key={robot.id}>
                     <th scope="row">{robot.id}</th>
                     <td>
                       <img
                         style={{ height: "50px" }}
-                        src={robot.image || noImage}
+                        src={robot.image || NO_IMAGE}
                         alt="..."
                       ></img>
                       <button
@@ -177,7 +187,7 @@ const ManageRobots = () => {
           </table>
         </>
       )}
-      <Pagination Page={Page} setPage={setPage} isLast={isLast} />
+      <Pagination Page={page} setPage={setPage} isLast={isLast} />
 
       {/*add link modal*/}
       <CreateLink robotId={robotId} />

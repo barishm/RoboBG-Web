@@ -1,8 +1,6 @@
 import {
   useGetAllConsumablesQuery,
-  useCreateConsumableMutation,
   useDeleteConsumableMutation,
-  useUpdateConsumableMutation,
 } from '../app/services/consumableApiSlice';
 import CreateConsumables from './CreateConsumable';
 import UpdateConsumables from './UpdateConsumable';
@@ -10,15 +8,25 @@ import Loading from './Loading';
 import { useState, useEffect } from 'react';
 import DeletePopup from './DeletePopup';
 import UploadConsumableImages from './UploadConsumableImages';
+import usePagination from '../hooks/usePagination';
+import { NO_IMAGE, DEFAULT_ENTITIES_PER_PAGE } from "../constants";
+import Pagination from './Pagination';
 
 const ManageConsumables = () => {
   const { data, isLoading } = useGetAllConsumablesQuery();
 
   const [filteredConsumables, setFilteredConsumables] = useState([]);
-  const noImage = 'images/no-image.jpg';
   const [consumable, setConsumable] = useState('');
   const [selectedConsumableToUpdate, setSelectedConsumableToUpdate] = useState(null);
   const [consumableId, setConsumableId] = useState(null);
+
+  const {
+    page,
+    setPage,
+    paginatedData: paginatedEntities,
+    isLast
+  } = usePagination(filteredConsumables, DEFAULT_ENTITIES_PER_PAGE);
+
 
   function filterConsumables(searchText) {
     setConsumable(searchText);
@@ -31,6 +39,7 @@ const ManageConsumables = () => {
         )
       );
     }
+    setPage(0);
   }
 
   useEffect(() => {
@@ -87,14 +96,14 @@ const ManageConsumables = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredConsumables &&
-                filteredConsumables.map((consumable) => (
+              {paginatedEntities &&
+                paginatedEntities.map((consumable) => (
                   <tr key={consumable.id}>
                     <th scope="row">{consumable.id}</th>
                     <td>
                       <img
                         style={{ height: '50px' }}
-                        src={consumable.images[0] || noImage}
+                        src={consumable.images[0] || NO_IMAGE}
                         alt="..."
                       ></img>
                       <button
@@ -140,6 +149,7 @@ const ManageConsumables = () => {
           </table>
         </>
       )}
+      <Pagination Page={page} setPage={setPage} isLast={isLast} />
     </div>
   );
 };
