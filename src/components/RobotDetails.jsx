@@ -72,8 +72,8 @@ const RobotDetails = (props) => {
             {renderBooleanTableRow("Washable Filter",robot.cleaningFeatures.washableFilter)}
             {renderStringTableRow("Side Brushes (one or two)",robot.sideBrushes,"")}
             {renderBooleanTableRow("Carpet Boost", robot.sensor.carpetBoost)}
-            {renderBooleanTableRow("Dirt Sensor", robot.sensor.dirtSensor)}
-            {renderBooleanTableRow("Full Dustbin Sensor",robot.sensor.fullDustbinSensor)}
+            {/* {renderBooleanTableRow("Dirt Sensor", robot.sensor.dirtSensor)} */}
+            {/* {renderBooleanTableRow("Full Dustbin Sensor",robot.sensor.fullDustbinSensor)} */}
             </tbody>
           </table>
           <table className="table table-bordered" style={{ tableLayout: "fixed", width: "100%" }}>
@@ -125,7 +125,7 @@ const RobotDetails = (props) => {
             <tbody>
               {renderBooleanTableRow("Wi-Fi / Smartphone App",robot.control.wifiSmartphoneApp)}
               {renderBooleanTableRow("Scheduling", robot.control.scheduling)}
-              {renderBooleanTableRow("IR/RF Remote Control",robot.control.irRfRemoteControl)}
+              {/* {renderBooleanTableRow("IR/RF Remote Control",robot.control.irRfRemoteControl)} */}
               {renderStringTableRow("Wi-Fi Frequency Band",robot.control.wifiFrequencyBand,"")}
               {renderBooleanTableRow("Amazon Alexa Support",robot.control.amazonAlexaSupport)}
               {renderBooleanTableRow("Google Assistant Support",robot.control.googleAssistantSupport)}
@@ -147,7 +147,7 @@ const RobotDetails = (props) => {
               {renderBooleanTableRow("Digital Blocked Areas",robot.appFeatures.digitalBlockedAreas)}
               {renderBooleanTableRow("Zoned cleaning",robot.appFeatures.zonedCleaning)}
               {renderBooleanTableRow("Multi-floor maps",robot.appFeatures.multiFloorMaps)}
-              {renderBooleanTableRow("Manual movement control",robot.appFeatures.manualMovementControl)}
+              {/* {renderBooleanTableRow("Manual movement control",robot.appFeatures.manualMovementControl)} */}
               {renderBooleanTableRow("Selected Room Cleaning",robot.appFeatures.selectedRoomCleaning)}
               {renderBooleanTableRow("No-mop zones",robot.appFeatures.noMopZones)}
             </tbody>
@@ -164,7 +164,7 @@ const RobotDetails = (props) => {
             {renderStringTableRow("Weight",robot.otherSpecifications.weight,"kg")}
             {renderStringTableRow("Width",robot.otherSpecifications.width,"cm")}
             {renderStringTableRow("Height",robot.otherSpecifications.height,"cm")}
-            {renderStringTableRow("In the box",robot.otherSpecifications.inTheBox,"")}
+            {/* {renderStringTableRow("In the box",robot.otherSpecifications.inTheBox,"")} */}
             <tr>
                 <th>Release Date</th>
                 <td>

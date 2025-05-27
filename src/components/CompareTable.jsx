@@ -995,7 +995,7 @@ const CompareTable = () => {
                 </th>
                 {renderRow('control.magneticVirtualWalls')}
               </tr>
-              <tr>
+              {/* <tr>
                 <th scope="row">
                   <span className="stickycell">
                     {SpecsRenderer({ textKey: 'irRfRemoteControl' })}{' '}
@@ -1015,7 +1015,7 @@ const CompareTable = () => {
                   </span>
                 </th>
                 {renderRow('control.irRfRemoteControl')}
-              </tr>
+              </tr> */}
               <tr>
                 <th></th>
                 <td
@@ -1109,7 +1109,7 @@ const CompareTable = () => {
                 </th>
                 {renderRow('appFeatures.multiFloorMaps')}
               </tr>
-              <tr>
+              {/* <tr>
                 <th scope="row">
                   <span className="stickycell">
                     {SpecsRenderer({ textKey: 'manualMovementControl' })}{' '}
@@ -1129,7 +1129,7 @@ const CompareTable = () => {
                   </span>
                 </th>
                 {renderRow('appFeatures.manualMovementControl')}
-              </tr>
+              </tr> */}
               <tr>
                 <th scope="row">
                   <span className="stickycell">
@@ -1223,7 +1223,7 @@ const CompareTable = () => {
                 </th>
                 {renderRow('sensor.cliffSensor')}
               </tr>
-              <tr>
+              {/* <tr>
                 <th scope="row">
                   <span className="stickycell">
                     {SpecsRenderer({ textKey: 'dirtSensor' })}{' '}
@@ -1243,8 +1243,8 @@ const CompareTable = () => {
                   </span>
                 </th>
                 {renderRow('sensor.dirtSensor')}
-              </tr>
-              <tr>
+              </tr> */}
+              {/* <tr>
                 <th scope="row">
                   <span className="stickycell">
                     {SpecsRenderer({ textKey: 'fullDustbinSensor' })}{' '}
@@ -1264,7 +1264,7 @@ const CompareTable = () => {
                   </span>
                 </th>
                 {renderRow('sensor.fullDustbinSensor')}
-              </tr>
+              </tr> */}
               <tr>
                 <th></th>
                 <td
@@ -1332,7 +1332,7 @@ const CompareTable = () => {
 
                 {renderStringRow('otherSpecifications.height', 'cm')}
               </tr>
-              <tr>
+              {/* <tr>
                 <th scope="row">
                   <span className="stickycell">
                     {SpecsRenderer({ textKey: 'inTheBox' })}{' '}
@@ -1367,7 +1367,7 @@ const CompareTable = () => {
                       : 'N/A'}
                   </td>
                 ))}
-              </tr>
+              </tr> */}
               <tr>
                 <th scope="row">
                   <span className="stickycell">
