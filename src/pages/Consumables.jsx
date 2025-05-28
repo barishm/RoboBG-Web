@@ -6,16 +6,25 @@ import Error from "../components/Error";
 import Pagination from "../components/Pagination";
 import PopularComparisons from "../components/PopularComparisons";
 import ConsumableFilters from "../components/ConsumableFilters";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import usePagination from "../hooks/usePagination";
 import { NO_IMAGE, DEFAULT_ENTITIES_PER_PAGE } from "../constants";
 
 const Consumables = () => {
   const lang = useSelector((state) => state.language.lang);
   const [filterByModels, setFilterByModels] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
   const { data = [], isLoading, isError } = useGetAllConsumablesQuery();
   const [filteredConsumables, setFilteredConsumables] = useState([]);
   const navigate = useNavigate();
+
+    useEffect(() => {
+    const modelsParam = searchParams.get("models");
+    if (modelsParam) {
+      const modelsFromURL = modelsParam.split(",");
+      setFilterByModels(modelsFromURL);
+    }
+  }, []);
 
   useEffect(() => {
     if (!isLoading && Array.isArray(data)) {
@@ -38,7 +47,16 @@ const Consumables = () => {
   } = usePagination(filteredConsumables, DEFAULT_ENTITIES_PER_PAGE);
 
   const details = (id) => navigate('/consumables/' + id);
-  const handleFilterChange = (selectedModels) => setFilterByModels(selectedModels);
+    const handleFilterChange = (selectedModels) => {
+    setFilterByModels(selectedModels);
+
+    if (selectedModels.length > 0) {
+      searchParams.set("models", selectedModels.join(","));
+    } else {
+      searchParams.delete("models");
+    }
+    setSearchParams(searchParams);
+  };
 
   if (isError) return <Error />;
 
@@ -101,7 +119,7 @@ const Consumables = () => {
           <Pagination Page={page} setPage={setPage} isLast={isLast} />
         </div>
         <div className="col-12 col-md-12 col-lg-3" style={{ marginTop: "48px", padding: "20px" }}>
-          <ConsumableFilters onFilterChange={handleFilterChange} />
+          <ConsumableFilters onFilterChange={handleFilterChange} selectedModels={filterByModels} />
           <div className="d-none d-lg-block">
             <PopularComparisons />
           </div>

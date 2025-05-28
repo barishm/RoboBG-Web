@@ -120,7 +120,7 @@ const Robots = () => {
                       </div>
                       <div className="mt-1">
                         <i className="fa-regular fa-comments fa-sm"></i>{' '}
-                        <span className="">0</span>
+                        <span className="">{item.qnaCount ?? 0}</span>
                       </div>
                     </div>
                   </div>

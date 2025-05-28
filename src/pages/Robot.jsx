@@ -124,6 +124,7 @@ const Robot = () => {
                           <li key={purchaseLink.id}>
                             <a
                               className="dropdown-item"
+                              target="_blank"
                               href={purchaseLink.link}
                             >
                               {purchaseLink.name}
