@@ -9,24 +9,30 @@ const useAuth = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const refreshToken = localStorage.getItem("refreshToken")?.replace(/^"(.*)"$/, "$1");
-    
+    const refreshToken = localStorage
+      .getItem("refreshToken")
+      ?.replace(/^"(.*)"$/, "$1");
+
     if (!refreshToken) {
+      console.log("No refresh token found in localStorage");
       dispatch(logOut());
       return;
     }
 
     const refreshAccessToken = async () => {
       try {
-        const { data } = await reauth(refreshToken).unwrap();
-        const decoded = jwtDecode(data.access_token);
+        const result = await reauth(refreshToken).unwrap();
+        if (!result?.access_token)
+          throw new Error("No access_token in response");
 
-        dispatch(setCredentials({
-          user: decoded.sub,
-          role: decoded.role,
-          accessToken: data.access_token,
-        }));
-
+        const decoded = jwtDecode(result.access_token);
+        dispatch(
+          setCredentials({
+            user: decoded.sub,
+            role: decoded.role,
+            accessToken: result.access_token,
+          })
+        );
       } catch (error) {
         console.error("Token refresh failed:", error);
         dispatch(logOut());
@@ -36,7 +42,7 @@ const useAuth = () => {
 
     refreshAccessToken(); // Run on first load
 
-    const interval = setInterval(refreshAccessToken, 900000); // Refresh every 15 minutes
+    const interval = setInterval(refreshAccessToken, 25200000); // Refresh every 7 Hours (access token expiration is 8 hours)
     return () => clearInterval(interval);
   }, [dispatch, reauth]);
 };

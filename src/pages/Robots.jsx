@@ -48,6 +48,22 @@ const Robots = () => {
     MaxSuctionPower,
   ]);
 
+  const availableBrands = useMemo(() => {
+  const brandMap = new Map();
+
+  data.forEach((robot) => {
+    const brand = robot.brand?.trim();
+    if (!brand) return;
+    brandMap.set(brand, (brandMap.get(brand) || 0) + 1);
+  });
+
+  return Array.from(brandMap.entries()).map(([brand, count], index) => ({
+    id: index + 1,
+    brand,
+    count,
+  }));
+}, [data]);
+
   const filteredRobots = useRobotFilters(data, filterOptions, isLoading);
   const { page, setPage, paginatedData: paginatedRobots, isLast } = usePagination(filteredRobots, DEFAULT_ENTITIES_PER_PAGE);
 
@@ -79,7 +95,7 @@ const Robots = () => {
             <div className="row mt-4">
               {paginatedRobots.map((item) => (
                 <div className="col-6 col-sm-6 col-md-4 col-lg-4 col-xl-3 mb-3" key={item.id}>
-                  <div className="card h-100 shadow-sm bg-body-tertiary rounded">
+                  <div className="card shadow-sm bg-body-tertiary rounded">
                     <img
                       className="rounded-top"
                       style={{ cursor: 'pointer' }}
@@ -144,6 +160,7 @@ const Robots = () => {
             setMinSuctionPower={setMinSuctionPower}
             setMaxSuctionPower={setMaxSuctionPower}
             Brands={Brands}
+            availableBrands={availableBrands}
           />
           <div className="d-none d-lg-block">
             <PopularComparisons />

@@ -1,6 +1,4 @@
-import { useGetAvailableBrandsQuery } from "../app/services/availableBrandsApiSlice";
-import Loading from "./Loading";
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 
 const RobotFilters = ({
   Model,
@@ -14,10 +12,10 @@ const RobotFilters = ({
   setMinSuctionPower,
   setMaxSuctionPower,
   Brands,
+  availableBrands,
 }) => {
   const lang = useSelector((state) => state.language.lang);
-  const { data: availableBrands, isLoading: availableBrandsIsLoading } =
-    useGetAvailableBrandsQuery();
+
   const handleCheckboxChange = (event) => {
     const { value, checked } = event.target;
 
@@ -29,7 +27,20 @@ const RobotFilters = ({
     setPage(0);
   };
   function clearAllInputs() {
-    ['startYearInput', 'endYearInput', 'minDustbinCapacityInput', 'maxDustbinCapacityInput', 'minSuctionPowerInput', 'maxSuctionPowerInput', 'startYearInputM', 'endYearInputM', 'minDustbinCapacityInputM', 'maxDustbinCapacityInputM', 'minSuctionPowerInputM', 'maxSuctionPowerInputM'].forEach(id => document.getElementById(id).value = '');
+    [
+      "startYearInput",
+      "endYearInput",
+      "minDustbinCapacityInput",
+      "maxDustbinCapacityInput",
+      "minSuctionPowerInput",
+      "maxSuctionPowerInput",
+      "startYearInputM",
+      "endYearInputM",
+      "minDustbinCapacityInputM",
+      "maxDustbinCapacityInputM",
+      "minSuctionPowerInputM",
+      "maxSuctionPowerInputM",
+    ].forEach((id) => (document.getElementById(id).value = ""));
   }
 
   const handleGoButtonClick = () => {
@@ -148,7 +159,7 @@ const RobotFilters = ({
       >
         <div className="offcanvas-header">
           <h5 className="offcanvas-title" id="offcanvasExampleLabel">
-          {lang === "en" ? "Filters" : "Филтри"}
+            {lang === "en" ? "Filters" : "Филтри"}
           </h5>
           <button
             type="button"
@@ -177,31 +188,26 @@ const RobotFilters = ({
             </div>
             <div className="mt-3">
               <label className="form-label">Brand Name</label>
-              <div className="card p-2" style={{ maxHeight: "195px", overflowY: "auto" }}>
-                {availableBrandsIsLoading ? (
-                  <>
-                    <Loading />
-                  </>
-                ) : availableBrands ? (
-                  <>
-                    {availableBrands.map((item) => (
-                      <div className="form-check" key={item.id}>
-                        <input
-                          type="checkbox"
-                          className="form-check-input"
-                          name="brand_name"
-                          checked={Brands.includes(item.brand)}
-                          value={item.brand}
-                          onChange={handleCheckboxChange}
-                        ></input>
-                        <label htmlFor="id_brand_name_0" className="form-check-label">
-                          {item.brand}{" "}
-                          <span style={{ color: "grey" }}>({item.count})</span>
-                        </label>
-                      </div>
-                    ))}
-                  </>
-                ) : null}
+              <div
+                className="card p-2"
+                style={{ maxHeight: "195px", overflowY: "auto" }}
+              >
+                {availableBrands.map((item) => (
+                  <div className="form-check" key={item.id}>
+                    <input
+                      type="checkbox"
+                      className="form-check-input"
+                      name="brand_name"
+                      checked={Brands.includes(item.brand)}
+                      value={item.brand}
+                      onChange={handleCheckboxChange}
+                    />
+                    <label className="form-check-label">
+                      {item.brand}{" "}
+                      <span style={{ color: "grey" }}>({item.count})</span>
+                    </label>
+                  </div>
+                ))}
               </div>
             </div>
             <div className="mb-3 mt-3">
@@ -304,7 +310,8 @@ const RobotFilters = ({
           {" "}
           <h5 style={{ marginBottom: "0px" }}>
             {" "}
-            <i className="fa-solid fa-filter fa-sm"></i> {lang === "en" ? "Filters" : "Филтри"}
+            <i className="fa-solid fa-filter fa-sm"></i>{" "}
+            {lang === "en" ? "Filters" : "Филтри"}
           </h5>
         </div>
         <div className="card-body p-4">
@@ -327,31 +334,29 @@ const RobotFilters = ({
             </div>
             <div className="mt-3">
               <label className="form-label">Brand Name</label>
-              <div className="card p-2" style={{ maxHeight: "195px", overflowY: "auto" }}>
-                {availableBrandsIsLoading ? (
-                  <>
-                    <Loading />
-                  </>
-                ) : availableBrands ? (
-                  <>
-                    {availableBrands.map((item) => (
-                      <div className="form-check" key={item.id}>
-                        <input
-                          type="checkbox"
-                          className="form-check-input"
-                          name="brand_name"
-                          checked={Brands.includes(item.brand)}
-                          value={item.brand}
-                          onChange={handleCheckboxChange}
-                        ></input>
-                        <label htmlFor="id_brand_name_0" className="form-check-label">
-                          {item.brand}{" "}
-                          <span style={{ color: "grey" }}>({item.count})</span>
-                        </label>
-                      </div>
-                    ))}
-                  </>
-                ) : null}
+              <div
+                className="card p-2"
+                style={{ maxHeight: "195px", overflowY: "auto" }}
+              >
+                {availableBrands.map((item) => (
+                  <div className="form-check" key={item.id}>
+                    <input
+                      type="checkbox"
+                      className="form-check-input"
+                      name="brand_name"
+                      checked={Brands.includes(item.brand)}
+                      value={item.brand}
+                      onChange={handleCheckboxChange}
+                    ></input>
+                    <label
+                      htmlFor="id_brand_name_0"
+                      className="form-check-label"
+                    >
+                      {item.brand}{" "}
+                      <span style={{ color: "grey" }}>({item.count})</span>
+                    </label>
+                  </div>
+                ))}
               </div>
             </div>
             <div className="mb-3 mt-3">

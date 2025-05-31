@@ -83,7 +83,7 @@ const Consumables = () => {
             <div className="row mt-4">
               {paginatedEntities.map((item) => (
                 <div className="col-6 col-sm-6 col-md-4 col-lg-4 col-xl-3 mb-3" key={item.id}>
-                  <div className="card h-100 shadow-sm bg-body-tertiary rounded">
+                  <div className="card shadow-sm bg-body-tertiary rounded">
                     <img
                       className="rounded-top"
                       value={item.id}
