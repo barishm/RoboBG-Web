@@ -17,6 +17,8 @@ import { useState } from 'react'
 import Consumables from './pages/Consumables'
 import Consumable from './pages/Consumable'
 import { PhotoProvider, PhotoView } from 'react-photo-view';
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from 'react-toastify';
 
 function App() {
   const [dashboardsActiveComponent, setDashboardsActiveComponent] = useState("Robots");
@@ -24,6 +26,7 @@ function App() {
   
   return (
     <div className="App">
+      <ToastContainer/>
       <PhotoProvider>
       <Header setDashboardsActiveComponent={setDashboardsActiveComponent} />
       <main>

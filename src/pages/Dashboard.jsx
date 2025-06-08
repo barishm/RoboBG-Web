@@ -3,7 +3,6 @@ import ManageRobots from "../components/ManageRobots";
 import ManageUsers from "../components/ManageUsers";
 import ManageMostCompared from "../components/ManageMostCompared";
 import LatestQuestions from "../components/LatestQuestions";
-import { ToastContainer } from 'react-toastify';
 import ManageConsumables from "../components/ManageConsumables";
 
 const Dashboard = ({ dashboardsActiveComponent }) => {
@@ -27,7 +26,6 @@ const Dashboard = ({ dashboardsActiveComponent }) => {
 
   return (
     <div className="container-fluid">
-      <ToastContainer/>
       <div className="row">
         <div className="col">{renderActiveComponent()}</div>
       </div>
