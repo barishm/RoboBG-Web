@@ -51,7 +51,9 @@ const Login = () => {
   };
 
   return (
-    <div className={screenSize > 767 ? "container mt-5 mb-5 " : "container mt-2"}>
+    <div
+      className={screenSize > 767 ? "container mt-5 mb-5 " : "container mt-2"}
+    >
       <div
         className={screenSize > 767 ? "card shadow-sm" : ""}
         style={{
@@ -130,7 +132,7 @@ const Login = () => {
           </form>
 
           <div className="mt-3">
-            <p className="mb-0">
+            <p className="mb-1">
               {lang === "en" ? "Don't have an account?" : "Нямате акаунт?"}{" "}
               <a
                 href="#"
@@ -138,6 +140,16 @@ const Login = () => {
                 className="fw-bold"
               >
                 {lang === "en" ? "Sign Up" : "Регистрирай се"}
+              </a>
+            </p>
+            <p className="mb-0">
+              {lang === "en" ? "Forgot your password?" : "Забравена парола?"}{" "}
+              <a
+                href="#"
+                onClick={() => navigate("/forgot-password")}
+                className="fw-bold"
+              >
+                {lang === "en" ? "Reset it" : "Нулирай я"}
               </a>
             </p>
           </div>

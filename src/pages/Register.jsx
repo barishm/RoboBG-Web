@@ -2,6 +2,7 @@ import React, { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useRegisterMutation } from "../app/services/authApiSlice";
+import { validatePassword, validateUsername, isEmailInvalid } from "../helpers/utils"
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -16,10 +17,6 @@ const Register = () => {
   const [invalidUsername,setInvalidUsername] = useState(false);
   const [invalidEmail,setInvalidEmail] = useState(false);
   const [invalidPassword,setInvalidPassword] = useState(false);
-  const isEmailInvalid = (email) => {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,7}$/;
-    return !emailRegex.test(email);
-  };
 
   const [screenSize, setScreenSize] = useState(window.innerWidth);
   useEffect(() => {
@@ -33,40 +30,43 @@ const Register = () => {
 
 
 
-  const sendRequest = async (e) => {
-    let dontContinue = false;
-    if(username.length < 5 || username.length > 15) {
-      setInvalidUsername(true);
-      dontContinue = true;
-    }
-    if(isEmailInvalid(email)){
-      setInvalidEmail(true);
-      dontContinue = true;
-    }
-    if(password.length < 6 || password.length > 20){
-      setInvalidPassword(true);
-      dontContinue = true;
-    }
-    if(dontContinue) {
-      return
-    }
-      try {
-        await register({ username,email, password, confirmPassword }).unwrap();
-        setSuccessMessage("Account is created successfully!");
-        setErrorMessage("");
-        setUsername("");
-        setPassword("");
-        setTimeout(() => {
-          navigate("/");
-        }, 2000);
-      } catch (err) {
-        setErrorMessage(err.data ? err.data.message : "An error occurred during registration.");
-        setSuccessMessage(""); 
-        setTimeout(() => {
-          setErrorMessage("");
-        }, 2000);
-      }
-  };
+const sendRequest = async (e) => {
+  let dontContinue = false;
+
+  if (!validateUsername(username)) {
+    setInvalidUsername(true);
+    dontContinue = true;
+  }
+
+  if (isEmailInvalid(email)) {
+    setInvalidEmail(true);
+    dontContinue = true;
+  }
+
+  if (!validatePassword(password)) {
+    setInvalidPassword(true);
+    dontContinue = true;
+  }
+
+  if (dontContinue) return;
+
+  try {
+    await register({ username, email, password, confirmPassword }).unwrap();
+    setSuccessMessage("Account is created successfully!");
+    setErrorMessage("");
+    setUsername("");
+    setPassword("");
+    setTimeout(() => {
+      navigate("/");
+    }, 2000);
+  } catch (err) {
+    setErrorMessage(err.data ? err.data.message : "An error occurred during registration.");
+    setSuccessMessage("");
+    setTimeout(() => {
+      setErrorMessage("");
+    }, 2000);
+  }
+};
 
   const inputHandler = () => {
     sendRequest();
@@ -100,7 +100,7 @@ const Register = () => {
                       style={screenSize > 767 ? {} : {backgroundColor:"rgb(245,245,245)"}}
                     />
                     <div className="invalid-feedback">
-                      Username must contain 6-20 Characters.
+                      Username must contain 5-20 Characters.
                     </div>
                     <label className="form-label">{lang === "en" ? "Username" : "Потребителско име"}</label>
                   </div>

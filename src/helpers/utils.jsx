@@ -61,3 +61,18 @@ export const compareMultipleRobots = (ids, navigate) => {
   params.set("id", ids.join(","));
   navigate(`/compare?${decodeURIComponent(params.toString())}`);
 };
+
+export const validatePassword = (password) => {
+  if (!password || typeof password !== "string") return false;
+  return password.length >= 6 && password.length <= 20;
+};
+
+export const validateUsername = (username) => {
+  if (!username || typeof username !== "string") return false;
+  return username.length >= 5 && username.length <= 15;
+};
+
+export const isEmailInvalid = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return !emailRegex.test(email);
+};

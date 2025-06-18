@@ -19,6 +19,8 @@ import Consumable from './pages/Consumable'
 import { PhotoProvider, PhotoView } from 'react-photo-view';
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from 'react-toastify';
+import PasswordReset from './pages/PasswordReset'
+import ForgotPassword from './pages/ForgotPassword'
 
 function App() {
   const [dashboardsActiveComponent, setDashboardsActiveComponent] = useState("Robots");
@@ -31,6 +33,8 @@ function App() {
       <Header setDashboardsActiveComponent={setDashboardsActiveComponent} />
       <main>
       <Routes>
+        <Route path='/password-reset' element={<PasswordReset/>}/>
+        <Route path='/forgot-password' element={<ForgotPassword/>}/>
         <Route path='/' element={<Home/>}/>
         <Route path='/compare' element={<Compare/>}/>
         <Route path='/robots' element={<Robots/>}/>
