@@ -21,6 +21,11 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from 'react-toastify';
 import PasswordReset from './pages/PasswordReset'
 import ForgotPassword from './pages/ForgotPassword'
+import Chatbot from 'react-chatbot-kit'
+import 'react-chatbot-kit/build/main.css'
+import config from './app/chatBot/chatbotConfig'
+import MessageParser from './app/chatBot/MessageParser'
+import ActionProvider from './app/chatBot/ActionProvider'
 
 function App() {
   const [dashboardsActiveComponent, setDashboardsActiveComponent] = useState("Robots");
@@ -50,6 +55,11 @@ function App() {
         </Route>
       </Routes>
       </main>
+            <Chatbot
+                config={config}
+                messageParser={MessageParser}
+                actionProvider={ActionProvider}
+              />
       <Footer/>
       </PhotoProvider>
     </div>
