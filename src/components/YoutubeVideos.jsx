@@ -24,13 +24,13 @@ const YoutubeVideos = () => {
         <Error/>
       ) : data ? (
         <div className="row">
-          {data.items.map((item) => (
-            <div className="col-12 col-md-6 mt-4 d-flex justify-content-center" key={item.snippet.resourceId.videoId}>
+          {data.map((item) => (
+            <div className="col-12 col-md-6 mt-4 d-flex justify-content-center" key={item.videoId}>
               <iframe
                 width="400"
                 height="225"
                 style={{ borderRadius: "10px" }}
-                src={`https://www.youtube.com/embed/${item.snippet.resourceId.videoId}`}
+                src={`https://www.youtube.com/embed/${item.videoId}`}
               ></iframe>
             </div>
           ))}

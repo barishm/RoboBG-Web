@@ -10,7 +10,7 @@ import Login from './pages/Login'
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard'
 import ProtectedRoutes from './app/ProtectedRoutes';
-import { Routes,Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Contact from './pages/Contact'
 import useAuth from './hooks/useAuth'
 import { useState } from 'react'
@@ -30,37 +30,50 @@ import ActionProvider from './app/chatBot/ActionProvider'
 function App() {
   const [dashboardsActiveComponent, setDashboardsActiveComponent] = useState("Robots");
   useAuth();
-  
+  const [showBot, toggleBot] = useState(false);
+
+
   return (
     <div className="App">
-      <ToastContainer/>
+      <ToastContainer />
       <PhotoProvider>
-      <Header setDashboardsActiveComponent={setDashboardsActiveComponent} />
-      <main>
-      <Routes>
-        <Route path='/password-reset' element={<PasswordReset/>}/>
-        <Route path='/forgot-password' element={<ForgotPassword/>}/>
-        <Route path='/' element={<Home/>}/>
-        <Route path='/compare' element={<Compare/>}/>
-        <Route path='/robots' element={<Robots/>}/>
-        <Route path='/consumables' element={<Consumables/>}/>
-        <Route path='/robots/:id' element={<Robot/>}/>
-        <Route path='/consumables/:id' element={<Consumable/>}/>
-        <Route path='/contact' element={<Contact/>}/>
-        <Route path='/profile' element={<Profile/>}/>
-        <Route path='/login'  element={<Login/>}/>
-        <Route path='/register'  element={<Register/>}/>
-        <Route element={<ProtectedRoutes/>}>
-        <Route path='/dashboard' element={<Dashboard dashboardsActiveComponent={dashboardsActiveComponent} />}/>
-        </Route>
-      </Routes>
-      </main>
-            <Chatbot
+        <Header setDashboardsActiveComponent={setDashboardsActiveComponent} />
+        <main>
+          <Routes>
+            <Route path='/password-reset' element={<PasswordReset />} />
+            <Route path='/forgot-password' element={<ForgotPassword />} />
+            <Route path='/' element={<Home />} />
+            <Route path='/compare' element={<Compare />} />
+            <Route path='/robots' element={<Robots />} />
+            <Route path='/consumables' element={<Consumables />} />
+            <Route path='/robots/:id' element={<Robot />} />
+            <Route path='/consumables/:id' element={<Consumable />} />
+            <Route path='/contact' element={<Contact />} />
+            <Route path='/profile' element={<Profile />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/register' element={<Register />} />
+            <Route element={<ProtectedRoutes />}>
+              <Route path='/dashboard' element={<Dashboard dashboardsActiveComponent={dashboardsActiveComponent} />} />
+            </Route>
+          </Routes>
+        </main>
+        <div className='chatBotSection'>
+          {showBot && (
+            <div className="chatbotWindow">
+              <Chatbot
                 config={config}
+                headerText='Разговор с РобоАсистент'
+                placeholderText='Напишете съобщението си тук'
                 messageParser={MessageParser}
                 actionProvider={ActionProvider}
               />
-      <Footer/>
+            </div>
+          )}
+          <button className='chatBotToggleBtn' onClick={() => toggleBot((prev) => !prev)}>
+            <img src="/images/chatBotAvatar.png" alt="Chatbot Avatar" />
+          </button>
+        </div>
+        <Footer />
       </PhotoProvider>
     </div>
   );
