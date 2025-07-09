@@ -13,7 +13,7 @@ import ProtectedRoutes from './app/ProtectedRoutes';
 import { Routes, Route } from "react-router-dom";
 import Contact from './pages/Contact'
 import useAuth from './hooks/useAuth'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Consumables from './pages/Consumables'
 import Consumable from './pages/Consumable'
 import { PhotoProvider, PhotoView } from 'react-photo-view';
@@ -26,11 +26,20 @@ import 'react-chatbot-kit/build/main.css'
 import config from './app/chatBot/chatbotConfig'
 import MessageParser from './app/chatBot/MessageParser'
 import ActionProvider from './app/chatBot/ActionProvider'
+import { disableChatInput } from './app/chatBot/chatUtils'
 
 function App() {
   const [dashboardsActiveComponent, setDashboardsActiveComponent] = useState("Robots");
   useAuth();
   const [showBot, toggleBot] = useState(false);
+
+    useEffect(() => {
+    if (showBot) {
+      setTimeout(() => {
+        disableChatInput();
+      }, 100);
+    }
+  }, [showBot]);
 
 
   return (

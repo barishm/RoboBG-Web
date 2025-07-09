@@ -1,5 +1,3 @@
-// InitialOptions.js
-import React from 'react';
 
 const InitialOptions = ({ actionProvider }) => {
   const options = [
@@ -7,6 +5,7 @@ const InitialOptions = ({ actionProvider }) => {
     { text: 'Имам проблем с моя робот', handler: actionProvider.handleRobotIssue },
     { text: 'Как се поддържа робота?', handler: actionProvider.handleMaintenance },
     { text: 'Свържи се с екипа', handler: actionProvider.handleContactTeam },
+    { text: 'Искам дa ползвам сервизните услуги на RoboBG', handler: actionProvider.handleMaintenanceServices },
   ];
 
   return (
