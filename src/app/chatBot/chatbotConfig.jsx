@@ -1,6 +1,7 @@
-import { createChatBotMessage } from 'react-chatbot-kit';
+import { createChatBotMessage,createCustomMessage } from 'react-chatbot-kit';
 import InitialOptions from './InitialOptions';
 import LinkWidget from './LinkWidget';
+import CustomBotMessage from './CustomBotMessage';
 
 
 const config = {
@@ -9,9 +10,10 @@ const config = {
     createChatBotMessage('Здравей! С какво мога да помогна?', {
       widget: 'initialOptions',
     }),
+    createCustomMessage('Test', 'custom')
   ],
-    customMessages: {
-    linkMessage: (props) => <CustomLinkMessage {...props} />,
+  customComponents: {
+    botChatMessage: (props) => <CustomBotMessage {...props} />,
   },
   customStyles: {
     botMessageBox: { backgroundColor: '#376B7E' },
@@ -26,6 +28,10 @@ const config = {
       widgetName: "linkWidget",
       widgetFunc: (props) => <LinkWidget {...props} />,
     },
+      {
+    widgetName: 'linkMessage',
+    widgetFunc: (props) => <CustomLinkMessage {...props} />,
+  },
   ],
 };
 

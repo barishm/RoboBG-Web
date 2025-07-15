@@ -1,5 +1,6 @@
 import React from 'react';
 import { disableChatInput, enableChatInput } from './chatUtils';
+import { createCustomMessage } from 'react-chatbot-kit';
 
 const ActionProvider = ({ createChatBotMessage, setState, children }) => {
 
@@ -48,16 +49,15 @@ const handleMaintenanceServices = () => {
     "Искам до ползвам сервизните услуги на RoboBG",
     { type: "user" }
   );
-  const botMessage = createChatBotMessage(
-    "Моля, използвай следната информация:",
-    {
-      widget: "linkWidget",
-    }
-  );
+
+const msg = createChatBotMessage(
+  "Моля свържете се с екипа на support@example.com или чрез формата за контакт тук за повече информация."
+);
+
 
   setState((prev) => ({
     ...prev,
-    messages: [...prev.messages, userMessage, botMessage],
+    messages: [...prev.messages, userMessage, msg],
   }));
 };
 
