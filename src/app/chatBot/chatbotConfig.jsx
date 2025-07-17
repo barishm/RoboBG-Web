@@ -16,7 +16,7 @@ const config = {
     botChatMessage: (props) => <CustomBotMessage {...props} />,
   },
   customStyles: {
-    botMessageBox: { backgroundColor: '#376B7E' },
+    botMessageBox: { backgroundColor: '#ce1212ff' },
     chatButton: { backgroundColor: '#212529' },
   },
   widgets: [

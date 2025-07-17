@@ -106,6 +106,8 @@
 
 .react-chatbot-kit-chat-bot-message {
   margin-left: 10px !important;
+  display: inline-block;
+  width: auto;
 }
 
 .react-chatbot-kit-chat-bot-avatar-container {

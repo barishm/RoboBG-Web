@@ -8,7 +8,7 @@ const CustomBotMessage = ({ message }) => {
 
   if (isContactMessage) {
     return (
-      <div className="react-chatbot-kit-chat-bot-message">
+      <div className="react-chatbot-kit-chat-bot-message" style={{backgroundColor:"#454d55"}}>
         <span>
           Моля свържете се с екипа на{" "}
           <a href="mailto:support@example.com">support@example.com</a> или чрез формата за контакт{" "}
@@ -19,7 +19,7 @@ const CustomBotMessage = ({ message }) => {
         </span>
         <div
           className="react-chatbot-kit-chat-bot-message-arrow"
-          style={{ borderRightColor: "#376B7E" }}
+          style={{ borderRightColor: "#454d55" }}
         />
       </div>
     );
@@ -27,11 +27,11 @@ const CustomBotMessage = ({ message }) => {
 
   // Default rendering for all other bot messages
   return (
-    <div className="react-chatbot-kit-chat-bot-message">
+    <div className="react-chatbot-kit-chat-bot-message" style={{backgroundColor:"#454d55"}}>
       <span>{message}</span>
       <div
         className="react-chatbot-kit-chat-bot-message-arrow"
-        style={{ borderRightColor: "#376B7E" }}
+        style={{ borderRightColor: "#454d55" }}
       />
     </div>
   );
