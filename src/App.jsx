@@ -71,7 +71,7 @@ function App() {
             <div className="chatbotWindow">
               <Chatbot
                 config={config}
-                headerText='Разговор с РобоАсистент'
+                headerText='Чат с РобоАсистент'
                 placeholderText='Напишете съобщението си тук'
                 messageParser={MessageParser}
                 actionProvider={ActionProvider}
