@@ -37,7 +37,7 @@ function App() {
     if (showBot) {
       setTimeout(() => {
         disableChatInput();
-      }, 100);
+      }, 1);
     }
   }, [showBot]);
 

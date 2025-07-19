@@ -1,11 +1,18 @@
+import {
+  CONTACT_MESSAGE,
+  CHOOSE_ROBOT_MESSAGE,
+  ROBOT_ISSUE_MESSAGE,
+  ROBOT_MAINTENANCE_MESSAGE,
+  ROBOBG_SERVICES_MESSAGE
+} from "../../constants";
 
 const InitialOptions = ({ actionProvider }) => {
   const options = [
-    { text: 'Какъв робот да избера?', handler: actionProvider.handleChooseRobot },
-    { text: 'Имам проблем с моя робот', handler: actionProvider.handleRobotIssue },
-    { text: 'Как се поддържа робота?', handler: actionProvider.handleMaintenance },
-    { text: 'Свържи се с екипа', handler: actionProvider.handleContactTeam },
-    { text: 'Искам дa ползвам сервизните услуги на RoboBG', handler: actionProvider.handleMaintenanceServices },
+    { text: CHOOSE_ROBOT_MESSAGE, handler: actionProvider.handleChooseRobot },
+    { text: ROBOT_ISSUE_MESSAGE, handler: actionProvider.handleRobotIssue },
+    { text: ROBOT_MAINTENANCE_MESSAGE, handler: actionProvider.handleMaintenance },
+    { text: CONTACT_MESSAGE, handler: actionProvider.handleContactTeam },
+    { text: ROBOBG_SERVICES_MESSAGE, handler: actionProvider.handleMaintenanceServices },
   ];
 
   return (
@@ -24,3 +31,4 @@ const InitialOptions = ({ actionProvider }) => {
 };
 
 export default InitialOptions;
+

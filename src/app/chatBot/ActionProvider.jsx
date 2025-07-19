@@ -1,8 +1,21 @@
 import React from 'react';
 import { disableChatInput, enableChatInput } from './chatUtils';
-import { createCustomMessage } from 'react-chatbot-kit';
+import {
+  CONTACT_MESSAGE,
+  CHOOSE_ROBOT_MESSAGE,
+  ROBOT_ISSUE_MESSAGE,
+  ROBOT_MAINTENANCE_MESSAGE,
+  ROBOBG_SERVICES_MESSAGE,
+  CONTACT_MESSAGE_RESPONSE,
+  CHOOSE_ROBOT_MESSAGE_RESPONSE,
+  ROBOT_ISSUE_MESSAGE_RESPONSE,
+  ROBOT_MAINTENANCE_MESSAGE_RESPONSE
+} from '../../constants';
 
-const ActionProvider = ({ createChatBotMessage, setState, children }) => {
+
+let interactionStarted = false;
+
+const ActionProvider = ({ createChatBotMessage, setState, children, state }) => {
 
   const sendUserAndBotMessage = (userText, botText) => {
     const userMessage = createChatBotMessage(userText, { type: 'user' });
@@ -14,15 +27,11 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     }));
   };
 
-  // Individual handlers
-  const handleHello = () => {
-    sendUserAndBotMessage("Здравей", "Здравей! Радвам се да те видя.");
-  };
 
   const handleChooseRobot = () => {
     sendUserAndBotMessage(
-      "Какъв робот да избера?",
-      "Мога да ти помогна да избереш робот. Кажи ми какъв е твоят дом?"
+      CHOOSE_ROBOT_MESSAGE,
+      CHOOSE_ROBOT_MESSAGE_RESPONSE
     );
 
     enableChatInput();
@@ -30,51 +39,42 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
 
   const handleRobotIssue = () => {
     sendUserAndBotMessage(
-      "Имам проблем с моя робот",
-      "Какъв проблем имате с вашия робот?"
+      ROBOT_ISSUE_MESSAGE,
+      ROBOT_ISSUE_MESSAGE_RESPONSE
     );
     enableChatInput();
   };
 
   const handleMaintenance = () => {
     sendUserAndBotMessage(
-      "Как се поддържа робота?",
-      "Поддръжката включва почистване на четки, смяна на филтър и др."
+      ROBOT_MAINTENANCE_MESSAGE,
+      ROBOT_MAINTENANCE_MESSAGE_RESPONSE
     );
     enableChatInput();
   };
 
-const handleMaintenanceServices = () => {
-  const userMessage = createChatBotMessage(
-    "Искам до ползвам сервизните услуги на RoboBG",
-    { type: "user" }
-  );
+  const handleMaintenanceServices = () => {
+    sendUserAndBotMessage(ROBOBG_SERVICES_MESSAGE, CONTACT_MESSAGE_RESPONSE)
+  };
 
-const msg = createChatBotMessage(
-  "Моля свържете се с екипа на support@example.com или чрез формата за контакт тук за повече информация."
-);
+  const handleContactTeam = () => {
+    sendUserAndBotMessage(CONTACT_MESSAGE, CONTACT_MESSAGE_RESPONSE)
+  };
+
+  const getState = () => state;
 
 
-  setState((prev) => ({
-    ...prev,
-    messages: [...prev.messages, userMessage, msg],
-  }));
-};
+  const addBotMessage = (text) => {
+    const botMessage = createChatBotMessage(text);
+    setState((prev) => ({
+      ...prev,
+      messages: [...prev.messages, botMessage],
+    }));
+  };
 
-const handleContactTeam = () => {
-  const userMessage = createChatBotMessage("Свържи се с екипа", { type: "user" });
-  const botMessage = createChatBotMessage(
-    "Моля, използвай следната информация:",
-    {
-      widget: "linkWidget",
-    }
-  );
+  const hasStartedInteraction = () => interactionStarted;
 
-  setState((prev) => ({
-    ...prev,
-    messages: [...prev.messages, userMessage, botMessage],
-  }));
-};
+
 
 
 
@@ -84,12 +84,20 @@ const handleContactTeam = () => {
       {React.Children.map(children, (child) =>
         React.cloneElement(child, {
           actions: {
-            handleHello,
             handleChooseRobot,
             handleRobotIssue,
             handleMaintenance,
             handleContactTeam,
             handleMaintenanceServices,
+            addBotMessage,
+            getState,
+            hasStartedInteraction,
+            deleteMessages: (count = 1) => {
+              setState((prev) => ({
+                ...prev,
+                messages: prev.messages.slice(0, -count),
+              }));
+            },
           },
         })
       )}

@@ -13,10 +13,9 @@
   flex-grow: 1;
 }
 
+
+/* CHAT UI START */
 .chatBotToggleBtn {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
   z-index: 1100;
   border: none;
   padding: 0;
@@ -37,14 +36,13 @@
 
 .chatBotSection {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  bottom: 10px;
+  right: 10px;
   z-index: 1100;
   padding: 10px 15px;
   border: none;
   border-radius: 5px;
   color: white;
-  cursor: pointer;
 }
 
 .options-container {
@@ -64,8 +62,8 @@
 
 .chatbotWindow {
   position: fixed;
-  bottom: 80px;
-  right: 80px;
+  bottom: 100px;
+  right: 10px;
   width: 410px;
   height: 610px;
   z-index: 1000;
@@ -93,7 +91,7 @@
 .react-chatbot-kit-chat-message-container {
   flex-grow: 1;
   overflow-y: auto;
-  padding: 10px;
+  padding: 0px;
 }
 
 .react-chatbot-kit-chat-bot-avatar-icon {
@@ -107,7 +105,7 @@
 .react-chatbot-kit-chat-bot-message {
   margin-left: 10px !important;
   display: inline-block;
-  width: auto;
+  width: auto !important;
 }
 
 .react-chatbot-kit-chat-bot-avatar-container {
@@ -122,6 +120,8 @@
   box-shadow: none !important;
   border: none !important;
 }
+
+/* CHAT UI END */
  
  /*compare table css START*/
 .table-container .stickycell {
