@@ -27,6 +27,7 @@ import config from './app/chatBot/chatbotConfig'
 import MessageParser from './app/chatBot/MessageParser'
 import ActionProvider from './app/chatBot/ActionProvider'
 import { disableChatInput } from './app/chatBot/chatUtils'
+import "./styles/chatbot.css";
 
 function App() {
   const [dashboardsActiveComponent, setDashboardsActiveComponent] = useState("Robots");

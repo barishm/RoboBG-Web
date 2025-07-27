@@ -1,5 +1,5 @@
-import React from 'react';
-import { disableChatInput, enableChatInput } from './chatUtils';
+import React from "react";
+import { disableChatInput, enableChatInput } from "./chatUtils";
 import {
   CONTACT_MESSAGE,
   CHOOSE_ROBOT_MESSAGE,
@@ -15,54 +15,80 @@ import {
 
 let interactionStarted = false;
 
-const ActionProvider = ({ createChatBotMessage, setState, children, state }) => {
+const ActionProvider = ({
+  createChatBotMessage,
+  setState,
+  children,
+  state,
+}) => {
+  const sendUserAndBotMessage = async  (userText, botText) => {
+    addUserMessage(userText);
 
-  const sendUserAndBotMessage = (userText, botText) => {
-    const userMessage = createChatBotMessage(userText, { type: 'user' });
-    const botMessage = createChatBotMessage(botText);
+    addLoader();
 
-    setState((prev) => ({
-      ...prev,
-      messages: [...prev.messages, userMessage, botMessage],
-    }));
+    await simulateDelay();
+
+    removeLoader();
+
+    addBotMessage(botText);
   };
 
-
-  const handleChooseRobot = () => {
-    sendUserAndBotMessage(
-      CHOOSE_ROBOT_MESSAGE,
-      CHOOSE_ROBOT_MESSAGE_RESPONSE
-    );
+  const handleChooseRobot = async () => {
+    await sendUserAndBotMessage(CHOOSE_ROBOT_MESSAGE, CHOOSE_ROBOT_MESSAGE_RESPONSE);
 
     enableChatInput();
   };
 
-  const handleRobotIssue = () => {
-    sendUserAndBotMessage(
-      ROBOT_ISSUE_MESSAGE,
-      ROBOT_ISSUE_MESSAGE_RESPONSE
-    );
+  const handleRobotIssue = async () => {
+    await sendUserAndBotMessage(ROBOT_ISSUE_MESSAGE, ROBOT_ISSUE_MESSAGE_RESPONSE);
     enableChatInput();
   };
 
-  const handleMaintenance = () => {
-    sendUserAndBotMessage(
+  const handleMaintenance = async () => {
+    await sendUserAndBotMessage(
       ROBOT_MAINTENANCE_MESSAGE,
       ROBOT_MAINTENANCE_MESSAGE_RESPONSE
     );
     enableChatInput();
   };
 
-  const handleMaintenanceServices = () => {
-    sendUserAndBotMessage(ROBOBG_SERVICES_MESSAGE, CONTACT_MESSAGE_RESPONSE)
+  const handleMaintenanceServices = async () => {
+    await sendUserAndBotMessage(ROBOBG_SERVICES_MESSAGE, CONTACT_MESSAGE_RESPONSE);
   };
 
-  const handleContactTeam = () => {
-    sendUserAndBotMessage(CONTACT_MESSAGE, CONTACT_MESSAGE_RESPONSE)
+  const handleContactTeam = async () => {
+    await sendUserAndBotMessage(CONTACT_MESSAGE, CONTACT_MESSAGE_RESPONSE);
   };
 
   const getState = () => state;
 
+  const addLoader = () => {
+    addBotMessage("Loader");
+  };
+
+  const isLoading = () => {
+    return state.messages.some(msg => msg.message === "Loader");
+  };
+
+  const removeLoader = () => {
+    setState((prev) => {
+      const messages = [...prev.messages];
+      if (
+        messages.length &&
+        messages[messages.length - 1].message === "Loader"
+      ) {
+        messages.pop();
+      }
+      return {
+        ...prev,
+        messages,
+      };
+    });
+  };
+
+  const simulateDelay = () => {
+    return new Promise((resolve) => setTimeout(resolve, 1000));
+  };
 
   const addBotMessage = (text) => {
     const botMessage = createChatBotMessage(text);
@@ -72,12 +98,15 @@ const ActionProvider = ({ createChatBotMessage, setState, children, state }) => 
     }));
   };
 
+  const addUserMessage = (text) => {
+    const userMessage = createChatBotMessage(text, { type: "user" });
+    setState((prev) => ({
+      ...prev,
+      messages: [...prev.messages, userMessage],
+    }));
+  };
+
   const hasStartedInteraction = () => interactionStarted;
-
-
-
-
-
 
   return (
     <div>
@@ -92,6 +121,8 @@ const ActionProvider = ({ createChatBotMessage, setState, children, state }) => 
             addBotMessage,
             getState,
             hasStartedInteraction,
+            isLoading, 
+            removeLoader,
             deleteMessages: (count = 1) => {
               setState((prev) => ({
                 ...prev,
@@ -104,6 +135,5 @@ const ActionProvider = ({ createChatBotMessage, setState, children, state }) => 
     </div>
   );
 };
-
 
 export default ActionProvider;

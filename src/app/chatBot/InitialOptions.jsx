@@ -6,6 +6,8 @@ import {
   ROBOBG_SERVICES_MESSAGE
 } from "../../constants";
 
+import "../../styles/chatbot.css";
+
 const InitialOptions = ({ actionProvider }) => {
   const options = [
     { text: CHOOSE_ROBOT_MESSAGE, handler: actionProvider.handleChooseRobot },
