@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useGetBestRobotsQuery } from '../app/services/robotApiSlice';
+import { useGetBestRobotsQuery, useGetAllRobotsNewQuery } from '../app/services/robotApiSlice';
 import { useSelector } from 'react-redux';
 import Loading from './Loading';
 import Error from './Error';
@@ -10,7 +10,7 @@ const Bests = () => {
   const navigate = useNavigate();
   const noImage = 'images/no-image.jpg';
 
-  const { data, isLoading, isError } = useGetBestRobotsQuery();
+  const { data, isLoading, isError } = useGetAllRobotsNewQuery();
 
   const details = (robotId) => {
     navigate('/robots/' + robotId);
@@ -34,7 +34,7 @@ const Bests = () => {
         <></>
       ) : data ? (
         <div className="row mt-4">
-          {data.map((item) => (
+          {data.filter((item) => item.bests).map((item) => (
             <div
               key={item.id}
               className="col-6 col-sm-6 col-md-4 col-lg-4 col-xl-3 mb-3"

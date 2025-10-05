@@ -4,16 +4,14 @@ import YoutubeVideos from '../components/YoutubeVideos';
 import HomePageCompareForm from '../components/HomePageCompareForm';
 import Ozone from '../ads/Ozone';
 
-const Home = (props) => {
-  const setIds = props.setIds;
-  const Ids = props.Ids;
+const Home = () => {
 
   return (
     <div>
       <section className="mt-4">
         <div className="container d-flex">
           <div className="col-12 col-md-12 col-lg-9">
-            <Bests setIds={setIds} Ids={Ids} />
+            <Bests />
             <YoutubeVideos />
           </div>
           <div
@@ -25,9 +23,9 @@ const Home = (props) => {
                 <HomePageCompareForm />
               </div>
             </div>
-            <div className="d-none d-lg-block">
+            {/* <div className="d-none d-lg-block">
               <Ozone />
-            </div>
+            </div> */}
             <div className="d-none d-lg-block">
               <PopularComparisons />
             </div>

@@ -18,7 +18,7 @@ const CompareTable = () => {
   const noImage = 'images/no-image.jpg';
   const lang = useSelector((state) => state.language.lang);
   const { robots } = useSelector((state) => state.compare);
-  const { data: allModels } = useGetAllRobotsQuery(queryParams);
+  const { data: allModels = { content: [] }, isLoading } = useGetAllRobotsQuery(queryParams);
   const [Model, setModel] = useState('');
   const [triggerAdd] = useLazyGetRobotByIdQuery();
   const navigate = useNavigate();
