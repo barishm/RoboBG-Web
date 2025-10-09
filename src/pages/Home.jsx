@@ -11,6 +11,9 @@ const Home = () => {
       <section className="mt-4">
         <div className="container d-flex">
           <div className="col-12 col-md-12 col-lg-9">
+            <div class="alert alert-dark text-center fw-bold" role="alert">
+              Under meintenance
+            </div>
             <Bests />
             <YoutubeVideos />
           </div>
@@ -19,7 +22,7 @@ const Home = () => {
             style={{ marginTop: '48px', padding: '20px' }}
           >
             <div className="card d-none d-lg-block text-center">
-              <div className="card-body" style={{ paddingBottom: '20px'}}>
+              <div className="card-body" style={{ paddingBottom: '20px' }}>
                 <HomePageCompareForm />
               </div>
             </div>
