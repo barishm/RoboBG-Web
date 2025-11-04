@@ -10,10 +10,12 @@ const ReleaseDateDisplay = ({ releaseDate }) => {
   }
 
   const date = new Date(releaseDate);
-  const formattedDate = date.toLocaleDateString(locale, {
+  let  formattedDate = date.toLocaleDateString(locale, {
     month: 'long',
     year: 'numeric'
   });
+
+  formattedDate = formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
 
   return <>{formattedDate}</>;
 };

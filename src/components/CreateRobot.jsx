@@ -193,14 +193,14 @@ const CreateRobot = () => {
             <span className="input-group-text">dB</span>
             </div>
             </div>
-            <div className="mb-3">
+            {/* <div className="mb-3">
             <label htmlFor="exampleFormControlInput1" className="form-label">Display</label>
             <select className="form-control form-control-sm" name="display" onChange={formik.handleChange} value={formik.values.display}>
               <option value="null">N/A</option>
               <option value="true">YES</option>
               <option value="false">NO</option>
             </select>
-            </div>
+            </div> */}
             <div className="mb-3">
             <label htmlFor="exampleFormControlInput1" className="form-label">Side Brushes</label>
             <input className="form-control form-control-sm" type="text" name="sideBrushes" onChange={formik.handleChange} value={formik.values.sideBrushes} aria-label=".form-control-sm example"/>
@@ -362,14 +362,14 @@ const CreateRobot = () => {
               <option value="false">NO</option>
             </select>
             </div>
-            <div className="mb-3">
+            {/* <div className="mb-3">
             <label htmlFor="exampleFormControlInput1" className="form-label">Ir Rf RemoteControl</label>
             <select className="form-control form-control-sm" name="control.irRfRemoteControl" onChange={formik.handleChange} value={formik.values.control.irRfRemoteControl}>
               <option value="null">N/A</option>
               <option value="true">YES</option>
               <option value="false">NO</option>
             </select>
-            </div>
+            </div> */}
             <div className="mb-3">
             <label htmlFor="exampleFormControlInput1" className="form-label">Wifi Smartphone App</label>
             <select className="form-control form-control-sm" name="control.wifiSmartphoneApp" onChange={formik.handleChange} value={formik.values.control.wifiSmartphoneApp}>
@@ -441,14 +441,14 @@ const CreateRobot = () => {
               <option value="false">NO</option>
             </select>
             </div>
-            <div className="mb-3">
+            {/* <div className="mb-3">
             <label htmlFor="exampleFormControlInput1" className="form-label">Manual Movement Control</label>
             <select className="form-control form-control-sm" name="appFeatures.manualMovementControl" onChange={formik.handleChange} value={formik.values.appFeatures.manualMovementControl}>
               <option value="null">N/A</option>
               <option value="true">YES</option>
               <option value="false">NO</option>
             </select>
-            </div>
+            </div> */}
             <div className="mb-3">
             <label htmlFor="exampleFormControlInput1" className="form-label">Selected Room Cleaning</label>
             <select className="form-control form-control-sm" name="appFeatures.selectedRoomCleaning" onChange={formik.handleChange} value={formik.values.appFeatures.selectedRoomCleaning}>
@@ -481,22 +481,22 @@ const CreateRobot = () => {
               <option value="false">NO</option>
             </select>
             </div>
-            <div className="mb-3">
+            {/* <div className="mb-3">
             <label htmlFor="exampleFormControlInput1" className="form-label">Dirt Sensor</label>
             <select className="form-control form-control-sm" name="sensor.dirtSensor" onChange={formik.handleChange} value={formik.values.sensor.dirtSensor}>
               <option value="null">N/A</option>
               <option value="true">YES</option>
               <option value="false">NO</option>
             </select>
-            </div>
-            <div className="mb-3">
+            </div> */}
+            {/* <div className="mb-3">
             <label htmlFor="exampleFormControlInput1" className="form-label">Full Dustbin Sensor</label>
             <select className="form-control form-control-sm" name="sensor.fullDustbinSensor" onChange={formik.handleChange} value={formik.values.sensor.fullDustbinSensor}>
               <option value="null">N/A</option>
               <option value="true">YES</option>
               <option value="false">NO</option>
             </select>
-            </div>
+            </div> */}
             <div className="mb-3">
             <label htmlFor="exampleFormControlInput1" className="form-label">Weight</label>
             <div className="input-group">
@@ -518,10 +518,10 @@ const CreateRobot = () => {
             <span className="input-group-text">cm</span>
             </div>
             </div>
-            <div className="mb-3">
+            {/* <div className="mb-3">
             <label htmlFor="exampleFormControlInput1" className="form-label">In The Box</label>
             <textarea className="form-control form-control-sm" type="text" name="otherSpecifications.inTheBox" onChange={formik.handleChange} value={formik.values.otherSpecifications.inTheBox} aria-label=".form-control-sm example"/>
-            </div>
+            </div> */}
             <div className="mb-3">
             <label htmlFor="exampleFormControlInput1" className="form-label">Release Date</label>
             <input className="form-control form-control-sm" type="date" name="otherSpecifications.releaseDate" onChange={formik.handleChange} value={formik.values.otherSpecifications.releaseDate} aria-label=".form-control-sm example"/>

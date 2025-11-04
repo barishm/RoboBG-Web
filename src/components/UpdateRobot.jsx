@@ -197,14 +197,14 @@ const UpdateRobot = (props) => {
                        <label htmlFor="exampleFormControlInput1" className="form-label">Noise Level</label>
                        <input className="form-control form-control-sm" type="text" name="noiseLevel" onChange={formikUpdate.handleChange} value={formikUpdate.values.noiseLevel} aria-label=".form-control-sm example"/>
                        </div>
-                       <div className="mb-3">
+                       {/* <div className="mb-3">
                        <label htmlFor="exampleFormControlInput1" className="form-label">Display</label>
                        <select className="form-control form-control-sm" name="display" onChange={formikUpdate.handleChange} value={formikUpdate.values.display}>
                          <option value="null">N/A</option>
                          <option value="true">YES</option>
                          <option value="false">NO</option>
                        </select>
-                       </div>
+                       </div> */}
                        <div className="mb-3">
                        <label htmlFor="exampleFormControlInput1" className="form-label">Side Brushes</label>
                        <input className="form-control form-control-sm" type="text" name="sideBrushes" onChange={formikUpdate.handleChange} value={formikUpdate.values.sideBrushes} aria-label=".form-control-sm example"/>
@@ -336,14 +336,14 @@ const UpdateRobot = (props) => {
                          <option value="false">NO</option>
                        </select>
                        </div>
-                       <div className="mb-3">
+                       {/* <div className="mb-3">
                        <label htmlFor="exampleFormControlInput1" className="form-label">Ir Rf RemoteControl</label>
                        <select className="form-control form-control-sm" name="control.irRfRemoteControl" onChange={formikUpdate.handleChange} value={formikUpdate.values.control.irRfRemoteControl}>
                          <option value="null">N/A</option>
                          <option value="true">YES</option>
                          <option value="false">NO</option>
                        </select>
-                       </div>
+                       </div> */}
                        <div className="mb-3">
                        <label htmlFor="exampleFormControlInput1" className="form-label">Wifi Smartphone App</label>
                        <select className="form-control form-control-sm" name="control.wifiSmartphoneApp" onChange={formikUpdate.handleChange} value={formikUpdate.values.control.wifiSmartphoneApp}>
@@ -416,14 +416,14 @@ const UpdateRobot = (props) => {
                          <option value="false">NO</option>
                        </select>
                        </div>
-                       <div className="mb-3">
+                       {/* <div className="mb-3">
                        <label htmlFor="exampleFormControlInput1" className="form-label">Manual Movement Control</label>
                        <select className="form-control form-control-sm" name="appFeatures.manualMovementControl" onChange={formikUpdate.handleChange} value={formikUpdate.values.appFeatures.manualMovementControl}>
                          <option value="null">N/A</option>
                          <option value="true">YES</option>
                          <option value="false">NO</option>
                        </select>
-                       </div>
+                       </div> */}
                        <div className="mb-3">
                        <label htmlFor="exampleFormControlInput1" className="form-label">Selected Room Cleaning</label>
                        <select className="form-control form-control-sm" name="appFeatures.selectedRoomCleaning" onChange={formikUpdate.handleChange} value={formikUpdate.values.appFeatures.selectedRoomCleaning}>
@@ -456,22 +456,22 @@ const UpdateRobot = (props) => {
                          <option value="false">NO</option>
                        </select>
                        </div>
-                       <div className="mb-3">
+                       {/* <div className="mb-3">
                        <label htmlFor="exampleFormControlInput1" className="form-label">Dirt Sensor</label>
                        <select className="form-control form-control-sm" name="sensor.dirtSensor" onChange={formikUpdate.handleChange} value={formikUpdate.values.sensor.dirtSensor}>
                          <option value="null">N/A</option>
                          <option value="true">YES</option>
                          <option value="false">NO</option>
                        </select>
-                       </div>
-                       <div className="mb-3">
+                       </div> */}
+                       {/* <div className="mb-3">
                        <label htmlFor="exampleFormControlInput1" className="form-label">Full Dustbin Sensor</label>
                        <select className="form-control form-control-sm" name="sensor.fullDustbinSensor" onChange={formikUpdate.handleChange} value={formikUpdate.values.sensor.fullDustbinSensor}>
                          <option value="null">N/A</option>
                          <option value="true">YES</option>
                          <option value="false">NO</option>
                        </select>
-                       </div>
+                       </div> */}
                        <div className="mb-3">
                        <label htmlFor="exampleFormControlInput1" className="form-label">Weight</label>
                        <input className="form-control form-control-sm" type="text" name="otherSpecifications.weight" onChange={formikUpdate.handleChange} value={formikUpdate.values.otherSpecifications.weight} aria-label=".form-control-sm example"/>
@@ -488,10 +488,10 @@ const UpdateRobot = (props) => {
                        <label htmlFor="exampleFormControlInput1" className="form-label">In The Box</label>
                        <textarea className="form-control form-control-sm" type="text" name="otherSpecifications.inTheBox" onChange={formikUpdate.handleChange} value={formikUpdate.values.otherSpecifications.inTheBox} aria-label=".form-control-sm example"/>
                        </div>
-                       <div className="mb-3">
+                       {/* <div className="mb-3">
                        <label htmlFor="exampleFormControlInput1" className="form-label">Release Date</label>
                        <input className="form-control form-control-sm" type="text" name="otherSpecifications.releaseDate" onChange={formikUpdate.handleChange} value={formikUpdate.values.otherSpecifications.releaseDate} aria-label=".form-control-sm example"/>
-                       </div>
+                       </div> */}
                        <div className="mb-3">
                        <label htmlFor="exampleFormControlInput1" className="form-label">Warranty</label>
                        <input className="form-control form-control-sm" type="text" name="otherSpecifications.  warranty" onChange={formikUpdate.handleChange} value={formikUpdate.values.otherSpecifications.warranty} aria-label=".form-control-sm example"/>
