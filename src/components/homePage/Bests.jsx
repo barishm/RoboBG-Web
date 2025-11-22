@@ -34,7 +34,10 @@ const Bests = () => {
         <></>
       ) : data ? (
         <div className="row mt-4">
-          {data.filter((item) => item.bests).map((item) => (
+          {data
+            .filter((item) => item.bests)
+            .sort((a, b) => a.bests - b.bests)
+            .map((item) => (
             <div
               key={item.id}
               className="col-6 col-sm-6 col-md-4 col-lg-4 col-xl-3 mb-3"

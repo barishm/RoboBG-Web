@@ -257,14 +257,7 @@ const RobotForm = ({ action = 'C', id = null }) => {
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">One of bests</label>
-                                            {isUpdate ? (
-                                                <select className="form-control form-control-sm" name="bests" onChange={formik.handleChange} value={formik.values.bests || "false"}>
-                                                    <option value="false">NO</option>
-                                                    <option value="true">YES</option>
-                                                </select>
-                                            ) : (
-                                                <input className="form-control form-control-sm" type="number" name="bests" onChange={formik.handleChange} value={formik.values.bests}></input>
-                                            )}
+                                            <input className="form-control form-control-sm" type="number" name="bests" onChange={formik.handleChange} value={formik.values.bests}></input>
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Mapping</label>
