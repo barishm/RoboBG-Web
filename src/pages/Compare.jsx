@@ -1,7 +1,7 @@
-import CompareTable from "../components/CompareTable";
-import CompareForm from "../components/CompareForm";
+import CompareTable from "../components/comparePage/CompareTable";
+import CompareForm from "../components/comparePage/CompareForm";
 import { useSelector } from "react-redux";
-import PopularComparisons from "../components/PopularComparisons";
+import PopularComparisons from "../components/common/PopularComparisons";
 import { useEffect } from "react";
 import { addRobot, deleteRobotById } from "../app/redux/compareSlice";
 import { useDispatch } from "react-redux";

@@ -1,12 +1,12 @@
 import { useState } from "react";
-import TimeAgo from "./TimeAgo";
+import TimeAgo from "../common/TimeAgo";
 import {
   useGetQnaQuery,
   useAskQuestionMutation,
   useAnswerQuestionMutation,
   useDeleteQuestionMutation,
   useDeleteAnswerMutation,
-} from "../app/services/qnaApiSlice";
+} from "../../app/services/qnaApiSlice";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 

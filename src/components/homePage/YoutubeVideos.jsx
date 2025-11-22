@@ -1,6 +1,6 @@
-import { useGetLatestVideosQuery } from "../app/services/youtubeApiSlice";
+import { useGetLatestVideosQuery } from "../../app/services/youtubeApiSlice";
 import { useSelector } from "react-redux";
-import Error from "./Error";
+import Error from "../common/Error";  
 
 const YoutubeVideos = () => {
   const { data, isLoading, isError } = useGetLatestVideosQuery();

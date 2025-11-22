@@ -5,9 +5,9 @@ import { useSelector } from "react-redux";
 import {
   useGetAllRobotsQuery,
   useLazyGetRobotByIdQuery,
-} from "../app/services/robotApiSlice";
-import { addRobot, deleteAllRobots } from "../app/redux/compareSlice";
-import Loading from "./Loading";
+} from "../../app/services/robotApiSlice";
+import { addRobot, deleteAllRobots } from "../../app/redux/compareSlice";
+import Loading from "../common/Loading";
 
 const HomePageCompareForm = () => {
   const queryParams = {

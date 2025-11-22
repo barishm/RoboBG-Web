@@ -1,6 +1,6 @@
 import './App.css'
-import Header from './components/Header'
-import Footer from './components/Footer'
+import Header from './components/common/Header'
+import Footer from './components/common/Footer'
 import Home from './pages/Home'
 import Compare from './pages/Compare'
 import Robots from './pages/Robots'
@@ -16,7 +16,7 @@ import useAuth from './hooks/useAuth'
 import { useState, useEffect } from 'react'
 import Consumables from './pages/Consumables'
 import Consumable from './pages/Consumable'
-import { PhotoProvider, PhotoView } from 'react-photo-view';
+import { PhotoProvider } from 'react-photo-view';
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from 'react-toastify';
 import PasswordReset from './pages/PasswordReset'

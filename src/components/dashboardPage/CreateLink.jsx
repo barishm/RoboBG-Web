@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import { useCreateLinkMutation } from "../app/services/linkApiSlice";
+import { useCreateLinkMutation } from "../../app/services/linkApiSlice";
 import { useSelector } from "react-redux";
 
 const CreateLink = (props) => {

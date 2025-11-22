@@ -1,29 +1,28 @@
 import {
   useGetAllRobotsNewQuery,
   useDeleteRobotMutation
-} from "../app/services/robotApiSlice";
+} from "../../app/services/robotApiSlice";
 import {
   useDeleteLinkMutation,
-} from "../app/services/linkApiSlice";
-import Loading from "../components/Loading";
-import CreateRobot from "./CreateRobot";
+} from "../../app/services/linkApiSlice";
+import Loading from "../common/Loading";
+import RobotForm from "../dashboardPage/RobotForm";
 import { useSelector } from "react-redux";
-import UpdateRobot from "./UpdateRobot";
 import { useState, useEffect } from "react";
 import "react-toastify/dist/ReactToastify.css";
-import Pagination from "../components/Pagination";
-import UploadRobotImage from "./UploadRobotImage";
-import CreateLink from "./CreateLink";
-import DeletePopup from "./DeletePopup";
-import usePagination from "../hooks/usePagination";
+import Pagination from "../common/Pagination";
+import UploadRobotImage from "../dashboardPage/UploadRobotImage"; 
+import CreateLink from "../dashboardPage/CreateLink";  
+import DeletePopup from "../dashboardPage/DeletePopup";  
+import usePagination from "../../hooks/usePagination";
 
-import { NO_IMAGE, DEFAULT_ENTITIES_PER_PAGE } from "../constants";
+import { NO_IMAGE, DEFAULT_ENTITIES_PER_PAGE } from "../../constants";
 
 const ManageRobots = () => {
   const [Model, setModel] = useState("");
 
   const [filteredRobots, setFilteredRobots] = useState([]);
-  const { data = [], isLoading, isError } =
+  const { data = [], isLoading } =
   useGetAllRobotsNewQuery();
   const [robotId, setRobotId] = useState(null);
   const [deleteLink] = useDeleteLinkMutation();
@@ -58,8 +57,8 @@ const ManageRobots = () => {
         }}
       >
         <DeletePopup id={robotId} deleteMutationHook={useDeleteRobotMutation} message={"ARE YOU SURE YOU WANT TO DELETE THIS ROBOT?"} modalId={"DeleteRobotModal"}/>
-        <CreateRobot/>
-        <UpdateRobot id={robotId} />
+        <RobotForm action="C" />
+        <RobotForm action="U" id={robotId} />
         <input
           className="form-control form-control-sm mt-3"
           value={Model}

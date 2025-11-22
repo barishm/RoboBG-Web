@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { logOut } from '../app/redux/authSlice';
-import { setLanguage } from '../app/redux/languageSlice';
+import { logOut } from '../../app/redux/authSlice';
+import { setLanguage } from '../../app/redux/languageSlice';
 
 const Header = ({ setDashboardsActiveComponent }) => {
   const dispatch = useDispatch();

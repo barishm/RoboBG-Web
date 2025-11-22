@@ -1,8 +1,8 @@
-import { useGetAllMostComparesQuery } from "../app/services/mostComparesApiSlice";
+import { useGetAllMostComparesQuery } from "../../app/services/mostComparesApiSlice";
 import Loading from "./Loading";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { compareMultipleRobots } from "../helpers/utils";
+import { compareMultipleRobots } from "../../helpers/utils";
 
 const PopularComparisons = () => {
   const navigate = useNavigate();

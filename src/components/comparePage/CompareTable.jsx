@@ -1,15 +1,14 @@
 import { useSelector } from 'react-redux';
-import Loading from './Loading';
+import Loading from '../common/Loading';
 import {
   useLazyGetRobotByIdQuery,
   useGetAllRobotsQuery,
-} from '../app/services/robotApiSlice';
+} from '../../app/services/robotApiSlice';
 import { useState, useEffect } from 'react';
-import ReleaseDateDisplay from './ReleaseDateDisplay';
-import SpecsRenderer from './SpecsRenderer';
-import { addIdToUrl, removeIdFromUrl } from '../helpers/utils';
-import { useNavigate } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
+import ReleaseDateDisplay from '../common/ReleaseDateDisplay';  
+import SpecsRenderer from '../common/SpecsRenderer';
+import { addIdToUrl, removeIdFromUrl } from '../../helpers/utils';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const CompareTable = () => {
   const queryParams = {
@@ -284,7 +283,7 @@ const CompareTable = () => {
                 </th>
                 {renderRow('highPrecisionMap')}
               </tr>
-              <tr>
+              {/* <tr>
                 <th scope="row">
                   <span className="stickycell">
                     {SpecsRenderer({ textKey: 'frontCamera' })}{' '}
@@ -304,8 +303,8 @@ const CompareTable = () => {
                   </span>
                 </th>
                 {renderRow('frontCamera')}
-              </tr>
-              <tr>
+              </tr> */}
+              {/* <tr>
                 <th scope="row">
                   <span className="stickycell">
                     {SpecsRenderer({ textKey: 'rechargeResume' })}{' '}
@@ -346,7 +345,7 @@ const CompareTable = () => {
                   </span>
                 </th>
                 {renderRow('autoDockAndRecharge')}
-              </tr>
+              </tr> */}
               <tr>
                 <th scope="row">
                   <span className="stickycell">

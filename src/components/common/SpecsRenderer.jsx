@@ -44,7 +44,7 @@ const SpecsRenderer = ({ textKey }) => {
             wifiFrequencyBand:"Wifi Frequency Band",
             amazonAlexaSupport:"Amazon Alexa Support",
             googleAssistantSupport:"Google Assistant Support",
-            magneticVirtualWalls:"Magnetic Virtual Walls",
+            magneticVirtualWalls:"Virtual Walls",
             realTimeTracking:"Real Time Tracking",
             digitalBlockedAreas:"Digital Blocked Areas",
             zonedCleaning:"Zoned Cleaning",

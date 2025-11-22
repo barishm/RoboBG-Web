@@ -3,11 +3,11 @@ import { useGetAllRobotsNewQuery } from '../app/services/robotApiSlice';
 import { useSelector } from 'react-redux';
 import { useState, useMemo } from 'react';
 
-import PopularComparisons from '../components/PopularComparisons';
-import Loading from '../components/Loading';
-import Error from '../components/Error';
-import RobotFilters from '../components/RobotFilters';
-import Pagination from '../components/Pagination';
+import PopularComparisons from '../components/common/PopularComparisons';
+import Loading from '../components/common/Loading';
+import Error from '../components/common/Error';
+import RobotFilters from '../components/robotsPage/RobotFilters';
+import Pagination from '../components/common/Pagination';
 
 import { NO_IMAGE, DEFAULT_ENTITIES_PER_PAGE } from '../constants';
 import usePagination from '../hooks/usePagination';

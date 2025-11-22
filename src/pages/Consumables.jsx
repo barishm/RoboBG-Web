@@ -1,11 +1,11 @@
 import { useGetAllConsumablesQuery } from "../app/services/consumableApiSlice";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import Loading from "../components/Loading";
-import Error from "../components/Error";
-import Pagination from "../components/Pagination";
-import PopularComparisons from "../components/PopularComparisons";
-import ConsumableFilters from "../components/ConsumableFilters";
+import Loading from "../components/common/Loading";
+import Error from "../components/common/Error";
+import Pagination from "../components/common/Pagination";
+import PopularComparisons from "../components/common/PopularComparisons";
+import ConsumableFilters from "../components/consumablesPage/ConsumableFilters";
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import usePagination from "../hooks/usePagination";
 import { NO_IMAGE, DEFAULT_ENTITIES_PER_PAGE } from "../constants";

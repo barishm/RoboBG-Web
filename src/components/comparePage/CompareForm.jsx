@@ -2,12 +2,11 @@ import { useState } from "react";
 import {
   useGetAllRobotsQuery,
   useLazyGetRobotByIdQuery,
-} from "../app/services/robotApiSlice";
-import { compareMultipleRobots } from "../helpers/utils";
+} from "../../app/services/robotApiSlice";
+import { compareMultipleRobots } from "../../helpers/utils";
 import { useSelector } from "react-redux";
-import Loading from "./Loading";
-import { useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import Loading from "../common/Loading";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const CompareForm = () => {
   const queryParams = {

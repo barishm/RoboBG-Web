@@ -1,4 +1,4 @@
-import ReleaseDateDisplay from "./ReleaseDateDisplay";
+import ReleaseDateDisplay from "../common/ReleaseDateDisplay";
 
 const RobotDetails = (props) => {
   const { robot } = props;
@@ -48,7 +48,7 @@ const RobotDetails = (props) => {
               {renderBooleanTableRow("Mapping / Path planning", robot.mapping)}
               {renderStringTableRow("Mapping Sensor Type",robot.mappingSensorType,"")}
               {renderBooleanTableRow("High-Precision Map",robot.highPrecisionMap)}
-              {renderBooleanTableRow("Objects recognition (front camera)",robot.frontCamera)}
+              {/* {renderBooleanTableRow("Objects recognition (front camera)",robot.frontCamera)} */}
               {renderBooleanTableRow("Magnetic/Optical Virtual Walls",robot.control.magneticVirtualWalls)}
               {renderStringTableRow("Barrier-cross Height",robot.cleaningFeatures.barrierCrossHeight,"mm")}
               {renderStringTableRow("Сleaning Area",robot.cleaningFeatures.cleaningArea,"m&sup2;")}
@@ -105,9 +105,9 @@ const RobotDetails = (props) => {
             <tbody>
             {renderStringTableRow("Battery Capacity",robot.moppingFeatures.waterTankCapacity,"")}
             {renderStringTableRow("Battery life",robot.battery.batteryLife,"")}
-            {renderBooleanTableRow("Recharge & Resume", robot.rechargeResume)}
+            {/* {renderBooleanTableRow("Recharge & Resume", robot.rechargeResume)} */}
             {renderBooleanTableRow("Charging Time", robot.battery.chargingTime)}
-            {renderBooleanTableRow("Autocally Docks and Recharges",robot.autoDockAndRecharge)}
+            {/* {renderBooleanTableRow("Autocally Docks and Recharges",robot.autoDockAndRecharge)} */}
             {renderBooleanTableRow("Rated Power (Watts)",robot.battery.ratedPower)}
             </tbody>
           </table>

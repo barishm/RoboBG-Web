@@ -1,48 +1,36 @@
-import { useUpdateConsumableMutation } from "../app/services/consumableApiSlice";
-import { useGetAllRobotsNewQuery } from "../app/services/robotApiSlice";
-import { useSelector } from "react-redux";
-import { useState, useEffect } from "react";
+import { useCreateConsumableMutation } from '../../app/services/consumableApiSlice';
+import { useGetAllRobotsNewQuery } from '../../app/services/robotApiSlice';
+import { useSelector } from 'react-redux';
+import { useState } from 'react';
 
-const UpdateConsumables = ({ consumable }) => {
+const CreateConsumables = () => {
   const { accessToken } = useSelector((state) => state.auth);
-  const [updateConsumable] = useUpdateConsumableMutation();
+  const [createConsumable] = useCreateConsumableMutation();
+  const [robotsCount, setRobotsCount] = useState(1);
   const { data: robots = [], isLoading, isError } = useGetAllRobotsNewQuery();
 
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [price, setPrice] = useState("");
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [price, setPrice] = useState('');
   const [robotIds, setRobotIds] = useState([]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const json = { id: consumable.id, title, description, price, robotIds };
-    await updateConsumable({ json, accessToken }).unwrap();
+    const json = { title, description, price, robotIds };
+    await createConsumable({ json, accessToken }).unwrap();
 
-    setTitle("");
-    setDescription("");
-    setPrice("");
+    setTitle('');
+    setDescription('');
+    setPrice('');
     setRobotIds([]);
+    setRobotsCount(1);
   };
-
-  useEffect(() => {
-    if (consumable) {
-      setTitle(consumable.title || "");
-      setDescription(consumable.description || "");
-      setPrice(consumable.price || "");
-      const ids = consumable.robots?.map((r) => r.id) || [];
-      setRobotIds(ids);
-    }
-  }, [consumable]);
-
-  if (!consumable) {
-    return <></>;
-  }
 
   return (
     <div
       className="modal fade"
-      id="update"
+      id="create"
       tabIndex="-1"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
@@ -52,7 +40,7 @@ const UpdateConsumables = ({ consumable }) => {
           <form onSubmit={handleSubmit}>
             <div className="modal-header">
               <h1 className="modal-title fs-5" id="exampleModalLabel">
-                Update Consumable
+                Create Consumable
               </h1>
               <button
                 type="button"
@@ -93,32 +81,30 @@ const UpdateConsumables = ({ consumable }) => {
                     value={price}
                   />
                 </div>
-                {robotIds.length > 0 && (
-                  <div className="mb-3">
-                    <label className="form-label">Compatible with</label>
-                    {robotIds.map((id, index) => (
-                      <select
-                        key={index}
-                        className="form-control form-control-sm mb-2"
-                        value={robotIds[index] || ""}
-                        onChange={(e) => {
-                          const updatedRobotIds = [...robotIds];
-                          updatedRobotIds[index] = e.target.value;
-                          setRobotIds(updatedRobotIds);
-                        }}
-                      >
-                        <option value="" disabled>
-                          Select a Robot
+                <div className="mb-3">
+                  <label className="form-label">Compatible with</label>
+                  {Array.from({ length: robotsCount }).map((_, index) => (
+                    <select
+                      key={index}
+                      className="form-control form-control-sm mb-2"
+                      value={robotIds[index] || ''}
+                      onChange={(e) => {
+                        const updatedRobotIds = [...robotIds];
+                        updatedRobotIds[index] = e.target.value;
+                        setRobotIds(updatedRobotIds);
+                      }}
+                    >
+                      <option value="" disabled>
+                        Select a Robot
+                      </option>
+                      {robots.map((robot) => (
+                        <option key={robot.id} value={robot.id}>
+                          {robot.model}
                         </option>
-                        {robots.map((robot) => (
-                          <option key={robot.id} value={String(robot.id)}>
-                            {robot.model}
-                          </option>
-                        ))}
-                      </select>
-                    ))}
-                  </div>
-                )}
+                      ))}
+                    </select>
+                  ))}
+                </div>
               </div>
             </div>
             <div className="modal-footer">
@@ -126,9 +112,10 @@ const UpdateConsumables = ({ consumable }) => {
                 type="button"
                 className="btn btn-secondary"
                 onClick={() => {
-                  setRobotIds((prev) =>
-                    prev.length > 1 ? prev.slice(0, -1) : prev
-                  );
+                  if (robotsCount > 1) {
+                    setRobotsCount(robotsCount - 1);
+                    setRobotIds((prev) => prev.slice(0, -1));
+                  }
                 }}
               >
                 -
@@ -137,7 +124,8 @@ const UpdateConsumables = ({ consumable }) => {
                 type="button"
                 className="btn btn-secondary"
                 onClick={() => {
-                  setRobotIds((prev) => [...prev, ""]);
+                  setRobotsCount(robotsCount + 1);
+                  setRobotIds((prev) => [...prev, '']);
                 }}
               >
                 +
@@ -146,6 +134,12 @@ const UpdateConsumables = ({ consumable }) => {
                 type="button"
                 className="btn btn-secondary"
                 data-bs-dismiss="modal"
+                onClick={() => {
+                  setTitle('');
+                  setDescription('');
+                  setRobotIds([]);
+                  setRobotsCount(1);
+                }}
               >
                 Close
               </button>
@@ -154,7 +148,7 @@ const UpdateConsumables = ({ consumable }) => {
                 className="btn btn-success"
                 data-bs-dismiss="modal"
               >
-                Update
+                Create
               </button>
             </div>
           </form>
@@ -163,4 +157,4 @@ const UpdateConsumables = ({ consumable }) => {
     </div>
   );
 };
-export default UpdateConsumables;
+export default CreateConsumables;

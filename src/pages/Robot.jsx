@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import RobotDetails from "../components/RobotDetails";
-import QnA from "../components/QnA";
-import ConsumableTab from "../components/ConsumableTab";
+import RobotDetails from "../components/robotPage/RobotDetails";
+import QnA from "../components/robotPage/QnA";
+import ConsumableTab from "../components/consumablePage/ConsumableTab";
 import {
   useGetRobotByIdQuery,
   useGetAllRobotsQuery,
 } from "../app/services/robotApiSlice";
-import Loading from "../components/Loading";
+import Loading from "../components/common/Loading";
 import { useSelector } from "react-redux";
 import { compareMultipleRobots } from "../helpers/utils";
 import { PhotoView } from 'react-photo-view';

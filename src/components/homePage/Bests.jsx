@@ -1,9 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useGetBestRobotsQuery, useGetAllRobotsNewQuery } from '../app/services/robotApiSlice';
+import { useGetBestRobotsQuery, useGetAllRobotsNewQuery } from '../../app/services/robotApiSlice';
 import { useSelector } from 'react-redux';
-import Loading from './Loading';
-import Error from './Error';
+import Loading from '../common/Loading';
+import Error from '../common/Error';
 
 const Bests = () => {
   const lang = useSelector((state) => state.language.lang);
