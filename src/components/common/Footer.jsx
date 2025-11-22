@@ -1,6 +1,6 @@
 const Footer = () => {
     return (
-        <footer className="text-center bg-body-tertiary">
+        <footer className="text-center" style={{ backgroundColor: 'rgba(231, 231, 231, 0.95)' }}>
             <div className="container pt-4">
                 <section className="mb-4">
                     <a

@@ -1,6 +1,7 @@
 import './App.css'
 import Header from './components/common/Header'
 import Footer from './components/common/Footer'
+import CookieConsent from './components/common/CookieConsent'
 import Home from './pages/Home'
 import Compare from './pages/Compare'
 import Robots from './pages/Robots'
@@ -48,7 +49,7 @@ function App() {
       <ToastContainer />
       <PhotoProvider>
         <Header setDashboardsActiveComponent={setDashboardsActiveComponent} />
-        <main>
+        <main style={{background: 'rgba(233, 233, 233, 0.95)'}}>
           <Routes>
             <Route path='/password-reset' element={<PasswordReset />} />
             <Route path='/forgot-password' element={<ForgotPassword />} />
@@ -84,6 +85,7 @@ function App() {
           </button>
         </div>
         <Footer />
+        <CookieConsent />
       </PhotoProvider>
     </div>
   );
