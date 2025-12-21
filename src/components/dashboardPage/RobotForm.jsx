@@ -480,18 +480,10 @@ const RobotForm = ({ action = 'C', id = null }) => {
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Wifi Frequency Band</label>
-                                            {isUpdate ? (
-                                                <select className="form-control form-control-sm" name="control.wifiFrequencyBand" onChange={formik.handleChange} value={formik.values.control?.wifiFrequencyBand || "null"}>
-                                                    <option value="null">N/A</option>
-                                                    <option value="true">YES</option>
-                                                    <option value="false">NO</option>
-                                                </select>
-                                            ) : (
-                                                <div className="input-group">
-                                                    <input className="form-control form-control-sm" type="text" name="control.wifiFrequencyBand" onChange={formik.handleChange} value={formik.values.control?.wifiFrequencyBand || ""} aria-label=".form-control-sm example" />
-                                                    <span className="input-group-text">GHz</span>
-                                                </div>
-                                            )}
+                                            <div className="input-group">
+                                                <input className="form-control form-control-sm" type="text" name="control.wifiFrequencyBand" onChange={formik.handleChange} value={formik.values.control?.wifiFrequencyBand || ""} aria-label=".form-control-sm example" />
+                                                <span className="input-group-text">GHz</span>
+                                            </div>
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Amazon Alexa Support</label>

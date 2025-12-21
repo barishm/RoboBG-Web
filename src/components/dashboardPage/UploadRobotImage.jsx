@@ -2,15 +2,15 @@ import { useSelector } from "react-redux";
 import { useUploadRobotImageMutation } from "../../app/services/robotApiSlice";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const UploadRobotImage = (props) => {
   let id = props.RobotId;
   const { accessToken } = useSelector((state) => state.auth);
   const [file, setFile] = useState(null);
   const [inputKey, setInputKey] = useState(Date.now());
-  const [uploadImage, { isSuccess, isError, error }] =
-    useUploadRobotImageMutation();
+  const [uploadImage, { isSuccess, isError, error }] = useUploadRobotImageMutation();
+
+  
   useEffect(() => {
     if (isSuccess) {
       toast.success("Image uploaded successfully!");

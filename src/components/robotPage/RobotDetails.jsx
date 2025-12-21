@@ -106,7 +106,7 @@ const RobotDetails = (props) => {
             {renderStringTableRow("Battery Capacity",robot.moppingFeatures.waterTankCapacity,"")}
             {renderStringTableRow("Battery life",robot.battery.batteryLife,"")}
             {/* {renderBooleanTableRow("Recharge & Resume", robot.rechargeResume)} */}
-            {renderBooleanTableRow("Charging Time", robot.battery.chargingTime)}
+            {renderStringTableRow("Charging Time", robot.battery.chargingTime, "min")}
             {/* {renderBooleanTableRow("Autocally Docks and Recharges",robot.autoDockAndRecharge)} */}
             {renderBooleanTableRow("Rated Power (Watts)",robot.battery.ratedPower)}
             </tbody>

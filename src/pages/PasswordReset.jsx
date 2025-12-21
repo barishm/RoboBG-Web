@@ -4,7 +4,6 @@ import { useResetPasswordMutation } from "../app/services/authApiSlice";
 import { useSelector } from "react-redux";
 import { validatePassword } from "../helpers/utils";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const PasswordReset = () => {
   const lang = useSelector((state) => state.language.lang);

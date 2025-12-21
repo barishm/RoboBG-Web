@@ -2,7 +2,6 @@ import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { useContactUsFormMutation } from '../app/services/contactUsApiSlice';
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const Contact = () => {
   const lang = useSelector((state) => state.language.lang);

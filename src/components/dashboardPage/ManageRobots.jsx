@@ -9,7 +9,6 @@ import Loading from "../common/Loading";
 import RobotForm from "../dashboardPage/RobotForm";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import "react-toastify/dist/ReactToastify.css";
 import Pagination from "../common/Pagination";
 import UploadRobotImage from "../dashboardPage/UploadRobotImage"; 
 import CreateLink from "../dashboardPage/CreateLink";  

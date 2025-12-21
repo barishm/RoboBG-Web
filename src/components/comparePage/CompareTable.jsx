@@ -4,7 +4,7 @@ import {
   useLazyGetRobotByIdQuery,
   useGetAllRobotsQuery,
 } from '../../app/services/robotApiSlice';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import ReleaseDateDisplay from '../common/ReleaseDateDisplay';  
 import SpecsRenderer from '../common/SpecsRenderer';
 import { addIdToUrl, removeIdFromUrl } from '../../helpers/utils';
@@ -23,14 +23,6 @@ const CompareTable = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  useEffect(() => {
-    const popoverTriggerList = document.querySelectorAll(
-      '[data-bs-toggle="popover"]'
-    );
-    const popoverList = [...popoverTriggerList].map(
-      (popoverTriggerEl) => new bootstrap.Popover(popoverTriggerEl)
-    );
-  }, []);
 
   const deleteHandler = (e) => {
     const id = parseInt(e.target.dataset.id, 10);
@@ -367,7 +359,7 @@ const CompareTable = () => {
                 </th>
                 {renderStringRow('noiseLevel', 'dB')}
               </tr>
-              <tr>
+              {/* <tr>
                 <th scope="row">
                   <span className="stickycell">
                     {SpecsRenderer({ textKey: 'display' })}{' '}
@@ -387,7 +379,7 @@ const CompareTable = () => {
                   </span>
                 </th>
                 {renderRow('display')}
-              </tr>
+              </tr> */}
               <tr>
                 <th scope="row">
                   <span className="stickycell">

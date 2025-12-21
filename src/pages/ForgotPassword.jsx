@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useForgotPasswordMutation } from "../app/services/authApiSlice";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const ForgotPassword = () => {
   const lang = useSelector((state) => state.language.lang);
