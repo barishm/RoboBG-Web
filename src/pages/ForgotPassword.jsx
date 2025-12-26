@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useForgotPasswordMutation } from "../app/services/authApiSlice";
+import { useForgotPasswordMutation } from "src/app/services/authApiSlice";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 

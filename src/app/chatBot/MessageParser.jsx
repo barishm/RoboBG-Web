@@ -1,6 +1,6 @@
 import React from "react";
-import { ChatbotService } from "../services/ChatbotService";
-import { CONTACT_MESSAGE_RESPONSE } from "../../constants";
+import { ChatbotService } from "src/app/services/ChatbotService";
+import { CONTACT_MESSAGE_RESPONSE } from "src/constants";
 import { act } from "react";
 
 const MessageParser = ({ children, actions }) => {

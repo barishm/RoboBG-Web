@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
-import { useContactUsFormMutation } from '../app/services/contactUsApiSlice';
+import { useContactUsFormMutation } from 'src/app/services/contactUsApiSlice';
 import { toast } from "react-toastify";
 
 const Contact = () => {

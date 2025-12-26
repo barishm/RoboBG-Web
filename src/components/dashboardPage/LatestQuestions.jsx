@@ -1,9 +1,9 @@
-import { useLatestQuestionsQuery } from "../../app/services/qnaApiSlice";
-import Loading from "../common/Loading";
+import { useLatestQuestionsQuery } from "src/app/services/qnaApiSlice";
+import Loading from "src/components/common/Loading";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import TimeAgo from "../common/TimeAgo";
-import Error from "../common/Error";
+import TimeAgo from "src/components/common/TimeAgo";
+import Error from "src/components/common/Error";
 
 const LatestQuestions = () => {
   const { accessToken } = useSelector((state) => state.auth);

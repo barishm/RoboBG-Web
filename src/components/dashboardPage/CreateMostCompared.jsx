@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
-import { useGetAllRobotsQuery } from "../../app/services/robotApiSlice";
-import { useCreateMostComparesMutation } from "../../app/services/mostComparesApiSlice";
+import { useGetAllRobotsQuery } from "src/app/services/robotApiSlice";
+import { useCreateMostComparesMutation } from "src/app/services/mostComparesApiSlice";
 import { useState } from "react";
 
 const CreateMostCompared = () => {

@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { useState } from "react";
-import { useGetAllConsumablesQuery } from "../../app/services/consumableApiSlice";
+import { useGetAllConsumablesQuery } from "src/app/services/consumableApiSlice";
 
 const ConsumableFilters = ({ onFilterChange, selectedModels = [] }) => {
   const lang = useSelector((state) => state.language.lang);

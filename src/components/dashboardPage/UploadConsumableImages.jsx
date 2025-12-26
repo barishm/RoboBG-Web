@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { useUploadConsumableImagesMutation } from "../../app/services/consumableApiSlice";
+import { useUploadConsumableImagesMutation } from "src/app/services/consumableApiSlice";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 

@@ -4,9 +4,9 @@ import {
   ROBOT_ISSUE_MESSAGE,
   ROBOT_MAINTENANCE_MESSAGE,
   ROBOBG_SERVICES_MESSAGE
-} from "../../constants";
+} from "src/constants";
 
-import "../../styles/chatbot.css";
+import "src/styles/chatbot.css";
 
 const InitialOptions = ({ actionProvider }) => {
   const options = [

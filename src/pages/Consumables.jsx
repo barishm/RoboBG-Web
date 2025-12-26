@@ -1,14 +1,14 @@
-import { useGetAllConsumablesQuery } from "../app/services/consumableApiSlice";
+import { useGetAllConsumablesQuery } from "src/app/services/consumableApiSlice";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import Loading from "../components/common/Loading";
-import Error from "../components/common/Error";
-import Pagination from "../components/common/Pagination";
-import PopularComparisons from "../components/common/PopularComparisons";
-import ConsumableFilters from "../components/consumablesPage/ConsumableFilters";
+import Loading from "src/components/common/Loading";
+import Error from "src/components/common/Error";
+import Pagination from "src/components/common/Pagination";
+import PopularComparisons from "src/components/common/PopularComparisons";
+import ConsumableFilters from "src/components/consumablesPage/ConsumableFilters";
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import usePagination from "../hooks/usePagination";
-import { NO_IMAGE, DEFAULT_ENTITIES_PER_PAGE } from "../constants";
+import usePagination from "src/hooks/usePagination";
+import { NO_IMAGE, DEFAULT_ENTITIES_PER_PAGE } from "src/constants";
 
 const Consumables = () => {
   const lang = useSelector((state) => state.language.lang);

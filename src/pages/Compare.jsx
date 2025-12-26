@@ -1,13 +1,13 @@
-import CompareTable from "../components/comparePage/CompareTable";
-import CompareForm from "../components/comparePage/CompareForm";
+import CompareTable from "src/components/comparePage/CompareTable";
+import CompareForm from "src/components/comparePage/CompareForm";
 import { useSelector } from "react-redux";
-import PopularComparisons from "../components/common/PopularComparisons";
+import PopularComparisons from "src/components/common/PopularComparisons";
 import { useEffect } from "react";
-import { addRobot, deleteRobotById } from "../app/redux/compareSlice";
+import { addRobot, deleteRobotById } from "src/app/redux/compareSlice";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { useLazyGetRobotByIdQuery } from "../app/services/robotApiSlice";
-import { getRobotIdsFromUrl } from "../helpers/utils";
+import { useLazyGetRobotByIdQuery } from "src/app/services/robotApiSlice";
+import { getRobotIdsFromUrl } from "src/helpers/utils";
 
 const Compare = () => {
   const dispatch = useDispatch();

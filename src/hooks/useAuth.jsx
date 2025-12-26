@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { useReauthMutation } from "../app/services/authApiSlice";
+import { useReauthMutation } from "src/app/services/authApiSlice";
 import { jwtDecode } from "jwt-decode";
-import { setCredentials, logOut } from "../app/redux/authSlice";
+import { setCredentials, logOut } from "src/app/redux/authSlice";
 
 const useAuth = () => {
   const [reauth] = useReauthMutation();

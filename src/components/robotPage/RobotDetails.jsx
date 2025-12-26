@@ -1,4 +1,4 @@
-import ReleaseDateDisplay from "../common/ReleaseDateDisplay";
+import ReleaseDateDisplay from "src/components/common/ReleaseDateDisplay";
 
 const RobotDetails = (props) => {
   const { robot } = props;
@@ -103,12 +103,12 @@ const RobotDetails = (props) => {
               </tr>
             </thead>
             <tbody>
-            {renderStringTableRow("Battery Capacity",robot.moppingFeatures.waterTankCapacity,"")}
-            {renderStringTableRow("Battery life",robot.battery.batteryLife,"")}
+            {renderStringTableRow("Battery Capacity",robot.moppingFeatures.waterTankCapacity,"mAh")}
+            {renderStringTableRow("Battery life",robot.battery.batteryLife,"min")}
             {/* {renderBooleanTableRow("Recharge & Resume", robot.rechargeResume)} */}
             {renderStringTableRow("Charging Time", robot.battery.chargingTime, "min")}
             {/* {renderBooleanTableRow("Autocally Docks and Recharges",robot.autoDockAndRecharge)} */}
-            {renderBooleanTableRow("Rated Power (Watts)",robot.battery.ratedPower)}
+            {renderBooleanTableRow("Rated Power (Watts)",robot.battery.ratedPower, 'W')}
             </tbody>
           </table>
           <table className="table table-bordered" style={{ tableLayout: "fixed", width: "100%" }}>
@@ -126,10 +126,10 @@ const RobotDetails = (props) => {
               {renderBooleanTableRow("Wi-Fi / Smartphone App",robot.control.wifiSmartphoneApp)}
               {renderBooleanTableRow("Scheduling", robot.control.scheduling)}
               {/* {renderBooleanTableRow("IR/RF Remote Control",robot.control.irRfRemoteControl)} */}
-              {renderStringTableRow("Wi-Fi Frequency Band",robot.control.wifiFrequencyBand,"")}
+              {renderStringTableRow("Wi-Fi Frequency Band",robot.control.wifiFrequencyBand,"GHz")}
               {renderBooleanTableRow("Amazon Alexa Support",robot.control.amazonAlexaSupport)}
               {renderBooleanTableRow("Google Assistant Support",robot.control.googleAssistantSupport)}
-              {renderBooleanTableRow("Display", robot.display)}
+              {/* {renderBooleanTableRow("Display", robot.display)} */}
               {renderBooleanTableRow("Voice Prompts", robot.voicePrompts)}
               {renderStringTableRow("Noise Level",robot.noiseLevel,"")}
             </tbody>

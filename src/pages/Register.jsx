@@ -1,8 +1,8 @@
 import React, { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useRegisterMutation } from "../app/services/authApiSlice";
-import { validatePassword, validateUsername, isEmailInvalid } from "../helpers/utils"
+import { useRegisterMutation } from "src/app/services/authApiSlice";
+import { validatePassword, validateUsername, isEmailInvalid } from "src/helpers/utils"
 
 const Register = () => {
   const [username, setUsername] = useState("");

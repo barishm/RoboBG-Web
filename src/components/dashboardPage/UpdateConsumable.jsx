@@ -1,5 +1,5 @@
-import { useUpdateConsumableMutation } from "../../app/services/consumableApiSlice";
-import { useGetAllRobotsNewQuery } from "../../app/services/robotApiSlice";
+import { useUpdateConsumableMutation } from "src/app/services/consumableApiSlice";
+import { useGetAllRobotsNewQuery } from "src/app/services/robotApiSlice";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 

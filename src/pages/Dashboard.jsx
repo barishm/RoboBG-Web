@@ -1,8 +1,8 @@
-import ManageRobots from "../components/dashboardPage/ManageRobots";
-import ManageUsers from "../components/dashboardPage/ManageUsers";   
-import ManageMostCompared from "../components/dashboardPage/ManageMostCompared";
-import LatestQuestions from "../components/dashboardPage/LatestQuestions";
-import ManageConsumables from "../components/dashboardPage/ManageConsumables";
+import ManageRobots from "src/components/dashboardPage/ManageRobots";
+import ManageUsers from "src/components/dashboardPage/ManageUsers";
+import ManageMostCompared from "src/components/dashboardPage/ManageMostCompared";
+import LatestQuestions from "src/components/dashboardPage/LatestQuestions";
+import ManageConsumables from "src/components/dashboardPage/ManageConsumables";
 const Dashboard = ({ dashboardsActiveComponent }) => {
 
   const renderActiveComponent = () => {

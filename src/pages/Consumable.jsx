@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import Loading from "../components/common/Loading";
+import Loading from "src/components/common/Loading";
 import { useSelector } from "react-redux";
-import { useGetConsumableByIdQuery } from "../app/services/consumableApiSlice";
+import { useGetConsumableByIdQuery } from "src/app/services/consumableApiSlice";
 import { PhotoView } from 'react-photo-view';
 import 'react-photo-view/dist/react-photo-view.css';
-import { NO_IMAGE } from "../constants";
+import { NO_IMAGE } from "src/constants";
 
 const Consumable = () => {
   const [Tab, setTab] = useState("Specs");

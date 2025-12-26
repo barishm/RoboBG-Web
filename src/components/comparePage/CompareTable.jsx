@@ -1,13 +1,13 @@
 import { useSelector } from 'react-redux';
-import Loading from '@/components/common/Loading.jsx';
+import Loading from 'src/components/common/Loading';
 import {
   useLazyGetRobotByIdQuery,
   useGetAllRobotsQuery,
-} from '../../app/services/robotApiSlice';
+} from 'src/app/services/robotApiSlice';
 import { useState } from 'react';
-import ReleaseDateDisplay from '@/components/common/ReleaseDateDisplay.jsx';  
-import SpecsRenderer from '@/components/common/SpecsRenderer';
-import { addIdToUrl, removeIdFromUrl } from '@/helpers/utils';
+import ReleaseDateDisplay from 'src/components/common/ReleaseDateDisplay';
+import SpecsRenderer from 'src/components/common/SpecsRenderer';
+import { addIdToUrl, removeIdFromUrl } from 'src/helpers/utils';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const CompareTable = () => {

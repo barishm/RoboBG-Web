@@ -1,16 +1,16 @@
 import {
   useGetAllConsumablesQuery,
   useDeleteConsumableMutation,
-} from '../../app/services/consumableApiSlice';
-import CreateConsumables from '../dashboardPage/CreateConsumable'; 
-import UpdateConsumables from '../dashboardPage/UpdateConsumable';
-import Loading from '../common/Loading';
+} from 'src/app/services/consumableApiSlice';
+import CreateConsumables from 'src/components/dashboardPage/CreateConsumable';
+import UpdateConsumables from 'src/components/dashboardPage/UpdateConsumable';
+import Loading from 'src/components/common/Loading';
 import { useState, useEffect } from 'react';
-import DeletePopup from './DeletePopup';
-import UploadConsumableImages from '../dashboardPage/UploadConsumableImages';
-import usePagination from '../../hooks/usePagination';
-import { NO_IMAGE, DEFAULT_ENTITIES_PER_PAGE } from "../../constants";
-import Pagination from '../common/Pagination';
+import DeletePopup from 'src/components/dashboardPage/DeletePopup';
+import UploadConsumableImages from 'src/components/dashboardPage/UploadConsumableImages';
+import usePagination from 'src/hooks/usePagination';
+import { NO_IMAGE, DEFAULT_ENTITIES_PER_PAGE } from "src/constants";
+import Pagination from 'src/components/common/Pagination';
 
 const ManageConsumables = () => {
   const { data, isLoading } = useGetAllConsumablesQuery();

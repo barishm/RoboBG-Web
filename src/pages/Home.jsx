@@ -1,8 +1,8 @@
-import Bests from '../components/homePage/Bests';
-import PopularComparisons from '../components/common/PopularComparisons';
-import YoutubeVideos from '../components/homePage/YoutubeVideos';
-import HomePageCompareForm from '../components/homePage/HomePageCompareForm';
-import Ozone from '../ads/Ozone';
+import Bests from 'src/components/homePage/Bests';
+import PopularComparisons from 'src/components/common/PopularComparisons';
+import YoutubeVideos from 'src/components/homePage/YoutubeVideos';
+import HomePageCompareForm from 'src/components/homePage/HomePageCompareForm';
+import Ozone from 'src/ads/Ozone';
 
 const Home = () => {
 

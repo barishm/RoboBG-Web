@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { apiSlice } from '../services/apiSlice'
-import authReducer from './authSlice'
-import compareReducer from './compareSlice'
-import languageReducer from './languageSlice';
+import { apiSlice } from 'src/app/services/apiSlice'
+import authReducer from 'src/app/redux/authSlice'
+import compareReducer from 'src/app/redux/compareSlice'
+import languageReducer from 'src/app/redux/languageSlice';
 
 export const store = configureStore({
     reducer: {

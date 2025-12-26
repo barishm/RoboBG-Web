@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { useUploadRobotImageMutation } from "../../app/services/robotApiSlice";
+import { useUploadRobotImageMutation } from "src/app/services/robotApiSlice";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 

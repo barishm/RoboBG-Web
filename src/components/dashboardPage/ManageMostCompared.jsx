@@ -1,6 +1,6 @@
-import { useGetAllMostComparesQuery, useDeleteMostComparesMutation } from "../../app/services/mostComparesApiSlice";
-import Loading from "../common/Loading";  
-import CreateMostCompared from "../dashboardPage/CreateMostCompared";
+import { useGetAllMostComparesQuery, useDeleteMostComparesMutation } from "src/app/services/mostComparesApiSlice";
+import Loading from "src/components/common/Loading";
+import CreateMostCompared from "src/components/dashboardPage/CreateMostCompared";
 import { useSelector } from "react-redux";
 
 const ManageMostCompared = () => {

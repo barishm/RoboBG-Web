@@ -1,21 +1,21 @@
 import {
   useGetAllRobotsNewQuery,
   useDeleteRobotMutation
-} from "../../app/services/robotApiSlice";
+} from "src/app/services/robotApiSlice";
 import {
   useDeleteLinkMutation,
-} from "../../app/services/linkApiSlice";
-import Loading from "../common/Loading";
-import RobotForm from "../dashboardPage/RobotForm";
+} from "src/app/services/linkApiSlice";
+import Loading from "src/components/common/Loading";
+import RobotForm from "src/components/dashboardPage/RobotForm";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import Pagination from "../common/Pagination";
-import UploadRobotImage from "../dashboardPage/UploadRobotImage"; 
-import CreateLink from "../dashboardPage/CreateLink";  
-import DeletePopup from "../dashboardPage/DeletePopup";  
-import usePagination from "../../hooks/usePagination";
+import Pagination from "src/components/common/Pagination";
+import UploadRobotImage from "src/components/dashboardPage/UploadRobotImage";
+import CreateLink from "src/components/dashboardPage/CreateLink";
+import DeletePopup from "src/components/dashboardPage/DeletePopup";
+import usePagination from "src/hooks/usePagination";
 
-import { NO_IMAGE, DEFAULT_ENTITIES_PER_PAGE } from "../../constants";
+import { NO_IMAGE, DEFAULT_ENTITIES_PER_PAGE } from "src/constants";
 
 const ManageRobots = () => {
   const [Model, setModel] = useState("");

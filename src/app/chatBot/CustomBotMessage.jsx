@@ -1,5 +1,5 @@
 import React from "react";
-import { CONTACT_MESSAGE_RESPONSE } from "../../constants";
+import { CONTACT_MESSAGE_RESPONSE } from "src/constants";
 import { useNavigate } from "react-router-dom";
 
 const CustomBotMessage = ({ message }) => {

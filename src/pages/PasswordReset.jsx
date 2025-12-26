@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useResetPasswordMutation } from "../app/services/authApiSlice";
+import { useResetPasswordMutation } from "src/app/services/authApiSlice";
 import { useSelector } from "react-redux";
-import { validatePassword } from "../helpers/utils";
+import { validatePassword } from "src/helpers/utils";
 import { toast } from "react-toastify";
 
 const PasswordReset = () => {

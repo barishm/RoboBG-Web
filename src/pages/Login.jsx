@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setCredentials } from "../app/redux/authSlice";
+import { setCredentials } from "src/app/redux/authSlice";
 import { jwtDecode } from "jwt-decode";
-import { useLoginMutation } from "../app/services/authApiSlice";
+import { useLoginMutation } from "src/app/services/authApiSlice";
 import { useSelector } from "react-redux";
 
 const Login = () => {

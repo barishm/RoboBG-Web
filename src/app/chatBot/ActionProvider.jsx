@@ -1,5 +1,5 @@
 import React from "react";
-import { disableChatInput, enableChatInput } from "./chatUtils";
+import { disableChatInput, enableChatInput } from "src/app/chatBot/chatUtils";
 import {
   CONTACT_MESSAGE,
   CHOOSE_ROBOT_MESSAGE,
@@ -10,7 +10,7 @@ import {
   CHOOSE_ROBOT_MESSAGE_RESPONSE,
   ROBOT_ISSUE_MESSAGE_RESPONSE,
   ROBOT_MAINTENANCE_MESSAGE_RESPONSE
-} from '../../constants';
+} from 'src/constants';
 
 
 let interactionStarted = false;

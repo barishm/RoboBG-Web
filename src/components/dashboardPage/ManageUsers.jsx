@@ -2,8 +2,8 @@ import {
   useGetAllUsersQuery,
   useUpdateUserMutation,
   useGetAllModeratorsQuery,
-} from "../../app/services/userApiSlice";
-import Loading from "../common/Loading";  
+} from "src/app/services/userApiSlice";
+import Loading from "src/components/common/Loading";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import { useFormik } from "formik";

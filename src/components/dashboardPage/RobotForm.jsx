@@ -1,6 +1,6 @@
-import { useCreateRobotMutation, useUpdateRobotMutation, useGetRobotByIdQuery } from "../../app/services/robotApiSlice";
+import { useCreateRobotMutation, useUpdateRobotMutation, useGetRobotByIdQuery } from "src/app/services/robotApiSlice";
 import { useFormik } from 'formik';
-import { cleanFormValues } from "../../helpers/utils";
+import { cleanFormValues } from "src/helpers/utils";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 

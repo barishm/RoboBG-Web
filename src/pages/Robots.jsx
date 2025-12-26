@@ -1,17 +1,17 @@
 import { useNavigate } from 'react-router-dom';
-import { useGetAllRobotsNewQuery } from '../app/services/robotApiSlice';
+import { useGetAllRobotsNewQuery } from 'src/app/services/robotApiSlice';
 import { useSelector } from 'react-redux';
 import { useState, useMemo } from 'react';
 
-import PopularComparisons from '../components/common/PopularComparisons';
-import Loading from '../components/common/Loading';
-import Error from '../components/common/Error';
-import RobotFilters from '../components/robotsPage/RobotFilters';
-import Pagination from '../components/common/Pagination';
+import PopularComparisons from 'src/components/common/PopularComparisons';
+import Loading from 'src/components/common/Loading';
+import Error from 'src/components/common/Error';
+import RobotFilters from 'src/components/robotsPage/RobotFilters';
+import Pagination from 'src/components/common/Pagination';
 
-import { NO_IMAGE, DEFAULT_ENTITIES_PER_PAGE } from '../constants';
-import usePagination from '../hooks/usePagination';
-import useRobotFilters from '../hooks/useRobotFilters';
+import { NO_IMAGE, DEFAULT_ENTITIES_PER_PAGE } from 'src/constants';
+import usePagination from 'src/hooks/usePagination';
+import useRobotFilters from 'src/hooks/useRobotFilters';
 
 const Robots = () => {
   const [Model, setModel] = useState('');
