@@ -1,28 +1,28 @@
 import './App.css'
-import Header from 'src/components/common/Header'
-import Footer from 'src/components/common/Footer'
-import CookieConsent from 'src/components/common/CookieConsent'
-import Home from 'src/pages/Home'
-import Compare from 'src/pages/Compare'
-import Robots from 'src/pages/Robots'
-import Robot from 'src/pages/Robot'
-import Profile from 'src/pages/Profile'
-import Login from 'src/pages/Login'
-import Register from 'src/pages/Register';
-import Dashboard from 'src/pages/Dashboard'
+import Header from 'src/components/Header'
+import Footer from 'src/components/Footer'
+import CookieConsent from 'src/components/CookieConsent'
+import Home from 'src/app/pages/Home'
+import Compare from 'src/app/pages/Compare'
+import Robots from 'src/app/pages/Robots'
+import Robot from 'src/app/pages/Robot'
+import Profile from 'src/app/pages/Profile'
+import Login from 'src/app/pages/Login'
+import Register from 'src/app/pages/Register';
+import Dashboard from 'src/app/pages/Dashboard'
 import ProtectedRoutes from 'src/app/ProtectedRoutes';
 import { Routes, Route } from "react-router-dom";
-import Contact from 'src/pages/Contact'
+import Contact from 'src/app/pages/Contact'
 import useAuth from 'src/hooks/useAuth'
-import { useState, useEffect } from 'react'
-import Consumables from 'src/pages/Consumables'
-import Consumable from 'src/pages/Consumable'
+import { useState } from 'react'
+import Consumables from 'src/app/pages/Consumables'
+import Consumable from 'src/app/pages/Consumable'
 import { PhotoProvider } from 'react-photo-view';
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from 'react-toastify';
-import PasswordReset from 'src/pages/PasswordReset'
-import ForgotPassword from 'src/pages/ForgotPassword'
-import ChatbotComponent from 'src/components/common/ChatbotComponent'
+import PasswordReset from 'src/app/pages/PasswordReset'
+import ForgotPassword from 'src/app/pages/ForgotPassword'
+import ChatbotComponent from 'src/features/chatbot-feature/components/ChatbotComponent'
 
 function App() {
   const [dashboardsActiveComponent, setDashboardsActiveComponent] = useState("Robots");
@@ -53,7 +53,7 @@ function App() {
             </Route>
           </Routes>
         </main>
-        {/* <ChatbotComponent /> */}
+        <ChatbotComponent />
         <Footer />
         <CookieConsent />
       </PhotoProvider>

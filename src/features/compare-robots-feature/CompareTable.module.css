@@ -1,0 +1,86 @@
+/* Vertical comparison table styles */
+.comparisonContainer .stickySpecLabel {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  font-size: 0.8rem;
+  font-weight: normal;
+  text-transform: uppercase;
+  background-color: rgba(0, 0, 0, 0.1);
+  max-width: 300px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding: 2px 5px;
+  overflow: hidden;
+}
+
+.comparisonContainer th {
+  z-index: 10;
+}
+
+.comparisonContainer tbody th {
+  position: sticky;
+  width: 0px !important;
+  text-align: left;
+  left: 0px;
+  margin: 0;
+  padding: 0;
+  background-color: #fff;
+  display: table-cell;
+  background: none;
+  font-weight: normal;
+  vertical-align: middle;
+}
+
+.comparisonContainer .table > thead {
+  vertical-align: bottom;
+}
+
+.comparisonContainer thead,
+.comparisonContainer tbody,
+.comparisonContainer tr,
+.comparisonContainer td,
+.comparisonContainer th {
+  border-color: inherit;
+  border-style: solid;
+  border-width: 0;
+}
+
+.comparisonContainer thead {
+  display: table-header-group;
+  vertical-align: middle;
+  border-color: inherit;
+}
+
+.comparisonContainer td {
+  display: table-cell;
+  vertical-align: inherit;
+  min-height: 150px;
+}
+
+.comparisonContainer th {
+  text-align: inherit;
+  border-color: inherit;
+  border-style: solid;
+  border-width: 0;
+}
+
+.responsiveWrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 1rem;
+}
+
+.responsiveWrapper table {
+  margin-bottom: 0 !important;
+}
+
+.verticalComparisonTable tbody td {
+  padding: 1.8rem 0.35rem 0.45rem 0.35rem !important;
+  width: 650px;
+  font-size: 0.85rem;
+}
+
+.comparisonCell td {
+  position: relative;
+}
