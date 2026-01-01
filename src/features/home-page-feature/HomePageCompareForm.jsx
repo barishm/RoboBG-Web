@@ -1,12 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import {
-  useGetAllRobotsQuery,
-  useLazyGetRobotByIdQuery,
-} from "src/app/services/robotApiSlice";
-import { addRobot, deleteAllRobots } from "src/app/redux/compareSlice";
+import { useGetAllRobotsQuery } from "src/app/services/robotApiSlice";
 import Loading from "src/components/Loading";
 
 const HomePageCompareForm = () => {
@@ -19,9 +14,6 @@ const HomePageCompareForm = () => {
     isLoading: allModelsLoading,
     isError,
   } = useGetAllRobotsQuery(queryParams);
-  const dispatch = useDispatch();
-  const [triggerCompare1] = useLazyGetRobotByIdQuery();
-  const [triggerComapre2] = useLazyGetRobotByIdQuery();
   const [Model1, setModel1] = useState("");
   const [Model2, setModel2] = useState("");
   const navigate = useNavigate();
@@ -31,16 +23,6 @@ const HomePageCompareForm = () => {
     const foundItem2 = allModels.content.find((item) => item.model === Model2);
 
     if (foundItem1 && foundItem2 && foundItem1.id !== foundItem2.id) {
-      dispatch(deleteAllRobots());
-
-      triggerCompare1({ id: foundItem1.id }).then((response) => {
-        dispatch(addRobot(response.data));
-      });
-
-      triggerComapre2({ id: foundItem2.id }).then((response) => {
-        dispatch(addRobot(response.data));
-      });
-
       navigate(`/compare?id=${foundItem1.id},${foundItem2.id}`);
     } else {
       console.error(

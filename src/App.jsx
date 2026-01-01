@@ -53,7 +53,7 @@ function App() {
             </Route>
           </Routes>
         </main>
-        <ChatbotComponent />
+        {/* <ChatbotComponent /> */}
         <Footer />
         <CookieConsent />
       </PhotoProvider>

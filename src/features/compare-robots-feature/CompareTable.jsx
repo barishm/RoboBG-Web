@@ -1,49 +1,58 @@
 import { useSelector } from 'react-redux';
 import Loading from 'src/components/Loading';
-import {
-  useLazyGetRobotByIdQuery,
-  useGetAllRobotsQuery,
-} from 'src/app/services/robotApiSlice';
-import { useState } from 'react';
 import ReleaseDateDisplay from 'src/components/ReleaseDateDisplay';
 import SpecsRenderer from 'src/components/SpecsRenderer';
-import { addIdToUrl, removeIdFromUrl } from 'src/utils/utils';
-import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './CompareTable.module.css';
-import SpecificationRow from './SpecificationRow';
-import SectionHeader from './SectionHeader';
 import { specsConfig } from './specsConfig';
 
-const CompareTable = () => {
-  const queryParams = {
-    fields: 'model',
-  };
+// Internal helper components
+const SectionHeader = ({ title, colSpan }) => {
+  return (
+    <tr>
+      <th></th>
+      <td
+        colSpan={colSpan}
+        style={{ backgroundColor: '#212529', color: '#F5F5F5' }}
+      >
+        {title}
+      </td>
+    </tr>
+  );
+};
+
+const SpecificationRow = ({ textKey, field, unit, renderRow, renderStringRow }) => {
+  return (
+    <tr>
+      <th scope="row">
+        <span className={styles.stickySpecLabel}>
+          {SpecsRenderer({ textKey })}{' '}
+          <a
+            tabIndex="0"
+            data-bs-container="body"
+            data-bs-toggle="popover"
+            data-bs-trigger="hover focus"
+            data-bs-placement="right"
+            data-bs-content={SpecsRenderer({ textKey: `${textKey}Desc` })}
+            style={{ color: '#000000', cursor: 'pointer' }}
+          >
+            <i className="fa-regular fa-circle-question fa-xs"></i>
+          </a>
+        </span>
+      </th>
+      {unit ? renderStringRow(field, unit) : renderRow(field)}
+    </tr>
+  );
+};
+
+// Main component
+const CompareTable = ({ robots, onDeleteRobot }) => {
   const noImage = 'images/no-image.jpg';
   const lang = useSelector((state) => state.language.lang);
-  const { robots } = useSelector((state) => state.compare);
-  const { data: allModels = { content: [] }, isLoading } = useGetAllRobotsQuery(queryParams);
-  const [Model, setModel] = useState('');
-  const [triggerAdd] = useLazyGetRobotByIdQuery();
-  const navigate = useNavigate();
-  const location = useLocation();
-
 
   const deleteHandler = (e) => {
     const id = parseInt(e.target.dataset.id, 10);
-    removeIdFromUrl(location.search, id, navigate);
+    onDeleteRobot(id);
   };
-
-  function handleAdd() {
-    const foundItem = allModels.content.find((item) => item.model === Model);
-    if (foundItem) {
-      const id = foundItem.id;
-      triggerAdd({ id }).then((response) => {
-        console.log('Response data:', response.data);
-        addIdToUrl(location.search, id, navigate);
-      });
-    }
-    setModel('');
-  }
 
   const renderRow = (field) => {
     return robots.map((item) => {
@@ -119,7 +128,7 @@ const CompareTable = () => {
 
   return (
     <div
-      className={styles.comparisonContainer}
+      className={`${styles.comparisonContainer} rounded-4`}
       style={{
         overflowX: 'auto',
         marginBottom: '50px',
@@ -130,40 +139,6 @@ const CompareTable = () => {
     >
       {robots ? (
         <div className={styles.responsiveWrapper}>
-          <div
-            style={{
-              display: 'flex',
-              maxWidth: '350px',
-              marginLeft: 'auto',
-              marginRight: 'auto',
-            }}
-            className="mb-1 mt-5"
-          >
-            <input
-              className="form-control me-2"
-              value={Model}
-              name="Model"
-              list="datalistOptions"
-              id="Model"
-              placeholder={
-                lang === 'en'
-                  ? 'Choose robot from the list'
-                  : 'Изберете робот от списъка'
-              }
-              onChange={(e) => setModel(e.target.value)}
-            />
-            <button type="button" className="btn btn-dark" onClick={handleAdd}>
-              {lang === 'en' ? 'Add' : 'Добави'}
-            </button>
-            <datalist id="datalistOptions">
-              {allModels.content
-                .slice()
-                .sort((a, b) => a.model.localeCompare(b.model))
-                .map((item) => (
-                  <option key={item.id} value={item.model} />
-                ))}
-            </datalist>
-          </div>
           <table
             className={`table ${styles.verticalComparisonTable}`}
             style={{ width: 'auto', marginLeft: 'auto', marginRight: 'auto' }}

@@ -1,12 +1,9 @@
 import { useState } from "react";
-import {
-  useGetAllRobotsQuery,
-  useLazyGetRobotByIdQuery,
-} from "src/app/services/robotApiSlice";
+import { useGetAllRobotsQuery } from "src/app/services/robotApiSlice";
 import { compareMultipleRobots } from "src/utils/utils";
 import { useSelector } from "react-redux";
 import Loading from "src/components/Loading";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const CompareForm = () => {
   const queryParams = {
@@ -16,14 +13,11 @@ const CompareForm = () => {
   const lang = useSelector((state) => state.language.lang);
   const { data: allModels, isLoading: allModelsLoading, isError } =
   useGetAllRobotsQuery(queryParams);
-  const [triggerCompare1] = useLazyGetRobotByIdQuery();
-  const [triggerComapre2] = useLazyGetRobotByIdQuery();
   const [Model1, setModel1] = useState("");
   const [Model2, setModel2] = useState("");
   const navigate = useNavigate();
-  const location = useLocation();
 
-  async function handleCompare() {
+  function handleCompare() {
     const foundItem1 = allModels.content.find((item) => item.model === Model1);
     const foundItem2 = allModels.content.find((item) => item.model === Model2);
 
@@ -37,20 +31,12 @@ const CompareForm = () => {
         return;
     }
 
-    try {
-        const [response1, response2] = await Promise.all([
-            triggerCompare1({ id: foundItem1.id }).unwrap(),
-            triggerComapre2({ id: foundItem2.id }).unwrap()
-        ]);
+    // Just navigate with IDs - let Compare.jsx handle fetching
+    compareMultipleRobots([foundItem1.id, foundItem2.id], navigate);
 
-        compareMultipleRobots([response1.id, response2.id], navigate);
-    } catch (error) {
-        console.error("Error during comparison:", error);
-    } finally {
-        setModel1("");
-        setModel2("");
-    }
-}
+    setModel1("");
+    setModel2("");
+  }
 
   return (
     <div>

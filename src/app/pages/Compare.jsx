@@ -1,43 +1,66 @@
 import CompareTable from "src/features/compare-robots-feature/CompareTable";
 import CompareForm from "src/features/compare-robots-feature/CompareForm";
-import { useSelector } from "react-redux";
+import AddRobotDropdown from "src/features/compare-robots-feature/AddRobotDropdown";
 import PopularComparisons from "src/components/PopularComparisons";
-import { useEffect } from "react";
-import { addRobot, deleteRobotById } from "src/app/redux/compareSlice";
-import { useDispatch } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useLazyGetRobotByIdQuery } from "src/app/services/robotApiSlice";
-import { getRobotIdsFromUrl } from "src/utils/utils";
+import { getRobotIdsFromUrl, addIdToUrl, removeIdFromUrl } from "src/utils/utils";
 
 const Compare = () => {
-  const dispatch = useDispatch();
-  const { robots } = useSelector((state) => state.compare);
+  const [robots, setRobots] = useState([]);
   const location = useLocation();
-  const [triggerAdd] = useLazyGetRobotByIdQuery();
+  const navigate = useNavigate();
+  const [triggerGetRobot] = useLazyGetRobotByIdQuery();
 
   useEffect(() => {
     const fetchRobots = async () => {
       const ids = getRobotIdsFromUrl(location.search);
 
+      if (ids.length === 0) {
+        setRobots([]);
+        return;
+      }
+
       try {
+        // Get current robot IDs
         const currentRobotIds = robots.map((robot) => robot.id);
+
+        // Only fetch robots that aren't already in state
         const idsToAdd = ids.filter((id) => !currentRobotIds.includes(id));
-        const robotPromises = idsToAdd.map((id) => triggerAdd({ id }).unwrap());
 
-        const robotsData = await Promise.all(robotPromises);
-        robotsData.forEach((robot) => {
-          if (robot) dispatch(addRobot(robot));
-        });
+        if (idsToAdd.length > 0) {
+          const robotPromises = idsToAdd.map((id) => triggerGetRobot({ id }).unwrap());
+          const newRobotsData = await Promise.all(robotPromises);
+          const validNewRobots = newRobotsData.filter(Boolean);
 
+          // Add new robots to existing ones
+          setRobots([...robots, ...validNewRobots]);
+        }
+
+        // Remove robots that are no longer in URL
         const idsToRemove = currentRobotIds.filter((id) => !ids.includes(id));
-        idsToRemove.forEach((id) => dispatch(deleteRobotById(id)));
+        if (idsToRemove.length > 0) {
+          setRobots(robots.filter((robot) => !idsToRemove.includes(robot.id)));
+        }
       } catch (error) {
         console.error("Error fetching robots:", error);
       }
     };
 
     fetchRobots();
-  }, [location.search, dispatch, triggerAdd, robots]);
+  }, [location.search, triggerGetRobot, robots]);
+
+  const handleAddRobot = (robot) => {
+    // Add robot to state immediately (we already have the data!)
+    setRobots([...robots, robot]);
+    // Then update URL
+    addIdToUrl(location.search, robot.id, navigate);
+  };
+
+  const handleDeleteRobot = (id) => {
+    removeIdFromUrl(location.search, id, navigate);
+  };
   
 
   return (
@@ -45,11 +68,12 @@ const Compare = () => {
       {robots.length === 0 ? (
         <div>
           <CompareForm />
-          <PopularComparisons/>
+          <PopularComparisons />
         </div>
       ) : (
         <>
-          <CompareTable />
+          <AddRobotDropdown robots={robots} onAddRobot={handleAddRobot} />
+          <CompareTable robots={robots} onDeleteRobot={handleDeleteRobot} />
         </>
       )}
     </div>
