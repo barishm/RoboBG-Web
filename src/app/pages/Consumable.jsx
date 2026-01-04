@@ -143,7 +143,7 @@ const Consumable = () => {
                   <div className="col-12 col-md-8 mt-2 p-4">
                     <h3 className="fw-border mb-3">{data.title}</h3>
                     <h5 className="fw-light mb-3">{data.description}</h5>
-                    <h5 className="fw-border mb-3 text-danger">{data.price} {lang === "en" ? "Leva" : "лв."}</h5>
+                    <h5 className="fw-border mb-3 text-danger">{data.price} {"EUR"}</h5>
                   </div>
                 </div>
                 <div className="row mt-5 p-2">

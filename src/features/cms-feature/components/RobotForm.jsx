@@ -3,16 +3,41 @@ import { useFormik } from 'formik';
 import { cleanFormValues } from "src/utils/utils";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const RobotForm = ({ action = 'C', id = null }) => {
     const { accessToken } = useSelector((state) => state.auth);
     const isUpdate = action === 'U' && id;
     const isCreate = action === 'C';
 
-    const [createRobot] = useCreateRobotMutation();
-    const [updateRobot] = useUpdateRobotMutation();
+    const [createRobot, { isSuccess: isCreateSuccess, isError: isCreateError, error: createError }] = useCreateRobotMutation();
+    const [updateRobot, { isSuccess: isUpdateSuccess, isError: isUpdateError, error: updateError }] = useUpdateRobotMutation();
     const { data, isLoading: isLoadingRobot, isFetching } = useGetRobotByIdQuery({ id }, { skip: !isUpdate });
     const [robotData, setRobotData] = useState();
+
+    // Helper function to convert boolean/null values to strings for select elements
+    const boolToString = (value) => {
+        if (value === null || value === undefined) return "null";
+        return String(value);
+    };
+
+    // Toast notifications for create robot
+    useEffect(() => {
+        if (isCreateSuccess) {
+            toast.success("Robot created successfully!");
+        } else if (isCreateError) {
+            toast.error(`Failed to create robot: ${createError?.data?.message || "Unknown error"}`);
+        }
+    }, [isCreateSuccess, isCreateError, createError]);
+
+    // Toast notifications for update robot
+    useEffect(() => {
+        if (isUpdateSuccess) {
+            toast.success("Robot updated successfully!");
+        } else if (isUpdateError) {
+            toast.error(`Failed to update robot: ${updateError?.data?.message || "Unknown error"}`);
+        }
+    }, [isUpdateSuccess, isUpdateError, updateError]);
 
     // Reset robotData when id changes
     useEffect(() => {
@@ -34,34 +59,34 @@ const RobotForm = ({ action = 'C', id = null }) => {
                 brand: robotData?.brand || "",
                 model: robotData?.model || "",
                 bests: robotData?.bests || "null",
-                mapping: robotData?.mapping || "null",
+                mapping: boolToString(robotData?.mapping),
                 mappingSensorType: robotData?.mappingSensorType || "",
-                highPrecisionMap: robotData?.highPrecisionMap || "null",
-                frontCamera: robotData?.frontCamera || "null",
-                rechargeResume: robotData?.rechargeResume || "null",
-                autoDockAndRecharge: robotData?.autoDockAndRecharge || "null",
+                highPrecisionMap: boolToString(robotData?.highPrecisionMap),
+                frontCamera: boolToString(robotData?.frontCamera),
+                rechargeResume: boolToString(robotData?.rechargeResume),
+                autoDockAndRecharge: boolToString(robotData?.autoDockAndRecharge),
                 noiseLevel: robotData?.noiseLevel || "",
-                display: robotData?.display || "null",
+                display: boolToString(robotData?.display),
                 sideBrushes: robotData?.sideBrushes || "",
-                voicePrompts: robotData?.voicePrompts || "null",
+                voicePrompts: boolToString(robotData?.voicePrompts),
                 cleaningFeatures: {
                     suctionPower: robotData?.cleaningFeatures?.suctionPower || "",
                     cleaningArea: robotData?.cleaningFeatures?.cleaningArea || "",
                     dustbinCapacity: robotData?.cleaningFeatures?.dustbinCapacity || "",
                     disposableDustBagCapacity: robotData?.cleaningFeatures?.disposableDustBagCapacity || "",
-                    autoDirtDisposal: robotData?.cleaningFeatures?.autoDirtDisposal || "null",
+                    autoDirtDisposal: boolToString(robotData?.cleaningFeatures?.autoDirtDisposal),
                     barrierCrossHeight: robotData?.cleaningFeatures?.barrierCrossHeight || "",
-                    hepaFilter: robotData?.cleaningFeatures?.hepaFilter || "null",
-                    washableFilter: robotData?.cleaningFeatures?.washableFilter || "null"
+                    hepaFilter: boolToString(robotData?.cleaningFeatures?.hepaFilter),
+                    washableFilter: boolToString(robotData?.cleaningFeatures?.washableFilter)
                 },
                 moppingFeatures: {
-                    wetMopping: robotData?.moppingFeatures?.wetMopping || "null",
-                    electricWaterFlowControl: robotData?.moppingFeatures?.electricWaterFlowControl || "null",
+                    wetMopping: boolToString(robotData?.moppingFeatures?.wetMopping),
+                    electricWaterFlowControl: boolToString(robotData?.moppingFeatures?.electricWaterFlowControl),
                     waterTankCapacity: robotData?.moppingFeatures?.waterTankCapacity || "",
-                    vibratingMoppingPad: robotData?.moppingFeatures?.vibratingMoppingPad || "null",
-                    autoMopLifting: robotData?.moppingFeatures?.autoMopLifting || "null",
-                    autoWaterTankRefilling: robotData?.moppingFeatures?.autoWaterTankRefilling || "null",
-                    autoMopWashing: robotData?.moppingFeatures?.autoMopWashing || "null"
+                    vibratingMoppingPad: boolToString(robotData?.moppingFeatures?.vibratingMoppingPad),
+                    autoMopLifting: boolToString(robotData?.moppingFeatures?.autoMopLifting),
+                    autoWaterTankRefilling: boolToString(robotData?.moppingFeatures?.autoWaterTankRefilling),
+                    autoMopWashing: boolToString(robotData?.moppingFeatures?.autoMopWashing)
                 },
                 battery: {
                     batteryCapacity: robotData?.battery?.batteryCapacity || "",
@@ -70,28 +95,28 @@ const RobotForm = ({ action = 'C', id = null }) => {
                     ratedPower: robotData?.battery?.ratedPower || ""
                 },
                 control: {
-                    scheduling: robotData?.control?.scheduling || "null",
-                    wifiSmartphoneApp: robotData?.control?.wifiSmartphoneApp || "null",
+                    scheduling: boolToString(robotData?.control?.scheduling),
+                    wifiSmartphoneApp: boolToString(robotData?.control?.wifiSmartphoneApp),
                     wifiFrequencyBand: robotData?.control?.wifiFrequencyBand || "",
-                    amazonAlexaSupport: robotData?.control?.amazonAlexaSupport || "null",
-                    googleAssistantSupport: robotData?.control?.googleAssistantSupport || "null",
-                    magneticVirtualWalls: robotData?.control?.magneticVirtualWalls || "null",
-                    irRfRemoteControl: robotData?.control?.irRfRemoteControl || "null"
+                    amazonAlexaSupport: boolToString(robotData?.control?.amazonAlexaSupport),
+                    googleAssistantSupport: boolToString(robotData?.control?.googleAssistantSupport),
+                    magneticVirtualWalls: boolToString(robotData?.control?.magneticVirtualWalls),
+                    irRfRemoteControl: boolToString(robotData?.control?.irRfRemoteControl)
                 },
                 appFeatures: {
-                    realTimeTracking: robotData?.appFeatures?.realTimeTracking || "null",
-                    digitalBlockedAreas: robotData?.appFeatures?.digitalBlockedAreas || "null",
-                    zonedCleaning: robotData?.appFeatures?.zonedCleaning || "null",
-                    multiFloorMaps: robotData?.appFeatures?.multiFloorMaps || "null",
-                    manualMovementControl: robotData?.appFeatures?.manualMovementControl || "null",
-                    selectedRoomCleaning: robotData?.appFeatures?.selectedRoomCleaning || "null",
-                    noMopZones: robotData?.appFeatures?.noMopZones || "null"
+                    realTimeTracking: boolToString(robotData?.appFeatures?.realTimeTracking),
+                    digitalBlockedAreas: boolToString(robotData?.appFeatures?.digitalBlockedAreas),
+                    zonedCleaning: boolToString(robotData?.appFeatures?.zonedCleaning),
+                    multiFloorMaps: boolToString(robotData?.appFeatures?.multiFloorMaps),
+                    manualMovementControl: boolToString(robotData?.appFeatures?.manualMovementControl),
+                    selectedRoomCleaning: boolToString(robotData?.appFeatures?.selectedRoomCleaning),
+                    noMopZones: boolToString(robotData?.appFeatures?.noMopZones)
                 },
                 sensor: {
-                    carpetBoost: robotData?.sensor?.carpetBoost || "null",
-                    cliffSensor: robotData?.sensor?.cliffSensor || "null",
-                    dirtSensor: robotData?.sensor?.dirtSensor || "null",
-                    fullDustbinSensor: robotData?.sensor?.fullDustbinSensor || "null"
+                    carpetBoost: boolToString(robotData?.sensor?.carpetBoost),
+                    cliffSensor: boolToString(robotData?.sensor?.cliffSensor),
+                    dirtSensor: boolToString(robotData?.sensor?.dirtSensor),
+                    fullDustbinSensor: boolToString(robotData?.sensor?.fullDustbinSensor)
                 },
                 otherSpecifications: {
                     weight: robotData?.otherSpecifications?.weight || "",

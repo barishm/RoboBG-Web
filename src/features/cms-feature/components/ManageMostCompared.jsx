@@ -2,12 +2,23 @@ import { useGetAllMostComparesQuery, useDeleteMostComparesMutation } from "src/a
 import Loading from "src/components/Loading";
 import CreateMostCompared from "src/features/cms-feature/components/CreateMostCompared";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 const ManageMostCompared = () => {
   const { accessToken } = useSelector((state) => state.auth);
   const { data: allCompares, isLoading: allComparesIsLoading } =
     useGetAllMostComparesQuery();
-  const [deleteMC] = useDeleteMostComparesMutation();
+  const [deleteMC, { isSuccess, isError, error }] = useDeleteMostComparesMutation();
+
+  // Toast notifications for delete most compared
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("Most compared entry deleted successfully!");
+    } else if (isError) {
+      toast.error(`Failed to delete most compared: ${error?.data?.message || "Unknown error"}`);
+    }
+  }, [isSuccess, isError, error]);
 
   const deleteHandler = (e) => {
     const id = e.target.value;

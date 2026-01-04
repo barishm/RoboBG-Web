@@ -1,11 +1,22 @@
 import { useFormik } from "formik";
 import { useCreateLinkMutation } from "src/app/services/linkApiSlice";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 const CreateLink = (props) => {
     const { accessToken } = useSelector((state) => state.auth);
     const robotId = props.robotId;
-    const [createLink] = useCreateLinkMutation();
+    const [createLink, { isSuccess, isError, error }] = useCreateLinkMutation();
+
+    // Toast notifications for create link
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success("Link added successfully!");
+        } else if (isError) {
+            toast.error(`Failed to add link: ${error?.data?.message || "Unknown error"}`);
+        }
+    }, [isSuccess, isError, error]);
 
     const formik = useFormik({
         enableReinitialize: true,

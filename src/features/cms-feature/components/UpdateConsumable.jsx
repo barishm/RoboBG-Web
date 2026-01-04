@@ -2,11 +2,21 @@ import { useUpdateConsumableMutation } from "src/app/services/consumableApiSlice
 import { useGetAllRobotsNewQuery } from "src/app/services/robotApiSlice";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
 const UpdateConsumables = ({ consumable }) => {
   const { accessToken } = useSelector((state) => state.auth);
-  const [updateConsumable] = useUpdateConsumableMutation();
+  const [updateConsumable, { isSuccess, isError: isMutationError, error }] = useUpdateConsumableMutation();
   const { data: robots = [], isLoading, isError } = useGetAllRobotsNewQuery();
+
+  // Toast notifications for update consumable
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("Consumable updated successfully!");
+    } else if (isMutationError) {
+      toast.error(`Failed to update consumable: ${error?.data?.message || "Unknown error"}`);
+    }
+  }, [isSuccess, isMutationError, error]);
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");

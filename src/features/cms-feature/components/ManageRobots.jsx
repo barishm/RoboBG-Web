@@ -14,6 +14,7 @@ import UploadRobotImage from "src/features/cms-feature/components/UploadRobotIma
 import CreateLink from "src/features/cms-feature/components/CreateLink";
 import DeletePopup from "src/features/cms-feature/components/DeletePopup";
 import usePagination from "src/hooks/usePagination";
+import { toast } from "react-toastify";
 
 import { NO_IMAGE, DEFAULT_ENTITIES_PER_PAGE } from "src/constants";
 
@@ -24,8 +25,17 @@ const ManageRobots = () => {
   const { data = [], isLoading } =
   useGetAllRobotsNewQuery();
   const [robotId, setRobotId] = useState(null);
-  const [deleteLink] = useDeleteLinkMutation();
+  const [deleteLink, { isSuccess: isDeleteLinkSuccess, isError: isDeleteLinkError, error: deleteLinkError }] = useDeleteLinkMutation();
   const { accessToken } = useSelector((state) => state.auth);
+
+  // Toast notifications for delete link
+  useEffect(() => {
+    if (isDeleteLinkSuccess) {
+      toast.success("Link deleted successfully!");
+    } else if (isDeleteLinkError) {
+      toast.error(`Failed to delete link: ${deleteLinkError?.data?.message || "Unknown error"}`);
+    }
+  }, [isDeleteLinkSuccess, isDeleteLinkError, deleteLinkError]);
 
   const {
     page,

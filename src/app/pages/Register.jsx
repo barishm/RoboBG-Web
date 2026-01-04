@@ -2,7 +2,8 @@ import React, { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useRegisterMutation } from "src/app/services/authApiSlice";
-import { validatePassword, validateUsername, isEmailInvalid } from "src/utils/utils"
+import { validatePassword, validateUsername, isEmailInvalid } from "src/utils/utils";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -52,16 +53,20 @@ const sendRequest = async (e) => {
 
   try {
     await register({ username, email, password, confirmPassword }).unwrap();
-    setSuccessMessage("Account is created successfully!");
+    const successMsg = "Account is created successfully!";
+    setSuccessMessage(successMsg);
     setErrorMessage("");
+    toast.success(successMsg);
     setUsername("");
     setPassword("");
     setTimeout(() => {
       navigate("/");
     }, 2000);
   } catch (err) {
-    setErrorMessage(err.data ? err.data.message : "An error occurred during registration.");
+    const errorMsg = err.data ? err.data.message : "An error occurred during registration.";
+    setErrorMessage(errorMsg);
     setSuccessMessage("");
+    toast.error(errorMsg);
     setTimeout(() => {
       setErrorMessage("");
     }, 2000);

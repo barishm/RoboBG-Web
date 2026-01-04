@@ -5,8 +5,9 @@ import {
 } from "src/app/services/userApiSlice";
 import Loading from "src/components/Loading";
 import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useFormik } from "formik";
+import { toast } from "react-toastify";
 
 const ManageUsers = () => {
   const { accessToken } = useSelector((state) => state.auth);
@@ -17,7 +18,16 @@ const ManageUsers = () => {
     isError: moderatorsIsError,
   } = useGetAllModeratorsQuery(accessToken);
   const [selectedUser, setSelectedUser] = useState(null);
-  const [updateRole] = useUpdateUserMutation();
+  const [updateRole, { isSuccess, isError: isUpdateError, error }] = useUpdateUserMutation();
+
+  // Toast notifications for update user role
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("User role updated successfully!");
+    } else if (isUpdateError) {
+      toast.error(`Failed to update user role: ${error?.data?.message || "Unknown error"}`);
+    }
+  }, [isSuccess, isUpdateError, error]);
 
   let initialValues = {
     id: selectedUser?.id,
