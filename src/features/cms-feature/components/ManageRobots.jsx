@@ -9,6 +9,7 @@ import Loading from "src/components/Loading";
 import RobotForm from "src/features/cms-feature/components/RobotForm";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Pagination from "src/components/Pagination";
 import UploadRobotImage from "src/features/cms-feature/components/UploadRobotImage";
 import CreateLink from "src/features/cms-feature/components/CreateLink";
@@ -20,6 +21,7 @@ import { NO_IMAGE, DEFAULT_ENTITIES_PER_PAGE } from "src/constants";
 
 const ManageRobots = () => {
   const [Model, setModel] = useState("");
+  const navigate = useNavigate();
 
   const [filteredRobots, setFilteredRobots] = useState([]);
   const { data = [], isLoading } =
@@ -117,7 +119,18 @@ const ManageRobots = () => {
                         <i className="fa-regular fa-pen-to-square"></i>
                       </button>
                     </td>
-                    <td>{robot.model}</td>
+                    <td>
+                      <a
+                        href="#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          navigate(`/robots/${robot.id}`);
+                        }}
+                        style={{ cursor: 'pointer', textDecoration: 'underline' }}
+                      >
+                        {robot.model}
+                      </a>
+                    </td>
                     <td>
                       <div
                         className="dropdown"

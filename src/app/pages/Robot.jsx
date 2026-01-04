@@ -12,6 +12,7 @@ import Loading from "src/components/Loading";
 import { useSelector } from "react-redux";
 import { compareMultipleRobots } from "src/utils/utils";
 import { PhotoView } from 'react-photo-view';
+import { NO_IMAGE } from 'src/constants';
 import 'react-photo-view/dist/react-photo-view.css';
 
 const Robot = () => {
@@ -28,7 +29,6 @@ const Robot = () => {
   const { data, isLoading, error } = useGetRobotByIdQuery({ id });
   const { data: allModels, isLoading: allModelsIsLoading } =
     useGetAllRobotsQuery(queryParams);
-  const noImage = "../../../public/images/no-image.jpg";
 
   const compare = (e) => {
     const newModel = e.target.value;
@@ -88,7 +88,7 @@ const Robot = () => {
                       <img
                         className="mt-4 ms-4 rounded-3"
                         style={{ maxWidth: '200px', height: 'auto' }}
-                        src={data.image || noImage}
+                        src={data.image || NO_IMAGE}
                       />
                     </PhotoView>
                   </div>

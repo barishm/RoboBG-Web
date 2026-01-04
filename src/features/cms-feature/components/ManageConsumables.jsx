@@ -6,6 +6,7 @@ import CreateConsumables from 'src/features/cms-feature/components/CreateConsuma
 import UpdateConsumables from 'src/features/cms-feature/components/UpdateConsumable';
 import Loading from 'src/components/Loading';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import DeletePopup from 'src/features/cms-feature/components/DeletePopup';
 import UploadConsumableImages from 'src/features/cms-feature/components/UploadConsumableImages';
 import usePagination from 'src/hooks/usePagination';
@@ -14,6 +15,7 @@ import Pagination from 'src/components/Pagination';
 
 const ManageConsumables = () => {
   const { data, isLoading } = useGetAllConsumablesQuery();
+  const navigate = useNavigate();
 
   const [filteredConsumables, setFilteredConsumables] = useState([]);
   const [consumable, setConsumable] = useState('');
@@ -118,7 +120,18 @@ const ManageConsumables = () => {
                         <i className="fa-regular fa-pen-to-square"></i>
                       </button>
                     </td>
-                    <td>{consumable.title}</td>
+                    <td>
+                      <a
+                        href="#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          navigate(`/consumables/${consumable.id}`);
+                        }}
+                        style={{ cursor: 'pointer', textDecoration: 'underline' }}
+                      >
+                        {consumable.title}
+                      </a>
+                    </td>
                     <td>
                       <button
                         type="button"

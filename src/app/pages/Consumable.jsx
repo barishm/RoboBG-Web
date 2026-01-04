@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { useGetConsumableByIdQuery } from "src/app/services/consumableApiSlice";
 import { PhotoView } from 'react-photo-view';
 import 'react-photo-view/dist/react-photo-view.css';
-import { NO_IMAGE } from "src/constants";
+import { NO_IMAGE } from 'src/constants';
 
 const Consumable = () => {
   const [Tab, setTab] = useState("Specs");
@@ -66,28 +66,57 @@ const Consumable = () => {
                       className="carousel slide"
                       data-bs-ride="carousel"
                     >
-                      <div className="carousel-indicators">
-                        {data.images?.map((_, index) => (
-                          <button
-                            key={index}
-                            type="button"
-                            data-bs-target="#carouselExampleIndicators"
-                            data-bs-slide-to={index}
-                            className={index === 0 ? "active" : ""}
-                            aria-current={index === 0 ? "true" : undefined}
-                            aria-label={`Slide ${index + 1}`}
-                          ></button>
-                        ))}
-                      </div>
+                      {data.images && data.images.length > 0 && (
+                        <div className="carousel-indicators">
+                          {data.images.map((_, index) => (
+                            <button
+                              key={index}
+                              type="button"
+                              data-bs-target="#carouselExampleIndicators"
+                              data-bs-slide-to={index}
+                              className={index === 0 ? "active" : ""}
+                              aria-current={index === 0 ? "true" : undefined}
+                              aria-label={`Slide ${index + 1}`}
+                            ></button>
+                          ))}
+                        </div>
+                      )}
 
                       <div className="carousel-inner rounded-3">
-                        {data.images?.map((imageSrc, index) => (
-                          <div
-                            className={`carousel-item ${
-                              index === 0 ? "active" : ""
-                            }`}
-                            key={index}
-                          >
+                        {data.images && data.images.length > 0 ? (
+                          data.images.map((imageSrc, index) => (
+                            <div
+                              className={`carousel-item ${
+                                index === 0 ? "active" : ""
+                              }`}
+                              key={index}
+                            >
+                              <div
+                                style={{
+                                  position: "relative",
+                                  width: "100%",
+                                  paddingTop: "100%",
+                                }}
+                              >
+                                <PhotoView key={index} src={imageSrc}>
+                                <img
+                                  src={imageSrc || NO_IMAGE}
+                                  alt={`Slide ${index + 1}`}
+                                  style={{
+                                    position: "absolute",
+                                    top: 0,
+                                    left: 0,
+                                    width: "100%",
+                                    height: "100%",
+                                    objectFit: "cover",
+                                  }}
+                                />
+                                </PhotoView>
+                              </div>
+                            </div>
+                          ))
+                        ) : (
+                          <div className="carousel-item active">
                             <div
                               style={{
                                 position: "relative",
@@ -95,10 +124,9 @@ const Consumable = () => {
                                 paddingTop: "100%",
                               }}
                             >
-                              <PhotoView key={index} src={imageSrc}>
                               <img
-                                src={imageSrc || NO_IMAGE}
-                                alt={`Slide ${index + 1}`}
+                                src={NO_IMAGE}
+                                alt="No image available"
                                 style={{
                                   position: "absolute",
                                   top: 0,
@@ -108,36 +136,39 @@ const Consumable = () => {
                                   objectFit: "cover",
                                 }}
                               />
-                              </PhotoView>
                             </div>
                           </div>
-                        ))}
+                        )}
                       </div>
 
-                      <button
-                        className="carousel-control-prev"
-                        type="button"
-                        data-bs-target="#carouselExampleIndicators"
-                        data-bs-slide="prev"
-                      >
-                        <span
-                          className="carousel-control-prev-icon"
-                          aria-hidden="true"
-                        ></span>
-                        <span className="visually-hidden">Previous</span>
-                      </button>
-                      <button
-                        className="carousel-control-next"
-                        type="button"
-                        data-bs-target="#carouselExampleIndicators"
-                        data-bs-slide="next"
-                      >
-                        <span
-                          className="carousel-control-next-icon"
-                          aria-hidden="true"
-                        ></span>
-                        <span className="visually-hidden">Next</span>
-                      </button>
+                      {data.images && data.images.length > 1 && (
+                        <>
+                          <button
+                            className="carousel-control-prev"
+                            type="button"
+                            data-bs-target="#carouselExampleIndicators"
+                            data-bs-slide="prev"
+                          >
+                            <span
+                              className="carousel-control-prev-icon"
+                              aria-hidden="true"
+                            ></span>
+                            <span className="visually-hidden">Previous</span>
+                          </button>
+                          <button
+                            className="carousel-control-next"
+                            type="button"
+                            data-bs-target="#carouselExampleIndicators"
+                            data-bs-slide="next"
+                          >
+                            <span
+                              className="carousel-control-next-icon"
+                              aria-hidden="true"
+                            ></span>
+                            <span className="visually-hidden">Next</span>
+                          </button>
+                        </>
+                      )}
                     </div>
                   </div>
                   <div className="col-12 col-md-8 mt-2 p-4">
