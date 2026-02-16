@@ -1,9 +1,20 @@
 // components/DeletePopup.js
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 const DeletePopup = ({ id, deleteMutationHook, message, modalId }) => {
-  const [deleteItem] = deleteMutationHook();
+  const [deleteItem, { isSuccess, isError, error }] = deleteMutationHook();
   const { accessToken } = useSelector((state) => state.auth);
+
+  // Toast notifications for delete operation
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("Item deleted successfully!");
+    } else if (isError) {
+      toast.error(`Failed to delete item: ${error?.data?.message || "Unknown error"}`);
+    }
+  }, [isSuccess, isError, error]);
 
   const handleDelete = () => {
     deleteItem({ id, accessToken });

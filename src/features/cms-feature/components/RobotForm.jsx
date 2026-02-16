@@ -25,6 +25,30 @@ const RobotForm = ({ action = 'C', id = null }) => {
     const { data, isLoading: isLoadingRobot, isFetching } = useGetRobotByIdQuery({ id }, { skip: !isUpdate });
     const [robotData, setRobotData] = useState();
 
+    // Helper function to convert boolean/null values to strings for select elements
+    const boolToString = (value) => {
+        if (value === null || value === undefined) return "null";
+        return String(value);
+    };
+
+    // Toast notifications for create robot
+    useEffect(() => {
+        if (isCreateSuccess) {
+            toast.success("Robot created successfully!");
+        } else if (isCreateError) {
+            toast.error(`Failed to create robot: ${createError?.data?.message || "Unknown error"}`);
+        }
+    }, [isCreateSuccess, isCreateError, createError]);
+
+    // Toast notifications for update robot
+    useEffect(() => {
+        if (isUpdateSuccess) {
+            toast.success("Robot updated successfully!");
+        } else if (isUpdateError) {
+            toast.error(`Failed to update robot: ${updateError?.data?.message || "Unknown error"}`);
+        }
+    }, [isUpdateSuccess, isUpdateError, updateError]);
+
     // Reset robotData when id changes
     useEffect(() => {
         if (isUpdate && id) {

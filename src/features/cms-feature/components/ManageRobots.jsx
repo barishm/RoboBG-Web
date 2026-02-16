@@ -9,23 +9,35 @@ import Loading from "src/components/Loading";
 import RobotForm from "src/features/cms-feature/components/RobotForm";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Pagination from "src/components/Pagination";
 import UploadRobotImage from "src/features/cms-feature/components/UploadRobotImage";
 import CreateLink from "src/features/cms-feature/components/CreateLink";
 import DeletePopup from "src/features/cms-feature/components/DeletePopup";
 import usePagination from "src/hooks/usePagination";
+import { toast } from "react-toastify";
 
 import { NO_IMAGE, DEFAULT_ENTITIES_PER_PAGE } from "src/constants";
 
 const ManageRobots = () => {
-  const [Model, setModel] = useState("");
+  const [model, setModel] = useState("");
+  const navigate = useNavigate();
 
   const [filteredRobots, setFilteredRobots] = useState([]);
   const { data = [], isLoading } =
-  useGetAllRobotsNewQuery();
+    useGetAllRobotsNewQuery();
   const [robotId, setRobotId] = useState(null);
-  const [deleteLink] = useDeleteLinkMutation();
+  const [deleteLink, { isSuccess: isDeleteLinkSuccess, isError: isDeleteLinkError, error: deleteLinkError }] = useDeleteLinkMutation();
   const { accessToken } = useSelector((state) => state.auth);
+
+  // Toast notifications for delete link
+  useEffect(() => {
+    if (isDeleteLinkSuccess) {
+      toast.success("Link deleted successfully!");
+    } else if (isDeleteLinkError) {
+      toast.error(`Failed to delete link: ${deleteLinkError?.data?.message || "Unknown error"}`);
+    }
+  }, [isDeleteLinkSuccess, isDeleteLinkError, deleteLinkError]);
 
   const {
     page,
@@ -39,11 +51,30 @@ const ManageRobots = () => {
     deleteLink({ id, accessToken });
   };
 
-    useEffect(() => {
-      if (!isLoading && Array.isArray(data)) {
-        setFilteredRobots([...data]);
-      }
-    }, [data, isLoading]);
+    function filterRobot(searchText) {
+    setModel(searchText);
+    if (!searchText) {
+      setFilteredRobots(data);
+    } else {
+      setFilteredRobots(
+        data.filter((item) =>
+          item.model.toLowerCase().includes(searchText.toLowerCase())
+        )
+      );
+    }
+    setPage(0);
+  }
+
+  useEffect(() => {
+  if (!isLoading && Array.isArray(data)) {
+    const sorted = [...data].sort((a, b) =>
+      a.model.localeCompare(b.model, undefined, { sensitivity: "base" })
+    );
+
+    setFilteredRobots(sorted);
+  }
+}, [data, isLoading]);
+
 
   return (
     <div>
@@ -55,15 +86,14 @@ const ManageRobots = () => {
           maxWidth: "500px",
         }}
       >
-        <DeletePopup id={robotId} deleteMutationHook={useDeleteRobotMutation} message={"ARE YOU SURE YOU WANT TO DELETE THIS ROBOT?"} modalId={"DeleteRobotModal"}/>
+        <DeletePopup id={robotId} deleteMutationHook={useDeleteRobotMutation} message={"ARE YOU SURE YOU WANT TO DELETE THIS ROBOT?"} modalId={"DeleteRobotModal"} />
         <RobotForm action="C" />
         <RobotForm action="U" id={robotId} />
         <input
           className="form-control form-control-sm mt-3"
-          value={Model}
+          value={model}
           onChange={(e) => {
-            setModel(e.target.value);
-            setPage(0);
+            filterRobot(e.target.value);
           }}
           type="text"
           placeholder="Search by model"
@@ -107,7 +137,18 @@ const ManageRobots = () => {
                         <i className="fa-regular fa-pen-to-square"></i>
                       </button>
                     </td>
-                    <td>{robot.model}</td>
+                    <td>
+                      <a
+                        href="#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          navigate(`/robots/${robot.id}`);
+                        }}
+                        style={{ cursor: 'pointer', textDecoration: 'underline' }}
+                      >
+                        {robot.model}
+                      </a>
+                    </td>
                     <td>
                       <div
                         className="dropdown"
@@ -140,7 +181,7 @@ const ManageRobots = () => {
                           {robot.purchaseLinks.map((link) => (
                             <li key={link.id}>
                               <span className="d-flex">
-                                <a className="dropdown-item" href={link.link}>
+                                <a className="dropdown-item" href={link.link} target="_blank">
                                   {link.name}
                                 </a>
                                 <button

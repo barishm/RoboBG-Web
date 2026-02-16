@@ -1,13 +1,23 @@
 import { useCreateConsumableMutation } from 'src/app/services/consumableApiSlice';
 import { useGetAllRobotsNewQuery } from 'src/app/services/robotApiSlice';
 import { useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 const CreateConsumables = () => {
   const { accessToken } = useSelector((state) => state.auth);
-  const [createConsumable] = useCreateConsumableMutation();
+  const [createConsumable, { isSuccess, isError: isMutationError, error }] = useCreateConsumableMutation();
   const [robotsCount, setRobotsCount] = useState(1);
   const { data: robots = [], isLoading, isError } = useGetAllRobotsNewQuery();
+
+  // Toast notifications for create consumable
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success('Consumable created successfully!');
+    } else if (isMutationError) {
+      toast.error(`Failed to create consumable: ${error?.data?.message || 'Unknown error'}`);
+    }
+  }, [isSuccess, isMutationError, error]);
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');

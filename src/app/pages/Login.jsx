@@ -6,6 +6,7 @@ import { jwtDecode } from "jwt-decode";
 import { useLoginMutation } from "src/app/services/authApiSlice";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const {t} = useTranslation()
@@ -43,9 +44,12 @@ const Login = () => {
       );
       setUsername("");
       setPassword("");
+      toast.success("Logged in successfully!");
       navigate("/");
     } catch (err) {
-      setErrorMessage("Incorrect username or password");
+      const errorMsg = "Incorrect username or password";
+      setErrorMessage(errorMsg);
+      toast.error(errorMsg);
       setTimeout(() => {
         setErrorMessage("");
       }, 2000);

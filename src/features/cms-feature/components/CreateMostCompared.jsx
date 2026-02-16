@@ -1,7 +1,8 @@
 import { useSelector } from "react-redux";
 import { useGetAllRobotsQuery } from "src/app/services/robotApiSlice";
 import { useCreateMostComparesMutation } from "src/app/services/mostComparesApiSlice";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
 const CreateMostCompared = () => {
   const queryParams = {
@@ -17,7 +18,16 @@ const CreateMostCompared = () => {
 
   const { accessToken } = useSelector((state) => state.auth);
   const { data: allModels } = useGetAllRobotsQuery(queryParams);
-  const [CreateMostCompared] = useCreateMostComparesMutation();
+  const [CreateMostCompared, { isSuccess, isError, error }] = useCreateMostComparesMutation();
+
+  // Toast notifications for create most compared
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("Most compared entry created successfully!");
+    } else if (isError) {
+      toast.error(`Failed to create most compared: ${error?.data?.message || "Unknown error"}`);
+    }
+  }, [isSuccess, isError, error]);
 
   const create = async () => {
     const findIdByModel = (model) => {
