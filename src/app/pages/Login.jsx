@@ -5,8 +5,10 @@ import { setCredentials } from "src/app/redux/authSlice";
 import { jwtDecode } from "jwt-decode";
 import { useLoginMutation } from "src/app/services/authApiSlice";
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 const Login = () => {
+  const {t} = useTranslation()
   const lang = useSelector((state) => state.language.lang);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -127,29 +129,27 @@ const Login = () => {
               type="submit"
               style={{ width: "100px" }}
             >
-              Login
+              {t("Login")}
             </button>
           </form>
 
           <div className="mt-3">
             <p className="mb-1">
-              {lang === "en" ? "Don't have an account?" : "Нямате акаунт?"}{" "}
               <a
                 href="#"
                 onClick={() => navigate("/register")}
                 className="fw-bold"
               >
-                {lang === "en" ? "Sign Up" : "Регистрирай се"}
+                {lang === "en" ? "Sign Up" : "Регистрация"}
               </a>
             </p>
             <p className="mb-0">
-              {lang === "en" ? "Forgot your password?" : "Забравена парола?"}{" "}
               <a
                 href="#"
                 onClick={() => navigate("/forgot-password")}
                 className="fw-bold"
               >
-                {lang === "en" ? "Reset it" : "Нулирай я"}
+                {lang === "en" ? "Forgot your password" : "Забравена парола"}
               </a>
             </p>
           </div>

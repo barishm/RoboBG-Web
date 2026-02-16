@@ -13,8 +13,10 @@ import { useSelector } from "react-redux";
 import { compareMultipleRobots } from "src/utils/utils";
 import { PhotoView } from 'react-photo-view';
 import 'react-photo-view/dist/react-photo-view.css';
+import { useTranslation } from "react-i18next";
 
 const Robot = () => {
+  const {t} = useTranslation()
   const [Tab, setTab] = useState("Specs");
   const queryParams = {
     fields: "model",
@@ -104,7 +106,7 @@ const Robot = () => {
                       aria-expanded="false"
                       aria-controls="collapseExample"
                     >
-                      Compare
+                      {t("Compare")}
                     </button>
                     <button
                       type="button"

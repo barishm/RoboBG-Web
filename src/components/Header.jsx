@@ -2,8 +2,12 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logOut } from 'src/app/redux/authSlice';
 import { setLanguage } from 'src/app/redux/languageSlice';
+import i18next from 'i18next';
+import { useTranslation } from 'react-i18next';
 
 const Header = ({ setDashboardsActiveComponent }) => {
+  const {t} = useTranslation()
+
   const dispatch = useDispatch();
   const { username, role } = useSelector((state) => state.auth);
   const lang = useSelector((state) => state.language.lang);
@@ -11,6 +15,7 @@ const Header = ({ setDashboardsActiveComponent }) => {
   const navigate = useNavigate();
 
   const handleChangeLanguage = (language) => {
+    i18next.changeLanguage(language);
     dispatch(setLanguage(language));
   };
 
@@ -74,7 +79,7 @@ const Header = ({ setDashboardsActiveComponent }) => {
                 closeCollapse();
               }}
             >
-              Sign in
+              {t("SignIn")}
             </button>
           )}
           <div className="dropdown-center d-md-none me-2">
@@ -293,7 +298,7 @@ const Header = ({ setDashboardsActiveComponent }) => {
                 closeCollapse();
               }}
             >
-              Sign in
+              {t("SignIn")}
             </button>
           )}
           <div className="dropdown-center d-none d-md-block">

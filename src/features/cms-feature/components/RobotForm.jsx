@@ -1,16 +1,27 @@
 import { useCreateRobotMutation, useUpdateRobotMutation, useGetRobotByIdQuery } from "src/app/services/robotApiSlice";
 import { useFormik } from 'formik';
+import * as Yup from 'yup';
 import { cleanFormValues } from "src/utils/utils";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+
+const validationSchema = Yup.object({
+    brand: Yup.string()
+        .required('Brand is required')
+        .min(2, 'Brand must be at least 2 characters'),
+    model: Yup.string()
+        .required('Model is required')
+        .min(2, 'Model must be at least 2 characters'),
+});
 
 const RobotForm = ({ action = 'C', id = null }) => {
     const { accessToken } = useSelector((state) => state.auth);
     const isUpdate = action === 'U' && id;
     const isCreate = action === 'C';
 
-    const [createRobot] = useCreateRobotMutation();
-    const [updateRobot] = useUpdateRobotMutation();
+    const [createRobot, { isSuccess: isCreateSuccess, isError: isCreateError, error: createError }] = useCreateRobotMutation();
+    const [updateRobot, { isSuccess: isUpdateSuccess, isError: isUpdateError, error: updateError }] = useUpdateRobotMutation();
     const { data, isLoading: isLoadingRobot, isFetching } = useGetRobotByIdQuery({ id }, { skip: !isUpdate });
     const [robotData, setRobotData] = useState();
 
@@ -27,41 +38,57 @@ const RobotForm = ({ action = 'C', id = null }) => {
         }
     }, [data, isUpdate]);
 
+    useEffect(() => {
+        if (isCreateSuccess) {
+            toast.success("Robot created successfully!");
+        } else if (isCreateError) {
+            toast.error(`Failed to create robot: ${createError?.data?.error || createError?.error || "Unknown error"}`);
+        }
+    }, [isCreateSuccess, isCreateError, createError]);
+
+    useEffect(() => {
+        if (isUpdateSuccess) {
+            toast.success("Robot updated successfully!");
+        } else if (isUpdateError) {
+            toast.error(`Failed to update robot: ${updateError?.data?.error || updateError?.error || "Unknown error"}`);
+        }
+    }, [isUpdateSuccess, isUpdateError, updateError]);
+
     const getInitialValues = () => {
         if (isUpdate && robotData) {
             return {
                 id: id,
                 brand: robotData?.brand || "",
                 model: robotData?.model || "",
-                bests: robotData?.bests || "null",
-                mapping: robotData?.mapping || "null",
+                bests: robotData?.bests ?? "null",
+                mapping: robotData?.mapping ?? "null",
                 mappingSensorType: robotData?.mappingSensorType || "",
-                highPrecisionMap: robotData?.highPrecisionMap || "null",
-                frontCamera: robotData?.frontCamera || "null",
-                rechargeResume: robotData?.rechargeResume || "null",
-                autoDockAndRecharge: robotData?.autoDockAndRecharge || "null",
+                highPrecisionMap: robotData?.highPrecisionMap ?? "null",
+                frontCamera: robotData?.frontCamera ?? "null",
+                rechargeResume: robotData?.rechargeResume ?? "null",
+                autoDockAndRecharge: robotData?.autoDockAndRecharge ?? "null",
                 noiseLevel: robotData?.noiseLevel || "",
-                display: robotData?.display || "null",
+                display: robotData?.display ?? "null",
                 sideBrushes: robotData?.sideBrushes || "",
-                voicePrompts: robotData?.voicePrompts || "null",
+                voicePrompts: robotData?.voicePrompts ?? "null",
                 cleaningFeatures: {
                     suctionPower: robotData?.cleaningFeatures?.suctionPower || "",
                     cleaningArea: robotData?.cleaningFeatures?.cleaningArea || "",
                     dustbinCapacity: robotData?.cleaningFeatures?.dustbinCapacity || "",
                     disposableDustBagCapacity: robotData?.cleaningFeatures?.disposableDustBagCapacity || "",
-                    autoDirtDisposal: robotData?.cleaningFeatures?.autoDirtDisposal || "null",
+                    autoDirtDisposal: robotData?.cleaningFeatures?.autoDirtDisposal ?? "null",
                     barrierCrossHeight: robotData?.cleaningFeatures?.barrierCrossHeight || "",
-                    hepaFilter: robotData?.cleaningFeatures?.hepaFilter || "null",
-                    washableFilter: robotData?.cleaningFeatures?.washableFilter || "null"
+                    hepaFilter: robotData?.cleaningFeatures?.hepaFilter ?? "null",
+                    washableFilter: robotData?.cleaningFeatures?.washableFilter ?? "null"
                 },
                 moppingFeatures: {
-                    wetMopping: robotData?.moppingFeatures?.wetMopping || "null",
-                    electricWaterFlowControl: robotData?.moppingFeatures?.electricWaterFlowControl || "null",
+                    wetMopping: robotData?.moppingFeatures?.wetMopping ?? "null",
+                    electricWaterFlowControl: robotData?.moppingFeatures?.electricWaterFlowControl ?? "null",
                     waterTankCapacity: robotData?.moppingFeatures?.waterTankCapacity || "",
-                    vibratingMoppingPad: robotData?.moppingFeatures?.vibratingMoppingPad || "null",
-                    autoMopLifting: robotData?.moppingFeatures?.autoMopLifting || "null",
-                    autoWaterTankRefilling: robotData?.moppingFeatures?.autoWaterTankRefilling || "null",
-                    autoMopWashing: robotData?.moppingFeatures?.autoMopWashing || "null"
+                    vibratingMoppingPad: robotData?.moppingFeatures?.vibratingMoppingPad ?? "null",
+                    autoMopLifting: robotData?.moppingFeatures?.autoMopLifting ?? "null",
+                    autoWaterTankRefilling: robotData?.moppingFeatures?.autoWaterTankRefilling ?? "null",
+                    autoMopWashing: robotData?.moppingFeatures?.autoMopWashing ?? "null"
                 },
                 battery: {
                     batteryCapacity: robotData?.battery?.batteryCapacity || "",
@@ -70,28 +97,28 @@ const RobotForm = ({ action = 'C', id = null }) => {
                     ratedPower: robotData?.battery?.ratedPower || ""
                 },
                 control: {
-                    scheduling: robotData?.control?.scheduling || "null",
-                    wifiSmartphoneApp: robotData?.control?.wifiSmartphoneApp || "null",
+                    scheduling: robotData?.control?.scheduling ?? "null",
+                    wifiSmartphoneApp: robotData?.control?.wifiSmartphoneApp ?? "null",
                     wifiFrequencyBand: robotData?.control?.wifiFrequencyBand || "",
-                    amazonAlexaSupport: robotData?.control?.amazonAlexaSupport || "null",
-                    googleAssistantSupport: robotData?.control?.googleAssistantSupport || "null",
-                    magneticVirtualWalls: robotData?.control?.magneticVirtualWalls || "null",
-                    irRfRemoteControl: robotData?.control?.irRfRemoteControl || "null"
+                    amazonAlexaSupport: robotData?.control?.amazonAlexaSupport ?? "null",
+                    googleAssistantSupport: robotData?.control?.googleAssistantSupport ?? "null",
+                    magneticVirtualWalls: robotData?.control?.magneticVirtualWalls ?? "null",
+                    irRfRemoteControl: robotData?.control?.irRfRemoteControl ?? "null"
                 },
                 appFeatures: {
-                    realTimeTracking: robotData?.appFeatures?.realTimeTracking || "null",
-                    digitalBlockedAreas: robotData?.appFeatures?.digitalBlockedAreas || "null",
-                    zonedCleaning: robotData?.appFeatures?.zonedCleaning || "null",
-                    multiFloorMaps: robotData?.appFeatures?.multiFloorMaps || "null",
-                    manualMovementControl: robotData?.appFeatures?.manualMovementControl || "null",
-                    selectedRoomCleaning: robotData?.appFeatures?.selectedRoomCleaning || "null",
-                    noMopZones: robotData?.appFeatures?.noMopZones || "null"
+                    realTimeTracking: robotData?.appFeatures?.realTimeTracking ?? "null",
+                    digitalBlockedAreas: robotData?.appFeatures?.digitalBlockedAreas ?? "null",
+                    zonedCleaning: robotData?.appFeatures?.zonedCleaning ?? "null",
+                    multiFloorMaps: robotData?.appFeatures?.multiFloorMaps ?? "null",
+                    manualMovementControl: robotData?.appFeatures?.manualMovementControl ?? "null",
+                    selectedRoomCleaning: robotData?.appFeatures?.selectedRoomCleaning ?? "null",
+                    noMopZones: robotData?.appFeatures?.noMopZones ?? "null"
                 },
                 sensor: {
-                    carpetBoost: robotData?.sensor?.carpetBoost || "null",
-                    cliffSensor: robotData?.sensor?.cliffSensor || "null",
-                    dirtSensor: robotData?.sensor?.dirtSensor || "null",
-                    fullDustbinSensor: robotData?.sensor?.fullDustbinSensor || "null"
+                    carpetBoost: robotData?.sensor?.carpetBoost ?? "null",
+                    cliffSensor: robotData?.sensor?.cliffSensor ?? "null",
+                    dirtSensor: robotData?.sensor?.dirtSensor ?? "null",
+                    fullDustbinSensor: robotData?.sensor?.fullDustbinSensor ?? "null"
                 },
                 otherSpecifications: {
                     weight: robotData?.otherSpecifications?.weight || "",
@@ -172,23 +199,28 @@ const RobotForm = ({ action = 'C', id = null }) => {
                 width: "",
                 height: "",
                 inTheBox: "",
-                releaseDate: ""
+                releaseDate: "",
+                warranty: ""
             }
         };
     };
 
     const handleSubmit = async (robotBody) => {
-        if (isUpdate) {
-            await updateRobot({ robotBody, accessToken }).unwrap();
-        } else {
-            await createRobot({ robotBody, accessToken }).unwrap();
+        try {
+            if (isUpdate) {
+                await updateRobot({ robotBody, accessToken }).unwrap();
+            } else {
+                await createRobot({ robotBody, accessToken }).unwrap();
+            }
+        } catch (error) {
+            console.error("Form submission error:", error);
         }
-        formik.resetForm();
     };
 
     const formik = useFormik({
         enableReinitialize: isUpdate,
         initialValues: getInitialValues(),
+        validationSchema: validationSchema,
         onSubmit: values => {
             const robotBody = cleanFormValues(values);
             handleSubmit(robotBody);
@@ -248,12 +280,38 @@ const RobotForm = ({ action = 'C', id = null }) => {
                                 ) : (
                                     <div className="form-inputs">
                                         <div className="mb-3">
-                                            <label htmlFor="exampleFormControlInput1" className="form-label">Brand</label>
-                                            <input className="form-control form-control-sm" type="text" name="brand" onChange={formik.handleChange} value={formik.values.brand || ""}></input>
+                                            <label htmlFor="brand" className="form-label">Brand</label>
+                                            <input
+                                                className={`form-control form-control-sm ${formik.touched.brand && formik.errors.brand ? 'is-invalid' : ''}`}
+                                                type="text"
+                                                id="brand"
+                                                name="brand"
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
+                                                value={formik.values.brand || ""}
+                                            />
+                                            {formik.touched.brand && formik.errors.brand && (
+                                                <div className="invalid-feedback d-block">
+                                                    {formik.errors.brand}
+                                                </div>
+                                            )}
                                         </div>
                                         <div className="mb-3">
-                                            <label htmlFor="exampleFormControlInput1" className="form-label">Model</label>
-                                            <input className="form-control form-control-sm" type="text" name="model" onChange={formik.handleChange} value={formik.values.model || ""}></input>
+                                            <label htmlFor="model" className="form-label">Model</label>
+                                            <input
+                                                className={`form-control form-control-sm ${formik.touched.model && formik.errors.model ? 'is-invalid' : ''}`}
+                                                type="text"
+                                                id="model"
+                                                name="model"
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
+                                                value={formik.values.model || ""}
+                                            />
+                                            {formik.touched.model && formik.errors.model && (
+                                                <div className="invalid-feedback d-block">
+                                                    {formik.errors.model}
+                                                </div>
+                                            )}
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">One of bests</label>
@@ -261,7 +319,7 @@ const RobotForm = ({ action = 'C', id = null }) => {
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Mapping</label>
-                                            <select className="form-control form-control-sm" name="mapping" onChange={formik.handleChange} value={formik.values.mapping || "null"}>
+                                            <select className="form-control form-control-sm" name="mapping" onChange={formik.handleChange} value={formik.values.mapping ?? "null"}>
                                                 <option value="null">N/A</option>
                                                 <option value="true">YES</option>
                                                 <option value="false">NO</option>
@@ -273,36 +331,44 @@ const RobotForm = ({ action = 'C', id = null }) => {
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">High Precision Map</label>
-                                            <select className="form-control form-control-sm" name="highPrecisionMap" onChange={formik.handleChange} value={formik.values.highPrecisionMap || "null"}>
+                                            <select className="form-control form-control-sm" name="highPrecisionMap" onChange={formik.handleChange} value={formik.values.highPrecisionMap ?? "null"}>
                                                 <option value="null">N/A</option>
                                                 <option value="true">YES</option>
                                                 <option value="false">NO</option>
                                             </select>
                                         </div>
-                                        {/* <div className="mb-3">
-                                        <label htmlFor="exampleFormControlInput1" className="form-label">Front Camera</label>
-                                        <select className="form-control form-control-sm" name="frontCamera" onChange={formik.handleChange} value={formik.values.frontCamera || "null"}>
-                                            <option value="null">N/A</option>
-                                            <option value="true">YES</option>
-                                            <option value="false">NO</option>
-                                        </select>
-                                    </div>
-                                    <div className="mb-3">
-                                        <label htmlFor="exampleFormControlInput1" className="form-label">Recharge Resume</label>
-                                        <select className="form-control form-control-sm" name="rechargeResume" onChange={formik.handleChange} value={formik.values.rechargeResume || "null"}>
-                                            <option value="null">N/A</option>
-                                            <option value="true">YES</option>
-                                            <option value="false">NO</option>
-                                        </select>
-                                    </div>
-                                    <div className="mb-3">
-                                        <label htmlFor="exampleFormControlInput1" className="form-label">Auto Dock And Recharge</label>
-                                        <select className="form-control form-control-sm" name="autoDockAndRecharge" onChange={formik.handleChange} value={formik.values.autoDockAndRecharge || "null"}>
-                                            <option value="null">N/A</option>
-                                            <option value="true">YES</option>
-                                            <option value="false">NO</option>
-                                        </select>
-                                    </div> */}
+                                        <div className="mb-3">
+                                            <label htmlFor="frontCamera" className="form-label">Front Camera</label>
+                                            <select className="form-control form-control-sm" name="frontCamera" onChange={formik.handleChange} value={formik.values.frontCamera ?? "null"}>
+                                                <option value="null">N/A</option>
+                                                <option value="true">YES</option>
+                                                <option value="false">NO</option>
+                                            </select>
+                                        </div>
+                                        <div className="mb-3">
+                                            <label htmlFor="rechargeResume" className="form-label">Recharge Resume</label>
+                                            <select className="form-control form-control-sm" name="rechargeResume" onChange={formik.handleChange} value={formik.values.rechargeResume ?? "null"}>
+                                                <option value="null">N/A</option>
+                                                <option value="true">YES</option>
+                                                <option value="false">NO</option>
+                                            </select>
+                                        </div>
+                                        <div className="mb-3">
+                                            <label htmlFor="autoDockAndRecharge" className="form-label">Auto Dock And Recharge</label>
+                                            <select className="form-control form-control-sm" name="autoDockAndRecharge" onChange={formik.handleChange} value={formik.values.autoDockAndRecharge ?? "null"}>
+                                                <option value="null">N/A</option>
+                                                <option value="true">YES</option>
+                                                <option value="false">NO</option>
+                                            </select>
+                                        </div>
+                                        <div className="mb-3">
+                                            <label htmlFor="display" className="form-label">Display</label>
+                                            <select className="form-control form-control-sm" name="display" onChange={formik.handleChange} value={formik.values.display ?? "null"}>
+                                                <option value="null">N/A</option>
+                                                <option value="true">YES</option>
+                                                <option value="false">NO</option>
+                                            </select>
+                                        </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Noise Level</label>
                                             <div className="input-group">
@@ -316,7 +382,7 @@ const RobotForm = ({ action = 'C', id = null }) => {
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Voice Prompts</label>
-                                            <select className="form-control form-control-sm" name="voicePrompts" onChange={formik.handleChange} value={formik.values.voicePrompts || "null"}>
+                                            <select className="form-control form-control-sm" name="voicePrompts" onChange={formik.handleChange} value={formik.values.voicePrompts ?? "null"}>
                                                 <option value="null">N/A</option>
                                                 <option value="true">YES</option>
                                                 <option value="false">NO</option>
@@ -352,7 +418,7 @@ const RobotForm = ({ action = 'C', id = null }) => {
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Auto Dirt Disposal</label>
-                                            <select className="form-control form-control-sm" name="cleaningFeatures.autoDirtDisposal" onChange={formik.handleChange} value={formik.values.cleaningFeatures?.autoDirtDisposal || "null"}>
+                                            <select className="form-control form-control-sm" name="cleaningFeatures.autoDirtDisposal" onChange={formik.handleChange} value={formik.values.cleaningFeatures?.autoDirtDisposal ?? "null"}>
                                                 <option value="null">N/A</option>
                                                 <option value="true">YES</option>
                                                 <option value="false">NO</option>
@@ -367,7 +433,7 @@ const RobotForm = ({ action = 'C', id = null }) => {
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Hepa Filter</label>
-                                            <select className="form-control form-control-sm" name="cleaningFeatures.hepaFilter" onChange={formik.handleChange} value={formik.values.cleaningFeatures?.hepaFilter || "null"}>
+                                            <select className="form-control form-control-sm" name="cleaningFeatures.hepaFilter" onChange={formik.handleChange} value={formik.values.cleaningFeatures?.hepaFilter ?? "null"}>
                                                 <option value="null">N/A</option>
                                                 <option value="true">YES</option>
                                                 <option value="false">NO</option>
@@ -375,7 +441,7 @@ const RobotForm = ({ action = 'C', id = null }) => {
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Washable Filter</label>
-                                            <select className="form-control form-control-sm" name="cleaningFeatures.washableFilter" onChange={formik.handleChange} value={formik.values.cleaningFeatures?.washableFilter || "null"}>
+                                            <select className="form-control form-control-sm" name="cleaningFeatures.washableFilter" onChange={formik.handleChange} value={formik.values.cleaningFeatures?.washableFilter ?? "null"}>
                                                 <option value="null">N/A</option>
                                                 <option value="true">YES</option>
                                                 <option value="false">NO</option>
@@ -383,7 +449,7 @@ const RobotForm = ({ action = 'C', id = null }) => {
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Wet Mopping</label>
-                                            <select className="form-control form-control-sm" name="moppingFeatures.wetMopping" onChange={formik.handleChange} value={formik.values.moppingFeatures?.wetMopping || "null"}>
+                                            <select className="form-control form-control-sm" name="moppingFeatures.wetMopping" onChange={formik.handleChange} value={formik.values.moppingFeatures?.wetMopping ?? "null"}>
                                                 <option value="null">N/A</option>
                                                 <option value="true">YES</option>
                                                 <option value="false">NO</option>
@@ -391,7 +457,7 @@ const RobotForm = ({ action = 'C', id = null }) => {
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Electric Water Flow Control</label>
-                                            <select className="form-control form-control-sm" name="moppingFeatures.electricWaterFlowControl" onChange={formik.handleChange} value={formik.values.moppingFeatures?.electricWaterFlowControl || "null"}>
+                                            <select className="form-control form-control-sm" name="moppingFeatures.electricWaterFlowControl" onChange={formik.handleChange} value={formik.values.moppingFeatures?.electricWaterFlowControl ?? "null"}>
                                                 <option value="null">N/A</option>
                                                 <option value="true">YES</option>
                                                 <option value="false">NO</option>
@@ -406,7 +472,7 @@ const RobotForm = ({ action = 'C', id = null }) => {
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Vibrating Mopping Pad</label>
-                                            <select className="form-control form-control-sm" name="moppingFeatures.vibratingMoppingPad" onChange={formik.handleChange} value={formik.values.moppingFeatures?.vibratingMoppingPad || "null"}>
+                                            <select className="form-control form-control-sm" name="moppingFeatures.vibratingMoppingPad" onChange={formik.handleChange} value={formik.values.moppingFeatures?.vibratingMoppingPad ?? "null"}>
                                                 <option value="null">N/A</option>
                                                 <option value="true">YES</option>
                                                 <option value="false">NO</option>
@@ -414,7 +480,7 @@ const RobotForm = ({ action = 'C', id = null }) => {
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Auto Mop Lifting</label>
-                                            <select className="form-control form-control-sm" name="moppingFeatures.autoMopLifting" onChange={formik.handleChange} value={formik.values.moppingFeatures?.autoMopLifting || "null"}>
+                                            <select className="form-control form-control-sm" name="moppingFeatures.autoMopLifting" onChange={formik.handleChange} value={formik.values.moppingFeatures?.autoMopLifting ?? "null"}>
                                                 <option value="null">N/A</option>
                                                 <option value="true">YES</option>
                                                 <option value="false">NO</option>
@@ -422,13 +488,15 @@ const RobotForm = ({ action = 'C', id = null }) => {
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Auto Water Tank Refilling</label>
-                                            <select className="form-control form-control-sm" name="moppingFeatures.autoWaterTankRefilling" onChange={formik.handleChange} value={formik.values.moppingFeatures?.autoWaterTankRefilling || "null"}>
+                                            <select className="form-control form-control-sm" name="moppingFeatures.autoWaterTankRefilling" onChange={formik.handleChange} value={formik.values.moppingFeatures?.autoWaterTankRefilling ?? "null"}>
                                                 <option value="null">N/A</option>
                                                 <option value="true">YES</option>
                                                 <option value="false">NO</option>
                                             </select>
+                                        </div>
+                                        <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Auto Mop Washing</label>
-                                            <select className="form-control form-control-sm" name="moppingFeatures.autoMopWashing" onChange={formik.handleChange} value={formik.values.moppingFeatures?.autoMopWashing || "null"}>
+                                            <select className="form-control form-control-sm" name="moppingFeatures.autoMopWashing" onChange={formik.handleChange} value={formik.values.moppingFeatures?.autoMopWashing ?? "null"}>
                                                 <option value="null">N/A</option>
                                                 <option value="true">YES</option>
                                                 <option value="false">NO</option>
@@ -464,7 +532,7 @@ const RobotForm = ({ action = 'C', id = null }) => {
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Scheduling</label>
-                                            <select className="form-control form-control-sm" name="control.scheduling" onChange={formik.handleChange} value={formik.values.control?.scheduling || "null"}>
+                                            <select className="form-control form-control-sm" name="control.scheduling" onChange={formik.handleChange} value={formik.values.control?.scheduling ?? "null"}>
                                                 <option value="null">N/A</option>
                                                 <option value="true">YES</option>
                                                 <option value="false">NO</option>
@@ -472,7 +540,7 @@ const RobotForm = ({ action = 'C', id = null }) => {
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Wifi Smartphone App</label>
-                                            <select className="form-control form-control-sm" name="control.wifiSmartphoneApp" onChange={formik.handleChange} value={formik.values.control?.wifiSmartphoneApp || "null"}>
+                                            <select className="form-control form-control-sm" name="control.wifiSmartphoneApp" onChange={formik.handleChange} value={formik.values.control?.wifiSmartphoneApp ?? "null"}>
                                                 <option value="null">N/A</option>
                                                 <option value="true">YES</option>
                                                 <option value="false">NO</option>
@@ -487,7 +555,7 @@ const RobotForm = ({ action = 'C', id = null }) => {
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Amazon Alexa Support</label>
-                                            <select className="form-control form-control-sm" name="control.amazonAlexaSupport" onChange={formik.handleChange} value={formik.values.control?.amazonAlexaSupport || "null"}>
+                                            <select className="form-control form-control-sm" name="control.amazonAlexaSupport" onChange={formik.handleChange} value={formik.values.control?.amazonAlexaSupport ?? "null"}>
                                                 <option value="null">N/A</option>
                                                 <option value="true">YES</option>
                                                 <option value="false">NO</option>
@@ -495,7 +563,7 @@ const RobotForm = ({ action = 'C', id = null }) => {
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Google Assistant Support</label>
-                                            <select className="form-control form-control-sm" name="control.googleAssistantSupport" onChange={formik.handleChange} value={formik.values.control?.googleAssistantSupport || "null"}>
+                                            <select className="form-control form-control-sm" name="control.googleAssistantSupport" onChange={formik.handleChange} value={formik.values.control?.googleAssistantSupport ?? "null"}>
                                                 <option value="null">N/A</option>
                                                 <option value="true">YES</option>
                                                 <option value="false">NO</option>
@@ -503,7 +571,15 @@ const RobotForm = ({ action = 'C', id = null }) => {
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Virtual Walls</label>
-                                            <select className="form-control form-control-sm" name="control.magneticVirtualWalls" onChange={formik.handleChange} value={formik.values.control?.magneticVirtualWalls || "null"}>
+                                            <select className="form-control form-control-sm" name="control.magneticVirtualWalls" onChange={formik.handleChange} value={formik.values.control?.magneticVirtualWalls ?? "null"}>
+                                                <option value="null">N/A</option>
+                                                <option value="true">YES</option>
+                                                <option value="false">NO</option>
+                                            </select>
+                                        </div>
+                                        <div className="mb-3">
+                                            <label htmlFor="irRfRemoteControl" className="form-label">IR/RF Remote Control</label>
+                                            <select className="form-control form-control-sm" name="control.irRfRemoteControl" onChange={formik.handleChange} value={formik.values.control?.irRfRemoteControl ?? "null"}>
                                                 <option value="null">N/A</option>
                                                 <option value="true">YES</option>
                                                 <option value="false">NO</option>
@@ -511,7 +587,7 @@ const RobotForm = ({ action = 'C', id = null }) => {
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Real Time Tracking</label>
-                                            <select className="form-control form-control-sm" name="appFeatures.realTimeTracking" onChange={formik.handleChange} value={formik.values.appFeatures?.realTimeTracking || "null"}>
+                                            <select className="form-control form-control-sm" name="appFeatures.realTimeTracking" onChange={formik.handleChange} value={formik.values.appFeatures?.realTimeTracking ?? "null"}>
                                                 <option value="null">N/A</option>
                                                 <option value="true">YES</option>
                                                 <option value="false">NO</option>
@@ -519,7 +595,7 @@ const RobotForm = ({ action = 'C', id = null }) => {
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Digital Blocked Areas</label>
-                                            <select className="form-control form-control-sm" name="appFeatures.digitalBlockedAreas" onChange={formik.handleChange} value={formik.values.appFeatures?.digitalBlockedAreas || "null"}>
+                                            <select className="form-control form-control-sm" name="appFeatures.digitalBlockedAreas" onChange={formik.handleChange} value={formik.values.appFeatures?.digitalBlockedAreas ?? "null"}>
                                                 <option value="null">N/A</option>
                                                 <option value="true">YES</option>
                                                 <option value="false">NO</option>
@@ -527,7 +603,7 @@ const RobotForm = ({ action = 'C', id = null }) => {
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Zoned Cleaning</label>
-                                            <select className="form-control form-control-sm" name="appFeatures.zonedCleaning" onChange={formik.handleChange} value={formik.values.appFeatures?.zonedCleaning || "null"}>
+                                            <select className="form-control form-control-sm" name="appFeatures.zonedCleaning" onChange={formik.handleChange} value={formik.values.appFeatures?.zonedCleaning ?? "null"}>
                                                 <option value="null">N/A</option>
                                                 <option value="true">YES</option>
                                                 <option value="false">NO</option>
@@ -535,7 +611,15 @@ const RobotForm = ({ action = 'C', id = null }) => {
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Multi Floor Maps</label>
-                                            <select className="form-control form-control-sm" name="appFeatures.multiFloorMaps" onChange={formik.handleChange} value={formik.values.appFeatures?.multiFloorMaps || "null"}>
+                                            <select className="form-control form-control-sm" name="appFeatures.multiFloorMaps" onChange={formik.handleChange} value={formik.values.appFeatures?.multiFloorMaps ?? "null"}>
+                                                <option value="null">N/A</option>
+                                                <option value="true">YES</option>
+                                                <option value="false">NO</option>
+                                            </select>
+                                        </div>
+                                        <div className="mb-3">
+                                            <label htmlFor="manualMovementControl" className="form-label">Manual Movement Control</label>
+                                            <select className="form-control form-control-sm" name="appFeatures.manualMovementControl" onChange={formik.handleChange} value={formik.values.appFeatures?.manualMovementControl ?? "null"}>
                                                 <option value="null">N/A</option>
                                                 <option value="true">YES</option>
                                                 <option value="false">NO</option>
@@ -543,7 +627,7 @@ const RobotForm = ({ action = 'C', id = null }) => {
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Selected Room Cleaning</label>
-                                            <select className="form-control form-control-sm" name="appFeatures.selectedRoomCleaning" onChange={formik.handleChange} value={formik.values.appFeatures?.selectedRoomCleaning || "null"}>
+                                            <select className="form-control form-control-sm" name="appFeatures.selectedRoomCleaning" onChange={formik.handleChange} value={formik.values.appFeatures?.selectedRoomCleaning ?? "null"}>
                                                 <option value="null">N/A</option>
                                                 <option value="true">YES</option>
                                                 <option value="false">NO</option>
@@ -551,7 +635,7 @@ const RobotForm = ({ action = 'C', id = null }) => {
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">No Mop Zones</label>
-                                            <select className="form-control form-control-sm" name="appFeatures.noMopZones" onChange={formik.handleChange} value={formik.values.appFeatures?.noMopZones || "null"}>
+                                            <select className="form-control form-control-sm" name="appFeatures.noMopZones" onChange={formik.handleChange} value={formik.values.appFeatures?.noMopZones ?? "null"}>
                                                 <option value="null">N/A</option>
                                                 <option value="true">YES</option>
                                                 <option value="false">NO</option>
@@ -559,7 +643,7 @@ const RobotForm = ({ action = 'C', id = null }) => {
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Carpet Boost</label>
-                                            <select className="form-control form-control-sm" name="sensor.carpetBoost" onChange={formik.handleChange} value={formik.values.sensor?.carpetBoost || "null"}>
+                                            <select className="form-control form-control-sm" name="sensor.carpetBoost" onChange={formik.handleChange} value={formik.values.sensor?.carpetBoost ?? "null"}>
                                                 <option value="null">N/A</option>
                                                 <option value="true">YES</option>
                                                 <option value="false">NO</option>
@@ -567,7 +651,23 @@ const RobotForm = ({ action = 'C', id = null }) => {
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Cliff Sensor</label>
-                                            <select className="form-control form-control-sm" name="sensor.cliffSensor" onChange={formik.handleChange} value={formik.values.sensor?.cliffSensor || "null"}>
+                                            <select className="form-control form-control-sm" name="sensor.cliffSensor" onChange={formik.handleChange} value={formik.values.sensor?.cliffSensor ?? "null"}>
+                                                <option value="null">N/A</option>
+                                                <option value="true">YES</option>
+                                                <option value="false">NO</option>
+                                            </select>
+                                        </div>
+                                        <div className="mb-3">
+                                            <label htmlFor="dirtSensor" className="form-label">Dirt Sensor</label>
+                                            <select className="form-control form-control-sm" name="sensor.dirtSensor" onChange={formik.handleChange} value={formik.values.sensor?.dirtSensor ?? "null"}>
+                                                <option value="null">N/A</option>
+                                                <option value="true">YES</option>
+                                                <option value="false">NO</option>
+                                            </select>
+                                        </div>
+                                        <div className="mb-3">
+                                            <label htmlFor="fullDustbinSensor" className="form-label">Full Dustbin Sensor</label>
+                                            <select className="form-control form-control-sm" name="sensor.fullDustbinSensor" onChange={formik.handleChange} value={formik.values.sensor?.fullDustbinSensor ?? "null"}>
                                                 <option value="null">N/A</option>
                                                 <option value="true">YES</option>
                                                 <option value="false">NO</option>
@@ -594,14 +694,28 @@ const RobotForm = ({ action = 'C', id = null }) => {
                                                 <span className="input-group-text">cm</span>
                                             </div>
                                         </div>
-                                        {/* <div className="mb-3">
-                                            <label htmlFor="exampleFormControlInput1" className="form-label">In The Box</label>
-                                            <textarea className="form-control form-control-sm" type="text" name="otherSpecifications.inTheBox" onChange={formik.handleChange} value={formik.values.otherSpecifications?.inTheBox || ""} aria-label=".form-control-sm example" />
+                                        <div className="mb-3">
+                                            <label htmlFor="inTheBox" className="form-label">In The Box</label>
+                                            <textarea
+                                                className="form-control form-control-sm"
+                                                name="otherSpecifications.inTheBox"
+                                                onChange={formik.handleChange}
+                                                value={formik.values.otherSpecifications?.inTheBox || ""}
+                                                rows="3"
+                                                placeholder="Enter items included in the box"
+                                            />
                                         </div>
                                         <div className="mb-3">
-                                            <label htmlFor="exampleFormControlInput1" className="form-label">Warranty</label>
-                                            <input className="form-control form-control-sm" type="text" name="otherSpecifications.warranty" onChange={formik.handleChange} value={formik.values.otherSpecifications?.warranty || ""} aria-label=".form-control-sm example" />
-                                        </div> */}
+                                            <label htmlFor="warranty" className="form-label">Warranty</label>
+                                            <input
+                                                className="form-control form-control-sm"
+                                                type="text"
+                                                name="otherSpecifications.warranty"
+                                                onChange={formik.handleChange}
+                                                value={formik.values.otherSpecifications?.warranty || ""}
+                                                placeholder="e.g., 2 years"
+                                            />
+                                        </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Release Date</label>
                                             <input className="form-control form-control-sm" type="date" name="otherSpecifications.releaseDate" onChange={formik.handleChange} value={formik.values.otherSpecifications?.releaseDate || ""} aria-label=".form-control-sm example" />
@@ -618,8 +732,8 @@ const RobotForm = ({ action = 'C', id = null }) => {
                                 >
                                     Close
                                 </button>
-                                <button type="submit" className={submitButtonClass} data-bs-dismiss="modal" disabled={showLoading}>
-                                    {submitButtonText}
+                                <button type="submit" className={submitButtonClass} data-bs-dismiss="modal" disabled={showLoading || formik.isSubmitting}>
+                                    {formik.isSubmitting ? "Saving..." : submitButtonText}
                                 </button>
                             </div>
                         </form>

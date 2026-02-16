@@ -2,8 +2,12 @@
 
 export const cleanFormValues = (values) => {
   return Object.entries(values).reduce((acc, [key, value]) => {
-    if (value === "" || value === "N/A") {
+    if (value === "" || value === "N/A" || value === "null") {
       return { ...acc, [key]: null };
+    } else if (value === "true") {
+      return { ...acc, [key]: true };
+    } else if (value === "false") {
+      return { ...acc, [key]: false };
     } else if (typeof value === "object" && value !== null) {
       return { ...acc, [key]: cleanNestedValues(value) };
     }
@@ -13,8 +17,12 @@ export const cleanFormValues = (values) => {
 
 export const cleanNestedValues = (obj) => {
   return Object.entries(obj).reduce((acc, [key, value]) => {
-    if (value === "" || value === "N/A") {
+    if (value === "" || value === "N/A" || value === "null") {
       return { ...acc, [key]: null };
+    } else if (value === "true") {
+      return { ...acc, [key]: true };
+    } else if (value === "false") {
+      return { ...acc, [key]: false };
     } else if (typeof value === "object" && value !== null) {
       return { ...acc, [key]: cleanNestedValues(value) };
     }
