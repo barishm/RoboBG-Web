@@ -9,6 +9,7 @@ import ConsumableFilters from "src/features/consumables-page-feature/ConsumableF
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import usePagination from "src/hooks/usePagination";
 import { NO_IMAGE, DEFAULT_ENTITIES_PER_PAGE } from "src/constants";
+import CreateConsumables from "src/features/cms-feature/components/CreateConsumable";
 
 const Consumables = () => {
   const lang = useSelector((state) => state.language.lang);
@@ -16,9 +17,10 @@ const Consumables = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { data = [], isLoading, isError } = useGetAllConsumablesQuery();
   const [filteredConsumables, setFilteredConsumables] = useState([]);
+  const { role } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
-    useEffect(() => {
+  useEffect(() => {
     const modelsParam = searchParams.get("models");
     if (modelsParam) {
       const modelsFromURL = modelsParam.split(",");
@@ -47,7 +49,7 @@ const Consumables = () => {
   } = usePagination(filteredConsumables, DEFAULT_ENTITIES_PER_PAGE);
 
   const details = (id) => navigate('/consumables/' + id);
-    const handleFilterChange = (selectedModels) => {
+  const handleFilterChange = (selectedModels) => {
     setFilterByModels(selectedModels);
 
     if (selectedModels.length > 0) {
@@ -62,20 +64,37 @@ const Consumables = () => {
 
   return (
     <section className="mt-4">
+      <CreateConsumables />
       <div className="container d-flex">
         <div className="col-12 col-md-12 col-lg-9">
-          <h3 className="fw-bolder" style={{ marginTop: "10px", textAlign: "center" }}>
+          <h3
+            className="fw-bolder"
+            style={{ marginTop: "10px", textAlign: "center" }}
+          >
             {lang === "en" ? "All consumables" : "Всички консумативи"}
             <br />
+
             <button
-              className="btn btn-dark mt-3 d-lg-none"
+              className="btn btn-dark mt-3 d-lg-none me-2"
               type="button"
               data-bs-toggle="offcanvas"
               data-bs-target="#offcanvasExample"
-              aria-controls="offcanvasExample"
             >
-              <i className="fa-solid fa-filter fa-sm"></i>&nbsp; {lang === "en" ? "Filters" : "Филтри"}
+              <i className="fa-solid fa-filter fa-sm"></i>&nbsp;
+              {lang === "en" ? "Filters" : "Филтри"}
             </button>
+
+            {(role === "ADMIN" || role === "MODERATOR") && (
+              <button
+                className="btn btn-success mt-3"
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#create"
+              >
+                <i className="fa-solid fa-plus fa-sm"></i>&nbsp;
+                {lang === "en" ? "Create" : "Създай"}
+              </button>
+            )}
           </h3>
           {isLoading ? (
             <Loading />

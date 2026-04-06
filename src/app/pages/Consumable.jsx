@@ -7,6 +7,12 @@ import { useGetConsumableByIdQuery } from "src/app/services/consumableApiSlice";
 import { PhotoView } from 'react-photo-view';
 import 'react-photo-view/dist/react-photo-view.css';
 import { NO_IMAGE } from 'src/constants';
+import {
+  useDeleteConsumableMutation,
+} from 'src/app/services/consumableApiSlice';
+import DeletePopup from "src/features/cms-feature/components/DeletePopup";
+import UpdateConsumables from "src/features/cms-feature/components/UpdateConsumable";
+import UploadConsumableImages from "src/features/cms-feature/components/UploadConsumableImages";
 
 const Consumable = () => {
   const [Tab, setTab] = useState("Specs");
@@ -14,7 +20,11 @@ const Consumable = () => {
     fields: "model",
   };
   const lang = useSelector((state) => state.language.lang);
+  const { role } = useSelector((state) => state.auth);
   const navigate = useNavigate();
+
+  const [selectedConsumableToUpdate, setSelectedConsumableToUpdate] = useState(null);
+  const [consumableId, setConsumableId] = useState(null);
 
   const { id } = useParams();
   const { data, isLoading, error } = useGetConsumableByIdQuery({ id });
@@ -34,6 +44,13 @@ const Consumable = () => {
 
   return (
     <div>
+
+
+
+      <DeletePopup id={consumableId} deleteMutationHook={useDeleteConsumableMutation} message={"ARE YOU SURE YOU WANT TO DELETE THIS CONSUMABLE?"} modalId={"DeleteConsumableModal"} />
+      <UpdateConsumables consumable={selectedConsumableToUpdate} />
+      <UploadConsumableImages consumable={consumableId} />
+
       {error ? (
         <>Oh no, there was an error</>
       ) : isLoading ? (
@@ -59,6 +76,35 @@ const Consumable = () => {
                   marginLeft: "auto",
                 }}
               >
+                {(role === "ADMIN" || role === "MODERATOR") && (
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "10px",
+                      right: "10px",
+                      zIndex: 10,
+                    }}
+                  >
+                    <button className="btn btn-sm btn-primary me-2"
+                      value={data.id}
+                      onClick={() => {
+                        setSelectedConsumableToUpdate(data);
+                      }}
+                      data-bs-toggle="modal"
+                      data-bs-target="#update">
+                      Edit
+                    </button>
+                    <button className="btn btn-sm btn-danger"
+                      value={data.id}
+                      onClick={(e) => {
+                        setConsumableId(e.target.value);
+                      }}
+                      data-bs-toggle="modal"
+                      data-bs-target="#DeleteConsumableModal">
+                      Delete
+                    </button>
+                  </div>
+                )}
                 <div className="row">
                   <div className="col-8 col-md-4 mb-4">
                     <div
@@ -66,6 +112,26 @@ const Consumable = () => {
                       className="carousel slide"
                       data-bs-ride="carousel"
                     >
+                      {(role === "ADMIN" || role === "MODERATOR") && (
+                        <button
+                          className="btn btn-light btn-sm"
+                          style={{
+                            position: "absolute",
+                            top: "8px",
+                            right: "8px",
+                            zIndex: 10,
+                          }}
+                          value={data.id}
+                          onClick={(e) => {
+                            setConsumableId(e.currentTarget.value);
+                          }}
+                          data-bs-toggle="modal"
+                          data-bs-target="#uploadConsumableImage"
+                        >
+                          <i className="fa-regular fa-pen-to-square"></i>
+                        </button>
+                      )}
+
                       {data.images && data.images.length > 0 && (
                         <div className="carousel-indicators">
                           {data.images.map((_, index) => (
@@ -86,9 +152,8 @@ const Consumable = () => {
                         {data.images && data.images.length > 0 ? (
                           data.images.map((imageSrc, index) => (
                             <div
-                              className={`carousel-item ${
-                                index === 0 ? "active" : ""
-                              }`}
+                              className={`carousel-item ${index === 0 ? "active" : ""
+                                }`}
                               key={index}
                             >
                               <div
@@ -99,18 +164,18 @@ const Consumable = () => {
                                 }}
                               >
                                 <PhotoView key={index} src={imageSrc}>
-                                <img
-                                  src={imageSrc || NO_IMAGE}
-                                  alt={`Slide ${index + 1}`}
-                                  style={{
-                                    position: "absolute",
-                                    top: 0,
-                                    left: 0,
-                                    width: "100%",
-                                    height: "100%",
-                                    objectFit: "cover",
-                                  }}
-                                />
+                                  <img
+                                    src={imageSrc || NO_IMAGE}
+                                    alt={`Slide ${index + 1}`}
+                                    style={{
+                                      position: "absolute",
+                                      top: 0,
+                                      left: 0,
+                                      width: "100%",
+                                      height: "100%",
+                                      objectFit: "cover",
+                                    }}
+                                  />
                                 </PhotoView>
                               </div>
                             </div>
@@ -181,9 +246,8 @@ const Consumable = () => {
                   <ul className="nav nav-tabs">
                     <li className="nav-item">
                       <a
-                        className={`nav-link ${
-                          Tab === "Specs" ? "active" : ""
-                        }`}
+                        className={`nav-link ${Tab === "Specs" ? "active" : ""
+                          }`}
                         style={{ color: "black" }}
                         onClick={() => changeTab("Specs")}
                         href="#"
@@ -197,8 +261,8 @@ const Consumable = () => {
                   <ul>
                     {data.robots.map((robot, index) => (
                       <li key={index}
-                      onClick={() => navigate(`/robots/${robot.id}`)}
-                      style={{ cursor: 'pointer', color: 'black', textDecoration: 'underline' }}
+                        onClick={() => navigate(`/robots/${robot.id}`)}
+                        style={{ cursor: 'pointer', color: 'black', textDecoration: 'underline' }}
                       >{robot.model}</li>
                     ))}
                   </ul>
