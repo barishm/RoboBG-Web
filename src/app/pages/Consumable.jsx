@@ -74,6 +74,7 @@ const Consumable = () => {
                   maxWidth: "900px",
                   marginRight: "auto",
                   marginLeft: "auto",
+                  position: "relative"
                 }}
               >
                 {(role === "ADMIN" || role === "MODERATOR") && (
