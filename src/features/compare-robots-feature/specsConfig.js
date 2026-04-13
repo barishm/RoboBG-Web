@@ -31,13 +31,13 @@ export const specsConfig = [
   // Battery
   { section: 'Battery' },
   { textKey: 'batteryCapacity', field: 'battery.batteryCapacity', unit: 'mAh' },
-  { textKey: 'batteryLife', field: 'battery.batteryLife', unit: 'min' },
-  { textKey: 'chargingTime', field: 'battery.chargingTime', unit: 'min' },
-  { textKey: 'ratedPower', field: 'battery.ratedPower', unit: 'W' },
+  // { textKey: 'batteryLife', field: 'battery.batteryLife', unit: 'min' },
+  // { textKey: 'chargingTime', field: 'battery.chargingTime', unit: 'min' },
+  // { textKey: 'ratedPower', field: 'battery.ratedPower', unit: 'W' },
 
   // Control
   { section: 'Control' },
-  { textKey: 'scheduling', field: 'control.scheduling' },
+  // { textKey: 'scheduling', field: 'control.scheduling' },
   { textKey: 'wifiSmartphoneApp', field: 'control.wifiSmartphoneApp' },
   { textKey: 'wifiFrequencyBand', field: 'control.wifiFrequencyBand', unit: 'GHz' },
   { textKey: 'amazonAlexaSupport', field: 'control.amazonAlexaSupport' },

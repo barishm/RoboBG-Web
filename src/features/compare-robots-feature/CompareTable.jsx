@@ -72,11 +72,11 @@ const CompareTable = ({ robots, onDeleteRobot }) => {
         >
           {value === null ? (
             <span style={{ color: 'grey' }}>N/A</span>
-          ) : value === true ? (
+          ) : value === "Y" ? (
             <span style={{ color: 'green' }}>
               {lang === 'en' ? 'YES' : 'ДА'}
             </span>
-          ) : value === false ? (
+          ) : value === "N" ? (
             <span style={{ color: 'red' }}>{lang === 'en' ? 'NO' : 'НЕ'}</span>
           ) : (
             value

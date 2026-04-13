@@ -25,11 +25,6 @@ const RobotForm = ({ action = 'C', id = null }) => {
     const { data, isLoading: isLoadingRobot, isFetching } = useGetRobotByIdQuery({ id }, { skip: !isUpdate });
     const [robotData, setRobotData] = useState();
 
-    // Helper function to convert boolean/null values to strings for select elements
-    const boolToString = (value) => {
-        if (value === null || value === undefined) return "null";
-        return String(value);
-    };
 
     // Toast notifications for create robot
     useEffect(() => {
@@ -39,15 +34,6 @@ const RobotForm = ({ action = 'C', id = null }) => {
             toast.error(`Failed to create robot: ${createError?.data?.message || "Unknown error"}`);
         }
     }, [isCreateSuccess, isCreateError, createError]);
-
-    // Toast notifications for update robot
-    useEffect(() => {
-        if (isUpdateSuccess) {
-            toast.success("Robot updated successfully!");
-        } else if (isUpdateError) {
-            toast.error(`Failed to update robot: ${updateError?.data?.message || "Unknown error"}`);
-        }
-    }, [isUpdateSuccess, isUpdateError, updateError]);
 
     // Reset robotData when id changes
     useEffect(() => {
@@ -112,7 +98,11 @@ const RobotForm = ({ action = 'C', id = null }) => {
                     vibratingMoppingPad: robotData?.moppingFeatures?.vibratingMoppingPad ?? "null",
                     autoMopLifting: robotData?.moppingFeatures?.autoMopLifting ?? "null",
                     autoWaterTankRefilling: robotData?.moppingFeatures?.autoWaterTankRefilling ?? "null",
-                    autoMopWashing: robotData?.moppingFeatures?.autoMopWashing ?? "null"
+                    autoMopWashing: robotData?.moppingFeatures?.autoMopWashing ?? "null",
+                    spinningMops: robotData?.moppingFeatures?.spinningMops ?? "null",
+                    washingMopsWithWarmWater: robotData?.moppingFeatures?.washingMopsWithWarmWater ?? "null",
+                    dryingTheMops: robotData?.moppingFeatures?.dryingTheMops ?? "null",
+                    automaticDetergentDosing: robotData?.moppingFeatures?.automaticDetergentDosing ?? "null",
                 },
                 battery: {
                     batteryCapacity: robotData?.battery?.batteryCapacity || "",
@@ -186,7 +176,11 @@ const RobotForm = ({ action = 'C', id = null }) => {
                 vibratingMoppingPad: "null",
                 autoMopLifting: "null",
                 autoWaterTankRefilling: "null",
-                autoMopWashing: "null"
+                autoMopWashing: "null",
+                spinningMops: "null",
+                washingMopsWithWarmWater: "null",
+                dryingTheMops: "null",
+                automaticDetergentDosing: "null"
             },
             battery: {
                 batteryCapacity: "",
@@ -278,7 +272,7 @@ const RobotForm = ({ action = 'C', id = null }) => {
                 id={modalId}
                 tabIndex="-1"
                 aria-labelledby="exampleModalLabel"
-                aria-hidden="true"
+                aria-hidden="Y"
             >
                 <div className="modal-dialog">
                     <div className="modal-content">
@@ -345,8 +339,8 @@ const RobotForm = ({ action = 'C', id = null }) => {
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Mapping</label>
                                             <select className="form-control form-control-sm" name="mapping" onChange={formik.handleChange} value={formik.values.mapping ?? "null"}>
                                                 <option value="null">N/A</option>
-                                                <option value="true">YES</option>
-                                                <option value="false">NO</option>
+                                                <option value="Y">YES</option>
+                                                <option value="N">NO</option>
                                             </select>
                                         </div>
                                         <div className="mb-3">
@@ -357,42 +351,42 @@ const RobotForm = ({ action = 'C', id = null }) => {
                                             <label htmlFor="exampleFormControlInput1" className="form-label">High Precision Map</label>
                                             <select className="form-control form-control-sm" name="highPrecisionMap" onChange={formik.handleChange} value={formik.values.highPrecisionMap ?? "null"}>
                                                 <option value="null">N/A</option>
-                                                <option value="true">YES</option>
-                                                <option value="false">NO</option>
+                                                <option value="Y">YES</option>
+                                                <option value="N">NO</option>
                                             </select>
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="frontCamera" className="form-label">Front Camera</label>
                                             <select className="form-control form-control-sm" name="frontCamera" onChange={formik.handleChange} value={formik.values.frontCamera ?? "null"}>
                                                 <option value="null">N/A</option>
-                                                <option value="true">YES</option>
-                                                <option value="false">NO</option>
+                                                <option value="Y">YES</option>
+                                                <option value="N">NO</option>
                                             </select>
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="rechargeResume" className="form-label">Recharge Resume</label>
                                             <select className="form-control form-control-sm" name="rechargeResume" onChange={formik.handleChange} value={formik.values.rechargeResume ?? "null"}>
                                                 <option value="null">N/A</option>
-                                                <option value="true">YES</option>
-                                                <option value="false">NO</option>
+                                                <option value="Y">YES</option>
+                                                <option value="N">NO</option>
                                             </select>
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="autoDockAndRecharge" className="form-label">Auto Dock And Recharge</label>
                                             <select className="form-control form-control-sm" name="autoDockAndRecharge" onChange={formik.handleChange} value={formik.values.autoDockAndRecharge ?? "null"}>
                                                 <option value="null">N/A</option>
-                                                <option value="true">YES</option>
-                                                <option value="false">NO</option>
+                                                <option value="Y">YES</option>
+                                                <option value="N">NO</option>
                                             </select>
                                         </div>
-                                        <div className="mb-3">
+                                        {/* <div className="mb-3">
                                             <label htmlFor="display" className="form-label">Display</label>
                                             <select className="form-control form-control-sm" name="display" onChange={formik.handleChange} value={formik.values.display ?? "null"}>
                                                 <option value="null">N/A</option>
-                                                <option value="true">YES</option>
-                                                <option value="false">NO</option>
+                                                <option value="Y">YES</option>
+                                                <option value="N">NO</option>
                                             </select>
-                                        </div>
+                                        </div> */}
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Noise Level</label>
                                             <div className="input-group">
@@ -408,8 +402,8 @@ const RobotForm = ({ action = 'C', id = null }) => {
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Voice Prompts</label>
                                             <select className="form-control form-control-sm" name="voicePrompts" onChange={formik.handleChange} value={formik.values.voicePrompts ?? "null"}>
                                                 <option value="null">N/A</option>
-                                                <option value="true">YES</option>
-                                                <option value="false">NO</option>
+                                                <option value="Y">YES</option>
+                                                <option value="N">NO</option>
                                             </select>
                                         </div>
                                         <div className="mb-3">
@@ -444,8 +438,8 @@ const RobotForm = ({ action = 'C', id = null }) => {
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Auto Dirt Disposal</label>
                                             <select className="form-control form-control-sm" name="cleaningFeatures.autoDirtDisposal" onChange={formik.handleChange} value={formik.values.cleaningFeatures?.autoDirtDisposal ?? "null"}>
                                                 <option value="null">N/A</option>
-                                                <option value="true">YES</option>
-                                                <option value="false">NO</option>
+                                                <option value="Y">YES</option>
+                                                <option value="N">NO</option>
                                             </select>
                                         </div>
                                         <div className="mb-3">
@@ -459,32 +453,32 @@ const RobotForm = ({ action = 'C', id = null }) => {
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Hepa Filter</label>
                                             <select className="form-control form-control-sm" name="cleaningFeatures.hepaFilter" onChange={formik.handleChange} value={formik.values.cleaningFeatures?.hepaFilter ?? "null"}>
                                                 <option value="null">N/A</option>
-                                                <option value="true">YES</option>
-                                                <option value="false">NO</option>
+                                                <option value="Y">YES</option>
+                                                <option value="N">NO</option>
                                             </select>
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Washable Filter</label>
                                             <select className="form-control form-control-sm" name="cleaningFeatures.washableFilter" onChange={formik.handleChange} value={formik.values.cleaningFeatures?.washableFilter ?? "null"}>
                                                 <option value="null">N/A</option>
-                                                <option value="true">YES</option>
-                                                <option value="false">NO</option>
+                                                <option value="Y">YES</option>
+                                                <option value="N">NO</option>
                                             </select>
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Wet Mopping</label>
                                             <select className="form-control form-control-sm" name="moppingFeatures.wetMopping" onChange={formik.handleChange} value={formik.values.moppingFeatures?.wetMopping ?? "null"}>
                                                 <option value="null">N/A</option>
-                                                <option value="true">YES</option>
-                                                <option value="false">NO</option>
+                                                <option value="Y">YES</option>
+                                                <option value="N">NO</option>
                                             </select>
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Electric Water Flow Control</label>
                                             <select className="form-control form-control-sm" name="moppingFeatures.electricWaterFlowControl" onChange={formik.handleChange} value={formik.values.moppingFeatures?.electricWaterFlowControl ?? "null"}>
                                                 <option value="null">N/A</option>
-                                                <option value="true">YES</option>
-                                                <option value="false">NO</option>
+                                                <option value="Y">YES</option>
+                                                <option value="N">NO</option>
                                             </select>
                                         </div>
                                         <div className="mb-3">
@@ -498,32 +492,64 @@ const RobotForm = ({ action = 'C', id = null }) => {
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Vibrating Mopping Pad</label>
                                             <select className="form-control form-control-sm" name="moppingFeatures.vibratingMoppingPad" onChange={formik.handleChange} value={formik.values.moppingFeatures?.vibratingMoppingPad ?? "null"}>
                                                 <option value="null">N/A</option>
-                                                <option value="true">YES</option>
-                                                <option value="false">NO</option>
+                                                <option value="Y">YES</option>
+                                                <option value="N">NO</option>
                                             </select>
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Auto Mop Lifting</label>
                                             <select className="form-control form-control-sm" name="moppingFeatures.autoMopLifting" onChange={formik.handleChange} value={formik.values.moppingFeatures?.autoMopLifting ?? "null"}>
                                                 <option value="null">N/A</option>
-                                                <option value="true">YES</option>
-                                                <option value="false">NO</option>
+                                                <option value="Y">YES</option>
+                                                <option value="N">NO</option>
                                             </select>
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Auto Water Tank Refilling</label>
                                             <select className="form-control form-control-sm" name="moppingFeatures.autoWaterTankRefilling" onChange={formik.handleChange} value={formik.values.moppingFeatures?.autoWaterTankRefilling ?? "null"}>
                                                 <option value="null">N/A</option>
-                                                <option value="true">YES</option>
-                                                <option value="false">NO</option>
+                                                <option value="Y">YES</option>
+                                                <option value="N">NO</option>
+                                            </select>
+                                        </div>
+                                        <div className="mb-3">
+                                            <label htmlFor="exampleFormControlInput1" className="form-label">Spinning mops</label>
+                                            <select className="form-control form-control-sm" name="moppingFeatures.spinningMops" onChange={formik.handleChange} value={formik.values.moppingFeatures?.spinningMops ?? "null"}>
+                                                <option value="null">N/A</option>
+                                                <option value="Y">YES</option>
+                                                <option value="N">NO</option>
+                                            </select>
+                                        </div>
+                                        <div className="mb-3">
+                                            <label htmlFor="exampleFormControlInput1" className="form-label">Washing Mops With Warm Water</label>
+                                            <select className="form-control form-control-sm" name="moppingFeatures.washingMopsWithWarmWater" onChange={formik.handleChange} value={formik.values.moppingFeatures?.washingMopsWithWarmWater ?? "null"}>
+                                                <option value="null">N/A</option>
+                                                <option value="Y">YES</option>
+                                                <option value="N">NO</option>
+                                            </select>
+                                        </div>
+                                        <div className="mb-3">
+                                            <label htmlFor="exampleFormControlInput1" className="form-label">Drying The Mops</label>
+                                            <select className="form-control form-control-sm" name="moppingFeatures.dryingTheMops" onChange={formik.handleChange} value={formik.values.moppingFeatures?.dryingTheMops ?? "null"}>
+                                                <option value="null">N/A</option>
+                                                <option value="Y">YES</option>
+                                                <option value="N">NO</option>
+                                            </select>
+                                        </div>
+                                        <div className="mb-3">
+                                            <label htmlFor="exampleFormControlInput1" className="form-label">Automatic Detergent Dosing</label>
+                                            <select className="form-control form-control-sm" name="moppingFeatures.automaticDetergentDosing" onChange={formik.handleChange} value={formik.values.moppingFeatures?.automaticDetergentDosing ?? "null"}>
+                                                <option value="null">N/A</option>
+                                                <option value="Y">YES</option>
+                                                <option value="N">NO</option>
                                             </select>
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Auto Mop Washing</label>
                                             <select className="form-control form-control-sm" name="moppingFeatures.autoMopWashing" onChange={formik.handleChange} value={formik.values.moppingFeatures?.autoMopWashing ?? "null"}>
                                                 <option value="null">N/A</option>
-                                                <option value="true">YES</option>
-                                                <option value="false">NO</option>
+                                                <option value="Y">YES</option>
+                                                <option value="N">NO</option>
                                             </select>
                                         </div>
                                         <div className="mb-3">
@@ -533,41 +559,41 @@ const RobotForm = ({ action = 'C', id = null }) => {
                                                 <span className="input-group-text">mAh</span>
                                             </div>
                                         </div>
-                                        <div className="mb-3">
+                                        {/* <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Battery Life</label>
                                             <div className="input-group">
                                                 <input className="form-control form-control-sm" type="text" name="battery.batteryLife" onChange={formik.handleChange} value={formik.values.battery?.batteryLife || ""} aria-label=".form-control-sm example" />
                                                 <span className="input-group-text">min</span>
                                             </div>
-                                        </div>
-                                        <div className="mb-3">
+                                        </div> */}
+                                        {/* <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Charging Time</label>
                                             <div className="input-group">
                                                 <input className="form-control form-control-sm" type="text" name="battery.chargingTime" onChange={formik.handleChange} value={formik.values.battery?.chargingTime || ""} aria-label=".form-control-sm example" />
                                                 <span className="input-group-text">min</span>
                                             </div>
-                                        </div>
-                                        <div className="mb-3">
+                                        </div> */}
+                                        {/* <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Rated Power</label>
                                             <div className="input-group">
                                                 <input className="form-control form-control-sm" type="text" name="battery.ratedPower" onChange={formik.handleChange} value={formik.values.battery?.ratedPower || ""} aria-label=".form-control-sm example" />
                                                 <span className="input-group-text">W</span>
                                             </div>
-                                        </div>
-                                        <div className="mb-3">
+                                        </div> */}
+                                        {/* <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Scheduling</label>
                                             <select className="form-control form-control-sm" name="control.scheduling" onChange={formik.handleChange} value={formik.values.control?.scheduling ?? "null"}>
                                                 <option value="null">N/A</option>
-                                                <option value="true">YES</option>
-                                                <option value="false">NO</option>
+                                                <option value="Y">YES</option>
+                                                <option value="N">NO</option>
                                             </select>
-                                        </div>
+                                        </div> */}
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Wifi Smartphone App</label>
                                             <select className="form-control form-control-sm" name="control.wifiSmartphoneApp" onChange={formik.handleChange} value={formik.values.control?.wifiSmartphoneApp ?? "null"}>
                                                 <option value="null">N/A</option>
-                                                <option value="true">YES</option>
-                                                <option value="false">NO</option>
+                                                <option value="Y">YES</option>
+                                                <option value="N">NO</option>
                                             </select>
                                         </div>
                                         <div className="mb-3">
@@ -581,122 +607,122 @@ const RobotForm = ({ action = 'C', id = null }) => {
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Amazon Alexa Support</label>
                                             <select className="form-control form-control-sm" name="control.amazonAlexaSupport" onChange={formik.handleChange} value={formik.values.control?.amazonAlexaSupport ?? "null"}>
                                                 <option value="null">N/A</option>
-                                                <option value="true">YES</option>
-                                                <option value="false">NO</option>
+                                                <option value="Y">YES</option>
+                                                <option value="N">NO</option>
                                             </select>
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Google Assistant Support</label>
                                             <select className="form-control form-control-sm" name="control.googleAssistantSupport" onChange={formik.handleChange} value={formik.values.control?.googleAssistantSupport ?? "null"}>
                                                 <option value="null">N/A</option>
-                                                <option value="true">YES</option>
-                                                <option value="false">NO</option>
+                                                <option value="Y">YES</option>
+                                                <option value="N">NO</option>
                                             </select>
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Virtual Walls</label>
                                             <select className="form-control form-control-sm" name="control.magneticVirtualWalls" onChange={formik.handleChange} value={formik.values.control?.magneticVirtualWalls ?? "null"}>
                                                 <option value="null">N/A</option>
-                                                <option value="true">YES</option>
-                                                <option value="false">NO</option>
+                                                <option value="Y">YES</option>
+                                                <option value="N">NO</option>
                                             </select>
                                         </div>
-                                        <div className="mb-3">
+                                        {/* <div className="mb-3">
                                             <label htmlFor="irRfRemoteControl" className="form-label">IR/RF Remote Control</label>
                                             <select className="form-control form-control-sm" name="control.irRfRemoteControl" onChange={formik.handleChange} value={formik.values.control?.irRfRemoteControl ?? "null"}>
                                                 <option value="null">N/A</option>
-                                                <option value="true">YES</option>
-                                                <option value="false">NO</option>
+                                                <option value="Y">YES</option>
+                                                <option value="N">NO</option>
                                             </select>
-                                        </div>
+                                        </div> */}
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Real Time Tracking</label>
                                             <select className="form-control form-control-sm" name="appFeatures.realTimeTracking" onChange={formik.handleChange} value={formik.values.appFeatures?.realTimeTracking ?? "null"}>
                                                 <option value="null">N/A</option>
-                                                <option value="true">YES</option>
-                                                <option value="false">NO</option>
+                                                <option value="Y">YES</option>
+                                                <option value="N">NO</option>
                                             </select>
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Digital Blocked Areas</label>
                                             <select className="form-control form-control-sm" name="appFeatures.digitalBlockedAreas" onChange={formik.handleChange} value={formik.values.appFeatures?.digitalBlockedAreas ?? "null"}>
                                                 <option value="null">N/A</option>
-                                                <option value="true">YES</option>
-                                                <option value="false">NO</option>
+                                                <option value="Y">YES</option>
+                                                <option value="N">NO</option>
                                             </select>
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Zoned Cleaning</label>
                                             <select className="form-control form-control-sm" name="appFeatures.zonedCleaning" onChange={formik.handleChange} value={formik.values.appFeatures?.zonedCleaning ?? "null"}>
                                                 <option value="null">N/A</option>
-                                                <option value="true">YES</option>
-                                                <option value="false">NO</option>
+                                                <option value="Y">YES</option>
+                                                <option value="N">NO</option>
                                             </select>
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Multi Floor Maps</label>
                                             <select className="form-control form-control-sm" name="appFeatures.multiFloorMaps" onChange={formik.handleChange} value={formik.values.appFeatures?.multiFloorMaps ?? "null"}>
                                                 <option value="null">N/A</option>
-                                                <option value="true">YES</option>
-                                                <option value="false">NO</option>
+                                                <option value="Y">YES</option>
+                                                <option value="N">NO</option>
                                             </select>
                                         </div>
-                                        <div className="mb-3">
+                                        {/* <div className="mb-3">
                                             <label htmlFor="manualMovementControl" className="form-label">Manual Movement Control</label>
                                             <select className="form-control form-control-sm" name="appFeatures.manualMovementControl" onChange={formik.handleChange} value={formik.values.appFeatures?.manualMovementControl ?? "null"}>
                                                 <option value="null">N/A</option>
-                                                <option value="true">YES</option>
-                                                <option value="false">NO</option>
+                                                <option value="Y">YES</option>
+                                                <option value="N">NO</option>
                                             </select>
-                                        </div>
+                                        </div> */}
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Selected Room Cleaning</label>
                                             <select className="form-control form-control-sm" name="appFeatures.selectedRoomCleaning" onChange={formik.handleChange} value={formik.values.appFeatures?.selectedRoomCleaning ?? "null"}>
                                                 <option value="null">N/A</option>
-                                                <option value="true">YES</option>
-                                                <option value="false">NO</option>
+                                                <option value="Y">YES</option>
+                                                <option value="N">NO</option>
                                             </select>
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">No Mop Zones</label>
                                             <select className="form-control form-control-sm" name="appFeatures.noMopZones" onChange={formik.handleChange} value={formik.values.appFeatures?.noMopZones ?? "null"}>
                                                 <option value="null">N/A</option>
-                                                <option value="true">YES</option>
-                                                <option value="false">NO</option>
+                                                <option value="Y">YES</option>
+                                                <option value="N">NO</option>
                                             </select>
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Carpet Boost</label>
                                             <select className="form-control form-control-sm" name="sensor.carpetBoost" onChange={formik.handleChange} value={formik.values.sensor?.carpetBoost ?? "null"}>
                                                 <option value="null">N/A</option>
-                                                <option value="true">YES</option>
-                                                <option value="false">NO</option>
+                                                <option value="Y">YES</option>
+                                                <option value="N">NO</option>
                                             </select>
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Cliff Sensor</label>
                                             <select className="form-control form-control-sm" name="sensor.cliffSensor" onChange={formik.handleChange} value={formik.values.sensor?.cliffSensor ?? "null"}>
                                                 <option value="null">N/A</option>
-                                                <option value="true">YES</option>
-                                                <option value="false">NO</option>
+                                                <option value="Y">YES</option>
+                                                <option value="N">NO</option>
                                             </select>
                                         </div>
-                                        <div className="mb-3">
+                                        {/* <div className="mb-3">
                                             <label htmlFor="dirtSensor" className="form-label">Dirt Sensor</label>
                                             <select className="form-control form-control-sm" name="sensor.dirtSensor" onChange={formik.handleChange} value={formik.values.sensor?.dirtSensor ?? "null"}>
                                                 <option value="null">N/A</option>
-                                                <option value="true">YES</option>
-                                                <option value="false">NO</option>
+                                                <option value="Y">YES</option>
+                                                <option value="N">NO</option>
                                             </select>
-                                        </div>
-                                        <div className="mb-3">
+                                        </div> */}
+                                        {/* <div className="mb-3">
                                             <label htmlFor="fullDustbinSensor" className="form-label">Full Dustbin Sensor</label>
                                             <select className="form-control form-control-sm" name="sensor.fullDustbinSensor" onChange={formik.handleChange} value={formik.values.sensor?.fullDustbinSensor ?? "null"}>
                                                 <option value="null">N/A</option>
-                                                <option value="true">YES</option>
-                                                <option value="false">NO</option>
+                                                <option value="Y">YES</option>
+                                                <option value="N">NO</option>
                                             </select>
-                                        </div>
+                                        </div> */}
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Weight</label>
                                             <div className="input-group">
@@ -718,7 +744,7 @@ const RobotForm = ({ action = 'C', id = null }) => {
                                                 <span className="input-group-text">cm</span>
                                             </div>
                                         </div>
-                                        <div className="mb-3">
+                                        {/* <div className="mb-3">
                                             <label htmlFor="inTheBox" className="form-label">In The Box</label>
                                             <textarea
                                                 className="form-control form-control-sm"
@@ -739,7 +765,7 @@ const RobotForm = ({ action = 'C', id = null }) => {
                                                 value={formik.values.otherSpecifications?.warranty || ""}
                                                 placeholder="e.g., 2 years"
                                             />
-                                        </div>
+                                        </div> */}
                                         <div className="mb-3">
                                             <label htmlFor="exampleFormControlInput1" className="form-label">Release Date</label>
                                             <input className="form-control form-control-sm" type="date" name="otherSpecifications.releaseDate" onChange={formik.handleChange} value={formik.values.otherSpecifications?.releaseDate || ""} aria-label=".form-control-sm example" />
