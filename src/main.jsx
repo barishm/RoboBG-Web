@@ -4,8 +4,10 @@ import App from './App.jsx'
 import { BrowserRouter } from "react-router-dom";
 import { store } from './app/redux/store';
 import { Provider } from 'react-redux'
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+// import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import './assets/bootstrap/css/bootstrap.min.css';
+import './assets/bootstrap/js/bootstrap.bundle.min.js';
 import './index.css'
 import "src/utils/i8next.js"
 
