@@ -4,6 +4,7 @@ import { useResetPasswordMutation } from "src/app/services/authApiSlice";
 import { useSelector } from "react-redux";
 import { validatePassword } from "src/utils/utils";
 import { toast } from "react-toastify";
+import { REMOVE_BORDER_AT } from "src/constants";
 
 const PasswordReset = () => {
   const lang = useSelector((state) => state.language.lang);
@@ -98,10 +99,10 @@ const handleSubmit = async (e) => {
 
   return (
     <div
-      className={screenSize > 767 ? "container mt-5 mb-5 " : "container mt-2"}
+      className={screenSize > REMOVE_BORDER_AT ? "container mt-5 mb-5 " : "container mt-2"}
     >
       <div
-        className={screenSize > 767 ? "card shadow-sm" : ""}
+        className={screenSize > REMOVE_BORDER_AT ? "card" : ""}
         style={{
           borderRadius: "1rem",
           maxWidth: "500px",
@@ -132,7 +133,7 @@ const handleSubmit = async (e) => {
                 }}
                 className="form-control form-control-md"
                 style={
-                  screenSize > 767
+                  screenSize > REMOVE_BORDER_AT
                     ? {}
                     : { backgroundColor: "rgb(245,245,245)" }
                 }
@@ -154,7 +155,7 @@ const handleSubmit = async (e) => {
                 name="password"
                 className="form-control form-control-md"
                 style={
-                  screenSize > 767
+                  screenSize > REMOVE_BORDER_AT
                     ? {}
                     : { backgroundColor: "rgb(245,245,245)" }
                 }
@@ -166,7 +167,7 @@ const handleSubmit = async (e) => {
               </label>
             </div>
 
-            <button className="btn btn-dark btn-md mt-1" type="submit" disabled={isLoading || isSuccess}>
+            <button className="btn btn-primary btn-md mt-1" type="submit" disabled={isLoading || isSuccess}>
               {lang === "en" ? "Change password" : "Промяна на паролата"}
             </button>
           </form>

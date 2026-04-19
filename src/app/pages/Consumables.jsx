@@ -75,7 +75,7 @@ const Consumables = () => {
             <br />
 
             <button
-              className="btn btn-dark mt-3 d-lg-none me-2"
+              className="btn btn-primary mt-3 d-lg-none me-2"
               type="button"
               data-bs-toggle="offcanvas"
               data-bs-target="#offcanvasExample"
@@ -102,7 +102,7 @@ const Consumables = () => {
             <div className="row mt-4">
               {paginatedEntities.map((item) => (
                 <div className="col-6 col-sm-6 col-md-4 col-lg-4 col-xl-3 mb-3" key={item.id}>
-                  <div className="card shadow-sm bg-body-tertiary rounded">
+                  <div className="card bg-body-tertiary rounded">
                     <img
                       className="rounded-top"
                       value={item.id}

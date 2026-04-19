@@ -1,5 +1,6 @@
 export const NO_IMAGE = "/images/no-image.jpg";
 export const DEFAULT_ENTITIES_PER_PAGE = 12;
+export const REMOVE_BORDER_AT = 991;
 
 /* CHATBOT CONSTANTS */
 export const CONTACT_MESSAGE = "Свържи се с екипа";

@@ -92,7 +92,7 @@ const CompareForm = () => {
               <button
                 type="submit"
                 onClick={handleCompare}
-                className="btn btn-dark text-center"
+                className="btn btn-primary text-center"
               >
                 {lang === "en" ? <>Compare</> : <>Сравни</>}
               </button>

@@ -122,7 +122,7 @@ const ConsumableFilters = ({ onFilterChange, selectedModels = [] }) => {
           {renderInputSection}
           <button
             type="button"
-            className="btn btn-dark mt-3"
+            className="btn btn-primary mt-3"
             data-bs-dismiss="offcanvas"
             aria-label="Close"
           >

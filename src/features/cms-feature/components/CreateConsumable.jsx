@@ -120,7 +120,7 @@ const CreateConsumables = () => {
             <div className="modal-footer">
               <button
                 type="button"
-                className="btn btn-secondary"
+                className="btn btn-danger"
                 onClick={() => {
                   if (robotsCount > 1) {
                     setRobotsCount(robotsCount - 1);
@@ -128,21 +128,21 @@ const CreateConsumables = () => {
                   }
                 }}
               >
-                -
+                ✖
               </button>
               <button
                 type="button"
-                className="btn btn-secondary"
+                className="btn btn-success"
                 onClick={() => {
                   setRobotsCount(robotsCount + 1);
                   setRobotIds((prev) => [...prev, '']);
                 }}
               >
-                +
+                ✚
               </button>
               <button
                 type="button"
-                className="btn btn-secondary"
+                className="btn btn-primary"
                 data-bs-dismiss="modal"
                 onClick={() => {
                   setTitle('');

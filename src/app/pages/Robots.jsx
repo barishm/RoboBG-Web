@@ -79,7 +79,7 @@ const Robots = () => {
             {lang === 'en' ? 'All Robot Vacuum Cleaners' : 'Всички роботи'}
             <br />
             <button
-              className="btn btn-dark mt-3 d-lg-none"
+              className="btn btn-primary mt-3 d-lg-none"
               type="button"
               data-bs-toggle="offcanvas"
               data-bs-target="#offcanvasExample"
@@ -95,7 +95,7 @@ const Robots = () => {
             <div className="row mt-4">
               {paginatedRobots.map((item) => (
                 <div className="col-6 col-sm-6 col-md-4 col-lg-4 col-xl-3 mb-3" key={item.id}>
-                  <div className="card shadow-sm bg-body-tertiary rounded">
+                  <div className="card bg-body-tertiary rounded">
                     <img
                       className="rounded-top"
                       style={{ cursor: 'pointer' }}

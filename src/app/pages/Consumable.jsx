@@ -13,6 +13,7 @@ import {
 import DeletePopup from "src/features/cms-feature/components/DeletePopup";
 import UpdateConsumables from "src/features/cms-feature/components/UpdateConsumable";
 import UploadConsumableImages from "src/features/cms-feature/components/UploadConsumableImages";
+import { REMOVE_BORDER_AT } from "src/constants";
 
 const Consumable = () => {
   const [Tab, setTab] = useState("Specs");
@@ -60,14 +61,18 @@ const Consumable = () => {
       ) : data ? (
         <>
           <div
-            className={screenSize > 575 ? "container mt-4" : "container"}
-            style={screenSize > 575 ? {} : { backgroundColor: "white" }}
+            className={screenSize > REMOVE_BORDER_AT ? "container mt-4" : "container"}
+            style={screenSize > REMOVE_BORDER_AT ? {} : { backgroundColor: "white" }}
           >
             <div className="row">
+              <ol style={{ maxWidth: "900px" }} class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#" className="text-primary">Consumables</a></li>
+                <li class="breadcrumb-item active">{data.title}</li>
+              </ol>
               <div
                 className={
-                  screenSize > 575
-                    ? "col-12 shadow-sm rounded card p-sm-5 mb-5"
+                  screenSize > REMOVE_BORDER_AT
+                    ? "col-12 rounded card p-sm-5 mb-5"
                     : "col-12 p-sm-5 mb-5 mt-5"
                 }
                 style={{
@@ -86,7 +91,22 @@ const Consumable = () => {
                       zIndex: 10,
                     }}
                   >
-                    <button className="btn btn-sm btn-primary me-2"
+                    <button
+                      className="btn btn-light btn-sm me-1"
+                      value={data.id}
+                      onClick={(e) => setConsumableId(e.currentTarget.value)}
+                      data-bs-toggle="modal"
+                      data-bs-target="#uploadConsumableImage"
+                      style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}
+                    >
+                      <img
+                        src="/images/image-gallery.png"
+                        className="img-fluid"
+                        style={{ maxHeight: '1.3rem' }}
+                        alt="Upload"
+                      />
+                    </button>
+                    <button className="btn btn-sm btn-primary me-1"
                       value={data.id}
                       onClick={() => {
                         setSelectedConsumableToUpdate(data);
@@ -113,26 +133,6 @@ const Consumable = () => {
                       className="carousel slide"
                       data-bs-ride="carousel"
                     >
-                      {(role === "ADMIN" || role === "MODERATOR") && (
-                        <button
-                          className="btn btn-light btn-sm"
-                          style={{
-                            position: "absolute",
-                            top: "8px",
-                            right: "8px",
-                            zIndex: 10,
-                          }}
-                          value={data.id}
-                          onClick={(e) => {
-                            setConsumableId(e.currentTarget.value);
-                          }}
-                          data-bs-toggle="modal"
-                          data-bs-target="#uploadConsumableImage"
-                        >
-                          <i className="fa-regular fa-pen-to-square"></i>
-                        </button>
-                      )}
-
                       {data.images && data.images.length > 0 && (
                         <div className="carousel-indicators">
                           {data.images.map((_, index) => (

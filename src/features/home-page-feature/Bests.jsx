@@ -42,7 +42,7 @@ const Bests = () => {
               key={item.id}
               className="col-6 col-sm-6 col-md-4 col-lg-4 col-xl-3 mb-3"
             >
-              <div className="card shadow-sm bg-body-tertiary rounded">
+              <div className="card bg-body-tertiary rounded">
                 <img
                   className="card-img-top rounded-top"
                   value={item.id}

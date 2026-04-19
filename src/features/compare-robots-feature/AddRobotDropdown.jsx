@@ -58,7 +58,7 @@ const AddRobotDropdown = ({ robots, onAddRobot }) => {
         }
         onChange={(e) => setModel(e.target.value)}
       />
-      <button type="button" className="btn btn-dark" onClick={handleAdd}>
+      <button type="button" className="btn btn-primary" onClick={handleAdd}>
         {lang === 'en' ? 'Add' : 'Добави'}
       </button>
       <datalist id="datalistOptions">

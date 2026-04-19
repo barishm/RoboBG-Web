@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { useRegisterMutation } from "src/app/services/authApiSlice";
 import { validatePassword, validateUsername, isEmailInvalid } from "src/utils/utils";
 import { toast } from "react-toastify";
+import { REMOVE_BORDER_AT } from "src/constants";
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -82,7 +83,7 @@ const sendRequest = async (e) => {
   };
   return (
     <div className="container mt-5 mb-5">
-          <div className={screenSize > 767 ? "card shadow-sm" : ""} style={{ borderRadius: "1rem",maxWidth:"500px",marginLeft:"auto",marginRight:"auto" }}>
+          <div className={screenSize > REMOVE_BORDER_AT ? "card" : ""} style={{ borderRadius: "1rem",maxWidth:"500px",marginLeft:"auto",marginRight:"auto" }}>
             <div className="card-body p-5 text-center">
                 <form>
                   <h2 className="fw-bold mb-4">{lang === "en" ? "Sign up" : "Регистрирай се"}</h2>
@@ -102,7 +103,7 @@ const sendRequest = async (e) => {
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
                       className={`form-control form-control-md ${invalidUsername ? "is-invalid" : ""}`}
-                      style={screenSize > 767 ? {} : {backgroundColor:"rgb(245,245,245)"}}
+                      style={screenSize > REMOVE_BORDER_AT ? {} : {backgroundColor:"rgb(245,245,245)"}}
                     />
                     <div className="invalid-feedback">
                       Username must contain 5-20 Characters.
@@ -115,7 +116,7 @@ const sendRequest = async (e) => {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       className={`form-control form-control-md ${invalidEmail ? "is-invalid" : ""}`}
-                      style={screenSize > 767 ? {} : {backgroundColor:"rgb(245,245,245)"}}
+                      style={screenSize > REMOVE_BORDER_AT ? {} : {backgroundColor:"rgb(245,245,245)"}}
                     />
                     <div className="invalid-feedback">
                       Email is not valid.
@@ -130,7 +131,7 @@ const sendRequest = async (e) => {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       className={`form-control form-control-md ${invalidPassword ? "is-invalid" : ""}`}
-                      style={screenSize > 767 ? {} : {backgroundColor:"rgb(245,245,245)"}}
+                      style={screenSize > REMOVE_BORDER_AT ? {} : {backgroundColor:"rgb(245,245,245)"}}
                     />
                     <div className="invalid-feedback">
                       Password must contain 6-20 Characters.
@@ -145,7 +146,7 @@ const sendRequest = async (e) => {
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
                       className={`form-control form-control-md ${invalidPassword ? "is-invalid" : ""}`}
-                      style={screenSize > 767 ? {} : {backgroundColor:"rgb(245,245,245)"}}
+                      style={screenSize > REMOVE_BORDER_AT ? {} : {backgroundColor:"rgb(245,245,245)"}}
                     />
                     <div className="invalid-feedback">
                       Password must contain 6-20 Characters.
@@ -154,7 +155,7 @@ const sendRequest = async (e) => {
                   </div>
 
                   <button
-                    className="btn btn-dark btn-md px-5"
+                    className="btn btn-primary btn-md px-5"
                     onClick={() => inputHandler()}
                     type="button"
                   >

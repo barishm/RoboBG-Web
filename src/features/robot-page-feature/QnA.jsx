@@ -124,7 +124,7 @@ const QnA = (props) => {
       </div>
       <button
         type="button"
-        className="btn btn-dark btn-sm mt-2 mb-4"
+        className="btn btn-primary btn-sm mt-2 mb-4"
         onClick={handleQuestion}
       >
         Ask Question

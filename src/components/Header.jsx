@@ -38,10 +38,10 @@ const Header = ({ setDashboardsActiveComponent }) => {
   };
 
   return (
-    <nav className="navbar navbar-expand-md bg-body-tertiary">
+    <nav className="navbar navbar-expand-md bg-primary" data-bs-theme="light">
       <div className="container">
         <a
-          className="navbar-brand"
+          className="navbar-brand text-white"
           href="#"
           onClick={() => {
             navigate('/');
@@ -54,7 +54,7 @@ const Header = ({ setDashboardsActiveComponent }) => {
           {username ? (
             <div className="dropdown d-md-none">
               <button
-                className="dropdown-toggle rounded-3 me-md-1 btn btn-light rounded-5"
+                className="dropdown-toggle rounded-3 me-md-1 btn btn-primary rounded-5"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
@@ -73,7 +73,7 @@ const Header = ({ setDashboardsActiveComponent }) => {
             </div>
           ) : (
             <button
-              className="btn btn-light rounded-5 d-md-none"
+              className="btn btn-primary rounded-5 d-md-none"
               onClick={() => {
                 navigate('/login');
                 closeCollapse();
@@ -84,7 +84,7 @@ const Header = ({ setDashboardsActiveComponent }) => {
           )}
           <div className="dropdown-center d-md-none me-2">
             <button
-              className="btn btn-light rounded-5 dropdown-toggle"
+              className="btn btn-primary rounded-5 dropdown-toggle"
               type="button"
               id="dropdownMenuButton"
               data-bs-toggle="dropdown"
@@ -146,7 +146,7 @@ const Header = ({ setDashboardsActiveComponent }) => {
           <ul className="navbar-nav me-auto mb-lg-0">
             <li className="nav-item">
               <a
-                className="nav-link active"
+                className="nav-link active text-white"
                 aria-current="page"
                 style={{ cursor: 'pointer' }}
                 onClick={() => {
@@ -159,7 +159,7 @@ const Header = ({ setDashboardsActiveComponent }) => {
             </li>
             <li className="nav-item">
               <a
-                className="nav-link active"
+                className="nav-link active text-white"
                 aria-current="page"
                 style={{ cursor: 'pointer' }}
                 onClick={() => {
@@ -172,7 +172,7 @@ const Header = ({ setDashboardsActiveComponent }) => {
             </li>
             <li className="nav-item">
               <a
-                className="nav-link active"
+                className="nav-link active text-white"
                 aria-current="page"
                 style={{ cursor: 'pointer' }}
                 onClick={() => {
@@ -185,7 +185,7 @@ const Header = ({ setDashboardsActiveComponent }) => {
             </li>
             <li className="nav-item">
               <a
-                className="nav-link active"
+                className="nav-link active text-white"
                 aria-current="page"
                 style={{ cursor: 'pointer' }}
                 onClick={() => {
@@ -198,7 +198,7 @@ const Header = ({ setDashboardsActiveComponent }) => {
             </li>
             <li className="nav-item">
               <a
-                className="nav-link active"
+                className="nav-link active text-white"
                 aria-current="page"
                 style={{ cursor: 'pointer' }}
                 onClick={() => {
@@ -226,7 +226,7 @@ const Header = ({ setDashboardsActiveComponent }) => {
               <li className="nav-item" style={{alignContent:"center"}}>
               <div className="dropdown">
                 <button
-                  className="dropdown-toggle ps-md-2 ps-0"
+                  className="dropdown-toggle ps-md-2 ps-0 text-white"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                   style={{
@@ -273,7 +273,7 @@ const Header = ({ setDashboardsActiveComponent }) => {
           {username ? (
             <div className="dropdown d-none d-md-block">
               <button
-                className="dropdown-toggle rounded-3 me-md-1 btn btn-light rounded-5"
+                className="dropdown-toggle rounded-3 me-md-1 btn btn-primary rounded-5"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
@@ -292,7 +292,7 @@ const Header = ({ setDashboardsActiveComponent }) => {
             </div>
           ) : (
             <button
-              className="btn btn-light d-none d-md-block rounded-5"
+              className="btn btn-primary d-none d-md-block rounded-5"
               onClick={() => {
                 navigate('/login');
                 closeCollapse();
@@ -303,7 +303,7 @@ const Header = ({ setDashboardsActiveComponent }) => {
           )}
           <div className="dropdown-center d-none d-md-block">
             <button
-              className="btn btn-light rounded-5 dropdown-toggle"
+              className="btn btn-primary rounded-5 dropdown-toggle"
               type="button"
               id="dropdownMenuButton"
               data-bs-toggle="dropdown"

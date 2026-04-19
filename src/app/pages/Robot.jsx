@@ -15,6 +15,7 @@ import { PhotoView } from 'react-photo-view';
 import { NO_IMAGE } from 'src/constants';
 import 'react-photo-view/dist/react-photo-view.css';
 import { useTranslation } from "react-i18next";
+import { REMOVE_BORDER_AT } from "src/constants";
 
 const Robot = () => {
   const {t} = useTranslation()
@@ -68,14 +69,14 @@ const Robot = () => {
       ) : data ? (
         <>
           <div
-            className={screenSize > 575 ? 'container mt-4' : 'container'}
-            style={screenSize > 575 ? {} : { backgroundColor: 'white' }}
+            className={screenSize > REMOVE_BORDER_AT ? 'container mt-4' : 'container'}
+            style={screenSize > REMOVE_BORDER_AT ? {} : { backgroundColor: 'white' }}
           >
             <div className="row">
               <div
                 className={
-                  screenSize > 575
-                    ? 'col-12 shadow-sm rounded card p-sm-5 mb-5'
+                  screenSize > REMOVE_BORDER_AT
+                    ? 'col-12 rounded card p-sm-5 mb-5'
                     : 'col-12 p-sm-5 mb-5 mt-5'
                 }
                 style={{
@@ -100,7 +101,7 @@ const Robot = () => {
                     <button
                       type="button"
                       style={{ marginTop: '20px', marginBottom: '10px' }}
-                      className="btn btn-dark"
+                      className="btn btn-primary"
                       data-bs-toggle="collapse"
                       data-bs-target="#collapseExample"
                       aria-expanded="false"

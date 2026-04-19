@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useForgotPasswordMutation } from "src/app/services/authApiSlice";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { REMOVE_BORDER_AT } from "src/constants";
 
 const ForgotPassword = () => {
   const lang = useSelector((state) => state.language.lang);
@@ -52,10 +53,10 @@ const ForgotPassword = () => {
 
   return (
     <div
-      className={screenSize > 767 ? "container mt-5 mb-5 " : "container mt-2"}
+      className={screenSize > REMOVE_BORDER_AT ? "container mt-5 mb-5 " : "container mt-2"}
     >
       <div
-        className={screenSize > 767 ? "card shadow-sm" : ""}
+        className={screenSize > REMOVE_BORDER_AT ? "card" : ""}
         style={{
           borderRadius: "1rem",
           maxWidth: "500px",
@@ -87,7 +88,7 @@ const ForgotPassword = () => {
                 }}
                 className="form-control form-control-md"
                 style={
-                  screenSize > 767
+                  screenSize > REMOVE_BORDER_AT
                     ? {}
                     : { backgroundColor: "rgb(245,245,245)" }
                 }
@@ -97,7 +98,7 @@ const ForgotPassword = () => {
               </label>
             </div>
 
-            <button className="btn btn-dark btn-md mt-1" type="submit" disabled={isLoading || isSuccess}>
+            <button className="btn btn-primary btn-md mt-1" type="submit" disabled={isLoading || isSuccess}>
               {lang === "en"
                 ? "Recover your password"
                 : "Възстановете паролата си"}

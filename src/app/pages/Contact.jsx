@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { useContactUsFormMutation } from 'src/app/services/contactUsApiSlice';
 import { toast } from "react-toastify";
+import { REMOVE_BORDER_AT } from "src/constants";
 
 const Contact = () => {
   const lang = useSelector((state) => state.language.lang);
@@ -73,14 +74,14 @@ const Contact = () => {
   return (
     <div
       className={
-        screenSize > 767 ? 'container p-3 my-4 h-100' : 'container my-4 h-100'
+        screenSize > REMOVE_BORDER_AT ? 'container p-3 my-4 h-100' : 'container my-4 h-100'
       }
     >
       <div className="row d-flex justify-content-center align-items-center h-100">
         <div className="col-12 col-md-8 col-lg-6 col-xl-5">
           <form onSubmit={handleSubmit}>
             <div
-              className={screenSize > 767 ? 'card shadow-sm' : ''}
+              className={screenSize > REMOVE_BORDER_AT ? 'card' : ''}
               style={{ borderRadius: '1rem' }}
             >
               <div className="card-body p-1 p-md-5 text-center">
@@ -109,7 +110,6 @@ const Contact = () => {
                     onChange={handleChange}
                     className="form-control form-control-md"
                     placeholder={lang === 'en' ? 'Name' : 'Име'}
-                    style={screenSize > 767 ? {} : { backgroundColor: 'rgb(245,245,245)' }}
                   />
                 </div>
                 <div className="form-outline form-white mb-4">
@@ -121,7 +121,6 @@ const Contact = () => {
                     onChange={handleChange}
                     className="form-control form-control-md"
                     placeholder={lang === 'en' ? 'Email' : 'Имейл'}
-                    style={screenSize > 767 ? {} : { backgroundColor: 'rgb(245,245,245)' }}
                   />
                 </div>
                 <div className="form-outline form-white mb-3">
@@ -132,16 +131,12 @@ const Contact = () => {
                     onChange={handleChange}
                     className="form-control form-control-md"
                     placeholder={lang === 'en' ? 'Message' : 'Съобщение'}
-                    style={
-                      screenSize > 767
-                        ? { height: '180px' }
-                        : { backgroundColor: 'rgb(245,245,245)', height: '180px' }
-                    }
+                    style={{height: '180px'}}
                   />
                 </div>
                 <button
                   type="submit"
-                  className="btn btn-dark btn-md px-5 mt-4"
+                  className="btn btn-primary btn-md px-5 mt-4"
                   disabled={isLoading || isCooldown}
                 >
                   {isLoading

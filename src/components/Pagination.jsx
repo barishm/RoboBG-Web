@@ -20,7 +20,7 @@ const Pagination = ({ Page, setPage, isLast }) => {
         <ul className="pagination">
           <li className={Page === 0 ? "page-item disabled" : "page-item"}>
             <a
-              className="page-link"
+              className="page-link bg-light"
               href="#"
               aria-label="Previous"
               onClick={prevPage}
@@ -31,13 +31,13 @@ const Pagination = ({ Page, setPage, isLast }) => {
             </a>
           </li>
           <li className="page-item">
-            <span className="page-link" href="#" style={{ color: "black" }}>
+            <span className="page-link bg-light" href="#" style={{ color: "black" }}>
               {Page + 1}
             </span>
           </li>
           <li className={isLast ? "page-item disabled" : "page-item"}>
             <a
-              className="page-link"
+              className="page-link bg-light"
               href="#"
               aria-label="Next"
               onClick={nextPage}

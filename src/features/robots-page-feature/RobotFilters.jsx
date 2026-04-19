@@ -229,7 +229,7 @@ const RobotFilters = ({
                   aria-label="To"
                 ></input>
                 <button
-                  className="btn btn-outline-secondary"
+                  className="btn btn-outline-primary"
                   type="button"
                   id="button-addon1"
                   onClick={handleGoButtonClickM}
@@ -257,7 +257,7 @@ const RobotFilters = ({
                   aria-label="To"
                 ></input>
                 <button
-                  className="btn btn-outline-secondary"
+                  className="btn btn-outline-primary"
                   type="button"
                   id="button-addon1"
                   onClick={handleGoButtonClickM}
@@ -285,7 +285,7 @@ const RobotFilters = ({
                   aria-label="To"
                 ></input>
                 <button
-                  className="btn btn-outline-secondary"
+                  className="btn btn-outline-primary"
                   type="button"
                   id="button-addon1"
                   onClick={handleGoButtonClickM}
@@ -297,7 +297,7 @@ const RobotFilters = ({
           </form>
           <button
             type="button"
-            className="btn btn-dark mt-3"
+            className="btn btn-primary mt-3"
             data-bs-dismiss="offcanvas"
             aria-label="Close"
           >
@@ -378,7 +378,7 @@ const RobotFilters = ({
                   aria-label="To"
                 ></input>
                 <button
-                  className="btn btn-outline-secondary"
+                  className="btn btn-outline-primary"
                   type="button"
                   id="button-addon1"
                   onClick={handleGoButtonClick}
@@ -406,7 +406,7 @@ const RobotFilters = ({
                   aria-label="To"
                 ></input>
                 <button
-                  className="btn btn-outline-secondary"
+                  className="btn btn-outline-primary"
                   type="button"
                   id="button-addon1"
                   onClick={handleGoButtonClick}
@@ -434,7 +434,7 @@ const RobotFilters = ({
                   aria-label="To"
                 ></input>
                 <button
-                  className="btn btn-outline-secondary"
+                  className="btn btn-outline-primary"
                   type="button"
                   id="button-addon1"
                   onClick={handleGoButtonClick}

@@ -34,7 +34,7 @@ function App() {
       <ToastContainer />
       <PhotoProvider>
         <Header setDashboardsActiveComponent={setDashboardsActiveComponent} />
-        <main style={{background: 'rgba(233, 233, 233, 0.95)'}}>
+        <main>
           <Routes>
             <Route path='/password-reset' element={<PasswordReset />} />
             <Route path='/forgot-password' element={<ForgotPassword />} />

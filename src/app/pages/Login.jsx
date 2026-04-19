@@ -7,6 +7,7 @@ import { useLoginMutation } from "src/app/services/authApiSlice";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
+import { REMOVE_BORDER_AT } from "src/constants";
 
 const Login = () => {
   const {t} = useTranslation()
@@ -58,10 +59,10 @@ const Login = () => {
 
   return (
     <div
-      className={screenSize > 767 ? "container mt-5 mb-5 " : "container mt-2"}
+      className={screenSize > REMOVE_BORDER_AT ? "container mt-5 mb-5 " : "container mt-2"}
     >
       <div
-        className={screenSize > 767 ? "card shadow-sm" : ""}
+        className={screenSize > REMOVE_BORDER_AT ? "card" : ""}
         style={{
           borderRadius: "1rem",
           maxWidth: "500px",
@@ -95,11 +96,6 @@ const Login = () => {
                   setUsername(e.target.value);
                 }}
                 className="form-control form-control-md"
-                style={
-                  screenSize > 767
-                    ? {}
-                    : { backgroundColor: "rgb(245,245,245)" }
-                }
               />
               <label className="form-label">
                 {lang === "en" ? "Username" : "Потребителско име"}
@@ -117,11 +113,6 @@ const Login = () => {
                 }}
                 name="password"
                 className="form-control form-control-md"
-                style={
-                  screenSize > 767
-                    ? {}
-                    : { backgroundColor: "rgb(245,245,245)" }
-                }
               />
               <label className="form-label">
                 {lang === "en" ? "Password" : "Парола"}
@@ -129,7 +120,7 @@ const Login = () => {
             </div>
 
             <button
-              className="btn btn-dark btn-md mt-1"
+              className="btn btn-primary btn-md mt-1"
               type="submit"
               style={{ width: "100px" }}
             >
