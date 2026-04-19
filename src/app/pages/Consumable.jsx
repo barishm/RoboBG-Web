@@ -12,6 +12,7 @@ import {
 } from 'src/app/services/consumableApiSlice';
 import DeletePopup from "src/features/cms-feature/components/DeletePopup";
 import UpdateConsumables from "src/features/cms-feature/components/UpdateConsumable";
+import ConsumableForm from "src/features/cms-feature/components/ConsumableForm";
 import UploadConsumableImages from "src/features/cms-feature/components/UploadConsumableImages";
 import { REMOVE_BORDER_AT } from "src/constants";
 
@@ -49,7 +50,10 @@ const Consumable = () => {
 
 
       <DeletePopup id={consumableId} deleteMutationHook={useDeleteConsumableMutation} message={"ARE YOU SURE YOU WANT TO DELETE THIS CONSUMABLE?"} modalId={"DeleteConsumableModal"} />
-      <UpdateConsumables consumable={selectedConsumableToUpdate} />
+      <ConsumableForm 
+        modalId="update" 
+        consumable={selectedConsumableToUpdate} 
+      />
       <UploadConsumableImages consumable={consumableId} />
 
       {error ? (
@@ -65,9 +69,9 @@ const Consumable = () => {
             style={screenSize > REMOVE_BORDER_AT ? {} : { backgroundColor: "white" }}
           >
             <div className="row">
-              <ol style={{ maxWidth: "900px" }} class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#" className="text-primary">Consumables</a></li>
-                <li class="breadcrumb-item active">{data.title}</li>
+              <ol style={{ maxWidth: "900px" }} className="breadcrumb">
+                <li className="breadcrumb-item"><a href="#" className="text-primary">Consumables</a></li>
+                <li className="breadcrumb-item active">{data.title}</li>
               </ol>
               <div
                 className={

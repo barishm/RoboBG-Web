@@ -140,14 +140,14 @@ const CookieConsent = () => {
             <div className="d-flex gap-2 justify-content-end">
               <button
                 type="button"
-                className="btn btn-outline-secondary btn-sm"
+                className="btn btn-outline-primary btn-sm"
                 onClick={() => setShowPreferences(false)}
               >
                 {lang === 'en' ? 'Cancel' : 'Отказ'}
               </button>
               <button
                 type="button"
-                className="btn btn-dark btn-sm"
+                className="btn btn-primary btn-sm"
                 onClick={handleSavePreferences}
               >
                 {lang === 'en' ? 'Save' : 'Запази'}
@@ -212,21 +212,21 @@ const CookieConsent = () => {
             <div className="d-flex flex-column gap-2">
               <button
                 type="button"
-                className="btn btn-outline-secondary btn-sm"
+                className="btn btn-outline-primary btn-sm"
                 onClick={handleDecline}
               >
                 {lang === 'en' ? 'Reject all' : 'Отхвърли всички'}
               </button>
               <button
                 type="button"
-                className="btn btn-outline-secondary btn-sm"
+                className="btn btn-outline-primary btn-sm"
                 onClick={handleManagePreferences}
               >
                 {lang === 'en' ? 'Manage preferences' : 'Управление на предпочитанията'}
               </button>
               <button
                 type="button"
-                className="btn btn-dark btn-sm"
+                className="btn btn-primary btn-sm"
                 onClick={handleAccept}
               >
                 {lang === 'en' ? 'Accept all' : 'Приемам всички'}
