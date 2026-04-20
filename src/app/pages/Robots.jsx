@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useGetAllRobotsNewQuery } from 'src/app/services/robotApiSlice';
+import { useGetAllRobotsQuery } from 'src/app/services/robotApiSlice';
 import { useSelector } from 'react-redux';
 import { useState, useMemo } from 'react';
 
@@ -12,6 +12,7 @@ import Pagination from 'src/components/Pagination';
 import { NO_IMAGE, DEFAULT_ENTITIES_PER_PAGE } from 'src/constants';
 import usePagination from 'src/hooks/usePagination';
 import useRobotFilters from 'src/hooks/useRobotFilters';
+import RobotForm from "src/features/cms-feature/components/RobotForm";
 
 const Robots = () => {
   const [Model, setModel] = useState('');
@@ -22,11 +23,12 @@ const Robots = () => {
   const [MaxDustbinCapacity, setMaxDustbinCapacity] = useState(0);
   const [MinSuctionPower, setMinSuctionPower] = useState(0);
   const [MaxSuctionPower, setMaxSuctionPower] = useState(0);
+  const { role } = useSelector((state) => state.auth);
 
   const lang = useSelector((state) => state.language.lang);
   const navigate = useNavigate();
 
-  const { data = [], isLoading, isError } = useGetAllRobotsNewQuery();
+  const { data = [], isLoading, isError } = useGetAllRobotsQuery();
 
   const filterOptions = useMemo(() => ({
     Model,
@@ -49,20 +51,20 @@ const Robots = () => {
   ]);
 
   const availableBrands = useMemo(() => {
-  const brandMap = new Map();
+    const brandMap = new Map();
 
-  data.forEach((robot) => {
-    const brand = robot.brand?.trim();
-    if (!brand) return;
-    brandMap.set(brand, (brandMap.get(brand) || 0) + 1);
-  });
+    data.forEach((robot) => {
+      const brand = robot.brand?.trim();
+      if (!brand) return;
+      brandMap.set(brand, (brandMap.get(brand) || 0) + 1);
+    });
 
-  return Array.from(brandMap.entries()).map(([brand, count], index) => ({
-    id: index + 1,
-    brand,
-    count,
-  }));
-}, [data]);
+    return Array.from(brandMap.entries()).map(([brand, count], index) => ({
+      id: index + 1,
+      brand,
+      count,
+    }));
+  }, [data]);
 
   const filteredRobots = useRobotFilters(data, filterOptions, isLoading);
   const { page, setPage, paginatedData: paginatedRobots, isLast } = usePagination(filteredRobots, DEFAULT_ENTITIES_PER_PAGE);
@@ -73,13 +75,14 @@ const Robots = () => {
 
   return (
     <section className="mt-4">
+      <RobotForm action="C" />
       <div className="container d-flex">
         <div className="col-12 col-md-12 col-lg-9">
           <h3 className="fw-bolder text-center mt-2">
             {lang === 'en' ? 'All Robot Vacuum Cleaners' : 'Всички роботи'}
             <br />
             <button
-              className="btn btn-primary mt-3 d-lg-none"
+              className="btn btn-primary mt-3 me-3 d-lg-none"
               type="button"
               data-bs-toggle="offcanvas"
               data-bs-target="#offcanvasExample"
@@ -87,6 +90,17 @@ const Robots = () => {
             >
               <i className="fa-solid fa-filter fa-sm"></i>&nbsp; {lang === 'en' ? 'Filters' : 'Филтри'}
             </button>
+            {(role === "ADMIN" || role === "MODERATOR") && (
+              <button
+                className="btn btn-success mt-3"
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#create"
+              >
+                <i className="fa-solid fa-plus fa-sm"></i>&nbsp;
+                {lang === "en" ? "Create" : "Създай"}
+              </button>
+            )}
           </h3>
 
           {isLoading ? (

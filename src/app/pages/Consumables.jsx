@@ -9,7 +9,6 @@ import ConsumableFilters from "src/features/consumables-page-feature/ConsumableF
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import usePagination from "src/hooks/usePagination";
 import { NO_IMAGE, DEFAULT_ENTITIES_PER_PAGE } from "src/constants";
-import CreateConsumables from "src/features/cms-feature/components/CreateConsumable";
 import ConsumableForm from "src/features/cms-feature/components/ConsumableForm";
 
 const Consumables = () => {

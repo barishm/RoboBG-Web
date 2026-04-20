@@ -3,10 +3,9 @@ import { apiSlice } from "./apiSlice";
 export const robotApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
         getAllRobots: builder.query({
-            query: (queryParams) => ({
+            query: () => ({
                 url: `v1/robots`,
-                method: 'GET',
-                params: {...queryParams}
+                method: 'GET'
             }),
             providesTags: ['Robot'],
         }),
@@ -17,15 +16,6 @@ export const robotApiSlice = apiSlice.injectEndpoints({
                 params: {...queryParams}
             }),
             providesTags: ['Robot'],
-        }),
-        getBestRobots: builder.query({
-            query: () => ({
-                url: 'v1/robots/bests',
-                method: "GET",
-
-            }),
-            providesTags: ['Robot'],
-            keepUnusedDataFor: 60*60*24,
         }),
         createRobot: builder.mutation({
             query: ({robotBody, accessToken}) => ({
@@ -74,23 +64,14 @@ export const robotApiSlice = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ['Robot'],
         }),
-        getAllRobotsNew: builder.query({
-            query: () => ({
-                url: `v1/robots/all`,
-                method: 'GET'
-            }),
-            providesTags: ['Robot'],
-        }),
     })
 })
 export const {
     useGetAllRobotsQuery,
     useGetRobotByIdQuery,
     useLazyGetRobotByIdQuery,
-    useGetBestRobotsQuery,
     useCreateRobotMutation,
     useDeleteRobotMutation,
     useUpdateRobotMutation,
-    useUploadRobotImageMutation,
-    useGetAllRobotsNewQuery,
+    useUploadRobotImageMutation
 } = robotApiSlice;

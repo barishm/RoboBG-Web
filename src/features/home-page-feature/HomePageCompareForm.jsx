@@ -5,22 +5,19 @@ import { useGetAllRobotsQuery } from "src/app/services/robotApiSlice";
 import Loading from "src/components/Loading";
 
 const HomePageCompareForm = () => {
-  const queryParams = {
-    fields: "model",
-  };
   const lang = useSelector((state) => state.language.lang);
   const {
     data: allModels,
     isLoading: allModelsLoading,
     isError,
-  } = useGetAllRobotsQuery(queryParams);
+  } = useGetAllRobotsQuery();
   const [Model1, setModel1] = useState("");
   const [Model2, setModel2] = useState("");
   const navigate = useNavigate();
 
   function handleCompare() {
-    const foundItem1 = allModels.content.find((item) => item.model === Model1);
-    const foundItem2 = allModels.content.find((item) => item.model === Model2);
+    const foundItem1 = allModels.find((item) => item.model === Model1);
+    const foundItem2 = allModels.find((item) => item.model === Model2);
 
     if (foundItem1 && foundItem2 && foundItem1.id !== foundItem2.id) {
       navigate(`/compare?id=${foundItem1.id},${foundItem2.id}`);
@@ -64,7 +61,7 @@ const HomePageCompareForm = () => {
               onChange={(e) => setModel1(e.target.value)}
             />
             <datalist id="datalistOptions1">
-              {allModels.content
+              {allModels
                 .slice()
                 .sort((a, b) => a.model.localeCompare(b.model))
                 .map((item) => (
@@ -87,7 +84,7 @@ const HomePageCompareForm = () => {
               onChange={(e) => setModel2(e.target.value)}
             />
             <datalist id="datalistOptions2">
-              {allModels.content
+              {allModels
                 .slice()
                 .sort((a, b) => a.model.localeCompare(b.model))
                 .map((item) => (

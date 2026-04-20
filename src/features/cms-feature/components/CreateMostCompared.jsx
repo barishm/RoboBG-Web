@@ -5,9 +5,6 @@ import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
 const CreateMostCompared = () => {
-  const queryParams = {
-    fields: "model",
-  };
   const initialState = {
     order: "",
     robot1: "",
@@ -17,7 +14,7 @@ const CreateMostCompared = () => {
   const [MostCompared, setMostCompared] = useState(initialState);
 
   const { accessToken } = useSelector((state) => state.auth);
-  const { data: allModels } = useGetAllRobotsQuery(queryParams);
+  const { data: allModels } = useGetAllRobotsQuery();
   const [CreateMostCompared, { isSuccess, isError, error }] = useCreateMostComparesMutation();
 
   // Toast notifications for create most compared
@@ -31,7 +28,7 @@ const CreateMostCompared = () => {
 
   const create = async () => {
     const findIdByModel = (model) => {
-      const robot = allModels.content.find((item) => item.model === model);
+      const robot = allModels.find((item) => item.model === model);
       return robot ? Number(robot.id) : null;
     };
 
@@ -117,7 +114,7 @@ const CreateMostCompared = () => {
                 <datalist id="datalistOptions1">
                   {allModels && (
                     <>
-                      {allModels.content.map((item) => (
+                      {allModels.map((item) => (
                         <option key={item.id} value={item.model}></option>
                       ))}
                     </>
@@ -142,7 +139,7 @@ const CreateMostCompared = () => {
                 <datalist id="datalistOptions2">
                   {allModels && (
                     <>
-                      {allModels.content.map((item) => (
+                      {allModels.map((item) => (
                         <option key={item.id} value={item.model}></option>
                       ))}
                     </>
@@ -167,7 +164,7 @@ const CreateMostCompared = () => {
                 <datalist id="datalistOptions3">
                   {allModels && (
                     <>
-                      {allModels.content.map((item) => (
+                      {allModels.map((item) => (
                         <option key={item.id} value={item.model}></option>
                       ))}
                     </>

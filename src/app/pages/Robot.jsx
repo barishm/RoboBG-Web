@@ -7,6 +7,7 @@ import ConsumableTab from "src/features/consumable-page-feature/ConsumableTab";
 import {
   useGetRobotByIdQuery,
   useGetAllRobotsQuery,
+  useDeleteRobotMutation
 } from "src/app/services/robotApiSlice";
 import Loading from "src/components/Loading";
 import { useSelector } from "react-redux";
@@ -16,13 +17,13 @@ import { NO_IMAGE } from 'src/constants';
 import 'react-photo-view/dist/react-photo-view.css';
 import { useTranslation } from "react-i18next";
 import { REMOVE_BORDER_AT } from "src/constants";
+import DeletePopup from "src/features/cms-feature/components/DeletePopup";
+import RobotForm from "src/features/cms-feature/components/RobotForm";
+import UploadRobotImage from "src/features/cms-feature/components/UploadRobotImage";
 
 const Robot = () => {
-  const {t} = useTranslation()
+  const { t } = useTranslation()
   const [Tab, setTab] = useState("Specs");
-  const queryParams = {
-    fields: "model",
-  };
   const lang = useSelector((state) => state.language.lang);
 
 
@@ -31,7 +32,9 @@ const Robot = () => {
   const navigate = useNavigate();
   const { data, isLoading, error } = useGetRobotByIdQuery({ id });
   const { data: allModels, isLoading: allModelsIsLoading } =
-    useGetAllRobotsQuery(queryParams);
+    useGetAllRobotsQuery();
+
+  const { role } = useSelector((state) => state.auth);
 
   const compare = (e) => {
     const newModel = e.target.value;
@@ -68,6 +71,9 @@ const Robot = () => {
         </>
       ) : data ? (
         <>
+          <DeletePopup id={data.id} deleteMutationHook={useDeleteRobotMutation} message={"ARE YOU SURE YOU WANT TO DELETE THIS ROBOT?"} modalId={"DeleteRobotModal"} />
+          <RobotForm action="U" id={data.id} />
+          <UploadRobotImage RobotId={data.id} />
           <div
             className={screenSize > REMOVE_BORDER_AT ? 'container mt-4' : 'container'}
             style={screenSize > REMOVE_BORDER_AT ? {} : { backgroundColor: 'white' }}
@@ -83,8 +89,45 @@ const Robot = () => {
                   maxWidth: '900px',
                   marginRight: 'auto',
                   marginLeft: 'auto',
+                  position: 'relative'
                 }}
               >
+                {(role === "ADMIN" || role === "MODERATOR") && (
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "10px",
+                      right: "10px",
+                      zIndex: 10
+                    }}
+                  >
+                    <button
+                      className="btn btn-light btn-sm me-1"
+                      value={data.id}
+                      onClick={(e) => setRobotId(e.currentTarget.value)}
+                      data-bs-toggle="modal"
+                      data-bs-target="#uploadImage"
+                      style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}
+                    >
+                      <img
+                        src="/images/image.png"
+                        className="img-fluid"
+                        style={{ maxHeight: '1.3rem' }}
+                        alt="Upload"
+                      />
+                    </button>
+                    <button className="btn btn-sm btn-primary me-1"
+                      data-bs-toggle="modal"
+                      data-bs-target="#update">
+                      Edit
+                    </button>
+                    <button className="btn btn-sm btn-danger"
+                      data-bs-toggle="modal"
+                      data-bs-target="#DeleteRobotModal">
+                      Delete
+                    </button>
+                  </div>
+                )}
                 <div className="row">
                   <div className="col-8 col-md-4 mb-4">
                     <PhotoView src={data.image}>
@@ -151,7 +194,7 @@ const Robot = () => {
                       ) : (
                         <>
                           <datalist id="datalistOptions">
-                            {allModels.content
+                            {allModels
                               .slice()
                               .sort((a, b) => a.model.localeCompare(b.model))
                               .map((item) => (
@@ -167,14 +210,13 @@ const Robot = () => {
                   <ul className="nav nav-tabs">
                     <li className="nav-item">
                       <a
-                        className={`nav-link ${
-                          Tab === 'Specs' ? 'active' : ''
-                        }`}
+                        className={`nav-link ${Tab === 'Specs' ? 'active' : ''
+                          }`}
                         style={{ color: 'black' }}
                         onClick={() => changeTab('Specs')}
                         href="#"
                       >
-                        {lang === 'en' ? "Specs" : "Спецификации" }
+                        {lang === 'en' ? "Specs" : "Спецификации"}
                       </a>
                     </li>
                     <li className="nav-item">
@@ -185,20 +227,19 @@ const Robot = () => {
                         onClick={() => changeTab('Q&A')}
                         href="#"
                       >
-                        {lang === 'en' ? "Q&A" : "В&О" }
+                        {lang === 'en' ? "Q&A" : "В&О"}
                       </a>
                     </li>
                     <li className="nav-item">
                       <a
                         value="Consumables"
-                        className={`nav-link ${
-                          Tab === 'Consumables' ? 'active' : ''
-                        }`}
+                        className={`nav-link ${Tab === 'Consumables' ? 'active' : ''
+                          }`}
                         style={{ color: 'black' }}
                         onClick={() => changeTab('Consumables')}
                         href="#"
                       >
-                        {lang === 'en' ? "Consumables" : "Консумативи" }
+                        {lang === 'en' ? "Consumables" : "Консумативи"}
                       </a>
                     </li>
                   </ul>

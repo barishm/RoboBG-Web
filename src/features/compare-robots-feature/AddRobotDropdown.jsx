@@ -5,11 +5,11 @@ import { useGetAllRobotsQuery, useLazyGetRobotByIdQuery } from 'src/app/services
 const AddRobotDropdown = ({ robots, onAddRobot }) => {
   const [model, setModel] = useState('');
   const lang = useSelector((state) => state.language.lang);
-  const { data: allModels = { content: [] } } = useGetAllRobotsQuery({ fields: 'model' });
+  const { data: allModels = { content: [] } } = useGetAllRobotsQuery();
   const [triggerAdd] = useLazyGetRobotByIdQuery();
 
   const handleAdd = async () => {
-    const foundItem = allModels.content.find((item) => item.model === model);
+    const foundItem = allModels.find((item) => item.model === model);
 
     if (!foundItem) {
       console.warn('Robot model not found');
@@ -62,7 +62,7 @@ const AddRobotDropdown = ({ robots, onAddRobot }) => {
         {lang === 'en' ? 'Add' : 'Добави'}
       </button>
       <datalist id="datalistOptions">
-        {allModels.content
+        {allModels
           .slice()
           .sort((a, b) => a.model.localeCompare(b.model))
           .map((item) => (

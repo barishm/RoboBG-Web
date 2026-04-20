@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useGetBestRobotsQuery, useGetAllRobotsNewQuery } from 'src/app/services/robotApiSlice';
+import { useGetAllRobotsQuery } from 'src/app/services/robotApiSlice';
 import { useSelector } from 'react-redux';
 import Loading from 'src/components/Loading';
 import Error from 'src/components/Error';
@@ -10,7 +10,7 @@ const Bests = () => {
   const navigate = useNavigate();
   const noImage = 'images/no-image.jpg';
 
-  const { data, isLoading, isError } = useGetAllRobotsNewQuery();
+  const { data, isLoading, isError } = useGetAllRobotsQuery();
 
   const details = (robotId) => {
     navigate('/robots/' + robotId);

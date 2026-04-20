@@ -11,7 +11,6 @@ import {
   useDeleteConsumableMutation,
 } from 'src/app/services/consumableApiSlice';
 import DeletePopup from "src/features/cms-feature/components/DeletePopup";
-import UpdateConsumables from "src/features/cms-feature/components/UpdateConsumable";
 import ConsumableForm from "src/features/cms-feature/components/ConsumableForm";
 import UploadConsumableImages from "src/features/cms-feature/components/UploadConsumableImages";
 import { REMOVE_BORDER_AT } from "src/constants";
@@ -70,7 +69,7 @@ const Consumable = () => {
           >
             <div className="row">
               <ol style={{ maxWidth: "900px" }} className="breadcrumb">
-                <li className="breadcrumb-item"><a href="#" className="text-primary">Consumables</a></li>
+                <li className="breadcrumb-item"><a onClick={() => navigate(`/consumables`)} className="text-primary">Consumables</a></li>
                 <li className="breadcrumb-item active">{data.title}</li>
               </ol>
               <div

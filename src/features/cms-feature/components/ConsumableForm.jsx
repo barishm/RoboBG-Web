@@ -5,7 +5,7 @@ import {
   useCreateConsumableMutation,
   useUpdateConsumableMutation
 } from 'src/app/services/consumableApiSlice';
-import { useGetAllRobotsNewQuery } from 'src/app/services/robotApiSlice';
+import { useGetAllRobotsQuery } from 'src/app/services/robotApiSlice';
 
 const ConsumableForm = ({ consumable = null, modalId }) => {
   const isEditMode = !!consumable;
@@ -19,7 +19,7 @@ const ConsumableForm = ({ consumable = null, modalId }) => {
   const { isSuccess, isError, error } = isEditMode ? updateStatus : createStatus;
 
   // Query
-  const { data: robots = [] } = useGetAllRobotsNewQuery();
+  const { data: robots = [] } = useGetAllRobotsQuery();
 
   // Form State
   const [title, setTitle] = useState("");
@@ -57,12 +57,13 @@ const ConsumableForm = ({ consumable = null, modalId }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const json = { title, description, price, robotIds };
 
     try {
       if (isEditMode) {
-        await updateConsumable({ id: consumable.id, json, accessToken }).unwrap();
+        const json = { id: consumable.id, title, description, price, robotIds };
+        await updateConsumable({ json, accessToken }).unwrap();
       } else {
+        const json = { title, description, price, robotIds };
         await createConsumable({ json, accessToken }).unwrap();
         resetForm();
       }

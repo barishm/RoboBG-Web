@@ -246,11 +246,6 @@ const Header = ({ setDashboardsActiveComponent }) => {
                     </button>
                   </li>
                   <li>
-                    <button className="dropdown-item" onClick={() => navigateToDashboard("Manage Consumables")}>
-                      {lang === 'en' ? 'Manage Consumables' : 'Manage Consumables'}
-                    </button>
-                  </li>
-                  <li>
                     <button className="dropdown-item" onClick={() => navigateToDashboard("Manage Users")}>
                       {lang === 'en' ? 'Manage Users' : 'Manage Users'}
                     </button>

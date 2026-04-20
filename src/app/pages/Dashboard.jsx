@@ -2,7 +2,6 @@ import ManageRobots from "src/features/cms-feature/components/ManageRobots";
 import ManageUsers from "src/features/cms-feature/components/ManageUsers";
 import ManageMostCompared from "src/features/cms-feature/components/ManageMostCompared";
 import LatestQuestions from "src/features/cms-feature/components/LatestQuestions";
-import ManageConsumables from "src/features/cms-feature/components/ManageConsumables";
 const Dashboard = ({ dashboardsActiveComponent }) => {
 
   const renderActiveComponent = () => {
@@ -15,8 +14,6 @@ const Dashboard = ({ dashboardsActiveComponent }) => {
         return <ManageMostCompared />;
       case "Latest Questions":
         return <LatestQuestions />;
-      case "Manage Consumables":
-          return <ManageConsumables />;
       default:
         return null;
     }

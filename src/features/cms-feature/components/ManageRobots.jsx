@@ -1,5 +1,5 @@
 import {
-  useGetAllRobotsNewQuery,
+  useGetAllRobotsQuery,
   useDeleteRobotMutation
 } from "src/app/services/robotApiSlice";
 import {
@@ -25,7 +25,7 @@ const ManageRobots = () => {
 
   const [filteredRobots, setFilteredRobots] = useState([]);
   const { data = [], isLoading } =
-    useGetAllRobotsNewQuery();
+    useGetAllRobotsQuery();
   const [robotId, setRobotId] = useState(null);
   const [deleteLink, { isSuccess: isDeleteLinkSuccess, isError: isDeleteLinkError, error: deleteLinkError }] = useDeleteLinkMutation();
   const { accessToken } = useSelector((state) => state.auth);
