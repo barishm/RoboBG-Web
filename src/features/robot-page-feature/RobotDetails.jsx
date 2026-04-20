@@ -1,6 +1,8 @@
 import ReleaseDateDisplay from "src/components/ReleaseDateDisplay";
+import { useTranslation } from "react-i18next";
 
 const RobotDetails = (props) => {
+  const { t } = useTranslation()
   const { robot } = props;
 
     const renderBooleanStringTableRow = (label, value) => (
@@ -35,7 +37,7 @@ const RobotDetails = (props) => {
       {robot && (
         <>
           <h5 className="fw-bolder" style={{ marginBottom: "10px" }}>
-            {robot.model} Specs & Features
+            {t("specsAndFeatures")}
           </h5>
           <table className="table table-bordered" style={{ tableLayout: "fixed", width: "100%" }}>
             <thead>

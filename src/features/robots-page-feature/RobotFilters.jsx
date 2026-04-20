@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 const RobotFilters = ({
   Model,
@@ -15,6 +16,7 @@ const RobotFilters = ({
   availableBrands,
 }) => {
   const lang = useSelector((state) => state.language.lang);
+  const { t } = useTranslation()
 
   const handleCheckboxChange = (event) => {
     const { value, checked } = event.target;
@@ -172,7 +174,7 @@ const RobotFilters = ({
           <form id="filters">
             <div>
               <label htmlFor="id_title" className="form-label">
-                By model name
+                {t("byModelName")}
               </label>
               <input
                 type="text"
@@ -187,7 +189,7 @@ const RobotFilters = ({
               ></input>
             </div>
             <div className="mt-3">
-              <label className="form-label">Brand Name</label>
+              <label className="form-label">{t("brand")}</label>
               <div
                 className="card p-2"
                 style={{ maxHeight: "195px", overflowY: "auto" }}
@@ -211,7 +213,7 @@ const RobotFilters = ({
               </div>
             </div>
             <div className="mb-3 mt-3">
-              <label className="form-label">Release Year</label>
+              <label className="form-label">{t("releaseYear")}</label>
               <div className="input-group input-group-sm">
                 <input
                   id="startYearInputM"
@@ -239,7 +241,7 @@ const RobotFilters = ({
               </div>
             </div>
             <div className="mb-3 mt-3">
-              <label className="form-label">Dustbin Capacity (ml)</label>
+              <label className="form-label">{t("dustbinCapacity")} (ml)</label>
               <div className="input-group input-group-sm">
                 <input
                   id="minDustbinCapacityInputM"
@@ -267,7 +269,7 @@ const RobotFilters = ({
               </div>
             </div>
             <div className="mb-3 mt-3">
-              <label className="form-label">Suction Power (Pa)</label>
+              <label className="form-label">{t("suctionPower")} (Pa)</label>
               <div className="input-group input-group-sm">
                 <input
                   id="minSuctionPowerInputM"
@@ -318,7 +320,7 @@ const RobotFilters = ({
           <form id="filters">
             <div>
               <label htmlFor="id_title" className="form-label">
-                By model name
+                {t("byModelName")}
               </label>
               <input
                 type="text"
@@ -333,7 +335,7 @@ const RobotFilters = ({
               ></input>
             </div>
             <div className="mt-3">
-              <label className="form-label">Brand Name</label>
+              <label className="form-label">{t("brand")}</label>
               <div
                 className="card p-2"
                 style={{ maxHeight: "195px", overflowY: "auto" }}
@@ -360,7 +362,7 @@ const RobotFilters = ({
               </div>
             </div>
             <div className="mb-3 mt-3">
-              <label className="form-label">Release Year</label>
+              <label className="form-label">{t("releaseYear")}</label>
               <div className="input-group input-group-sm">
                 <input
                   id="startYearInput"
@@ -388,7 +390,7 @@ const RobotFilters = ({
               </div>
             </div>
             <div className="mb-3 mt-3">
-              <label className="form-label">Dustbin Capacity (ml)</label>
+              <label className="form-label">{t("dustbinCapacity")} (ml)</label>
               <div className="input-group input-group-sm">
                 <input
                   id="minDustbinCapacityInput"
@@ -416,7 +418,7 @@ const RobotFilters = ({
               </div>
             </div>
             <div className="mb-3 mt-3">
-              <label className="form-label">Suction Power (Pa)</label>
+              <label className="form-label">{t("suctionPower")} (Pa)</label>
               <div className="input-group input-group-sm">
                 <input
                   id="minSuctionPowerInput"

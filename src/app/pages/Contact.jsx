@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useContactUsFormMutation } from 'src/app/services/contactUsApiSlice';
 import { toast } from "react-toastify";
 import { REMOVE_BORDER_AT } from "src/constants";
+import { useTranslation } from "react-i18next";
 
 const Contact = () => {
   const lang = useSelector((state) => state.language.lang);

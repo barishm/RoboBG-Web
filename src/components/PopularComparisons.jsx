@@ -4,11 +4,13 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { compareMultipleRobots } from "src/utils/utils";
 import CreateMostCompared from "src/features/cms-feature/components/CreateMostCompared";
+import { useTranslation } from "react-i18next";
 
 const PopularComparisons = () => {
   const navigate = useNavigate();
   const { role, accessToken } = useSelector((state) => state.auth);
   const lang = useSelector((state) => state.language.lang);
+  const { t } = useTranslation()
 
   const { data, isLoading, isError } = useGetAllMostComparesQuery();
   const [deleteMC] = useDeleteMostComparesMutation();
@@ -63,7 +65,7 @@ const PopularComparisons = () => {
               data-bs-toggle="modal"
               data-bs-target="#createMostCompared"
             >
-              Add comparison
+              {t("addComparison")}
             </button>
           )}
           <div>

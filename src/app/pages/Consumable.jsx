@@ -14,12 +14,11 @@ import DeletePopup from "src/features/cms-feature/components/DeletePopup";
 import ConsumableForm from "src/features/cms-feature/components/ConsumableForm";
 import UploadConsumableImages from "src/features/cms-feature/components/UploadConsumableImages";
 import { REMOVE_BORDER_AT } from "src/constants";
+import { useTranslation } from "react-i18next";
 
 const Consumable = () => {
+  const { t } = useTranslation()
   const [Tab, setTab] = useState("Specs");
-  const queryParams = {
-    fields: "model",
-  };
   const lang = useSelector((state) => state.language.lang);
   const { role } = useSelector((state) => state.auth);
   const navigate = useNavigate();
@@ -45,46 +44,64 @@ const Consumable = () => {
 
   return (
     <div>
-
-
-
-      <DeletePopup id={consumableId} deleteMutationHook={useDeleteConsumableMutation} message={"ARE YOU SURE YOU WANT TO DELETE THIS CONSUMABLE?"} modalId={"DeleteConsumableModal"} />
-      <ConsumableForm 
-        modalId="update" 
-        consumable={selectedConsumableToUpdate} 
+      <DeletePopup
+        id={consumableId}
+        deleteMutationHook={useDeleteConsumableMutation}
+        message={"ARE YOU SURE YOU WANT TO DELETE THIS CONSUMABLE?"}
+        modalId={"DeleteConsumableModal"}
       />
+
+      <ConsumableForm modalId="update" consumable={selectedConsumableToUpdate} />
       <UploadConsumableImages consumable={consumableId} />
 
       {error ? (
         <>Oh no, there was an error</>
       ) : isLoading ? (
-        <>
-          <Loading />
-        </>
+        <Loading />
       ) : data ? (
-        <>
-          <div
-            className={screenSize > REMOVE_BORDER_AT ? "container mt-4" : "container"}
-            style={screenSize > REMOVE_BORDER_AT ? {} : { backgroundColor: "white" }}
-          >
-            <div className="row">
-              <ol style={{ maxWidth: "900px" }} className="breadcrumb">
-                <li className="breadcrumb-item"><a onClick={() => navigate(`/consumables`)} className="text-primary">Consumables</a></li>
+        <div
+          className={
+            screenSize > REMOVE_BORDER_AT ? "container mt-4" : "container"
+          }
+          style={
+            screenSize > REMOVE_BORDER_AT
+              ? {}
+              : { backgroundColor: "white" }
+          }
+        >
+          <div className="row justify-content-center">
+            <div
+              className="col-12"
+              style={{
+                maxWidth: "900px",
+              }}
+            >
+              {/* BREADCRUMB */}
+              <ol className="breadcrumb">
+                <li className="breadcrumb-item">
+                  <a
+                    onClick={() => navigate(`/consumables`)}
+                    className="text-primary"
+                    style={{ cursor: "pointer" }}
+                  >
+                    {t("consumables")}
+                  </a>
+                </li>
                 <li className="breadcrumb-item active">{data.title}</li>
               </ol>
+
+              {/* CARD */}
               <div
                 className={
                   screenSize > REMOVE_BORDER_AT
-                    ? "col-12 rounded card p-sm-5 mb-5"
-                    : "col-12 p-sm-5 mb-5 mt-5"
+                    ? "rounded card p-sm-5 mb-5"
+                    : "p-sm-5 mb-5 mt-5"
                 }
                 style={{
-                  maxWidth: "900px",
-                  marginRight: "auto",
-                  marginLeft: "auto",
-                  position: "relative"
+                  position: "relative",
                 }}
               >
+                {/* ADMIN BUTTONS */}
                 {(role === "ADMIN" || role === "MODERATOR") && (
                   <div
                     style={{
@@ -97,39 +114,54 @@ const Consumable = () => {
                     <button
                       className="btn btn-light btn-sm me-1"
                       value={data.id}
-                      onClick={(e) => setConsumableId(e.currentTarget.value)}
+                      onClick={(e) =>
+                        setConsumableId(e.currentTarget.value)
+                      }
                       data-bs-toggle="modal"
                       data-bs-target="#uploadConsumableImage"
-                      style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
                     >
                       <img
                         src="/images/image-gallery.png"
                         className="img-fluid"
-                        style={{ maxHeight: '1.3rem' }}
+                        style={{ maxHeight: "1.3rem" }}
                         alt="Upload"
                       />
                     </button>
-                    <button className="btn btn-sm btn-primary me-1"
+
+                    <button
+                      className="btn btn-sm btn-primary me-1"
                       value={data.id}
                       onClick={() => {
                         setSelectedConsumableToUpdate(data);
                       }}
                       data-bs-toggle="modal"
-                      data-bs-target="#update">
+                      data-bs-target="#update"
+                    >
                       Edit
                     </button>
-                    <button className="btn btn-sm btn-danger"
+
+                    <button
+                      className="btn btn-sm btn-danger"
                       value={data.id}
                       onClick={(e) => {
                         setConsumableId(e.target.value);
                       }}
                       data-bs-toggle="modal"
-                      data-bs-target="#DeleteConsumableModal">
+                      data-bs-target="#DeleteConsumableModal"
+                    >
                       Delete
                     </button>
                   </div>
                 )}
+
+                {/* MAIN CONTENT */}
                 <div className="row">
+                  {/* CAROUSEL */}
                   <div className="col-8 col-md-4 mb-4">
                     <div
                       id="carouselExampleIndicators"
@@ -145,8 +177,6 @@ const Consumable = () => {
                               data-bs-target="#carouselExampleIndicators"
                               data-bs-slide-to={index}
                               className={index === 0 ? "active" : ""}
-                              aria-current={index === 0 ? "true" : undefined}
-                              aria-label={`Slide ${index + 1}`}
                             ></button>
                           ))}
                         </div>
@@ -167,7 +197,7 @@ const Consumable = () => {
                                   paddingTop: "100%",
                                 }}
                               >
-                                <PhotoView key={index} src={imageSrc}>
+                                <PhotoView src={imageSrc}>
                                   <img
                                     src={imageSrc || NO_IMAGE}
                                     alt={`Slide ${index + 1}`}
@@ -218,11 +248,7 @@ const Consumable = () => {
                             data-bs-target="#carouselExampleIndicators"
                             data-bs-slide="prev"
                           >
-                            <span
-                              className="carousel-control-prev-icon"
-                              aria-hidden="true"
-                            ></span>
-                            <span className="visually-hidden">Previous</span>
+                            <span className="carousel-control-prev-icon"></span>
                           </button>
                           <button
                             className="carousel-control-next"
@@ -230,54 +256,65 @@ const Consumable = () => {
                             data-bs-target="#carouselExampleIndicators"
                             data-bs-slide="next"
                           >
-                            <span
-                              className="carousel-control-next-icon"
-                              aria-hidden="true"
-                            ></span>
-                            <span className="visually-hidden">Next</span>
+                            <span className="carousel-control-next-icon"></span>
                           </button>
                         </>
                       )}
                     </div>
                   </div>
+
+                  {/* INFO */}
                   <div className="col-12 col-md-8 mt-2 p-4">
                     <h3 className="fw-border mb-3">{data.title}</h3>
                     <h5 className="fw-light mb-3">{data.description}</h5>
-                    <h5 className="fw-border mb-3 text-danger">{data.price} {"EUR"}</h5>
+                    <h5 className="fw-border mb-3 text-danger">
+                      {data.price} EUR
+                    </h5>
                   </div>
                 </div>
+
+                {/* TABS */}
                 <div className="row mt-5 p-2">
                   <ul className="nav nav-tabs">
                     <li className="nav-item">
                       <a
                         className={`nav-link ${Tab === "Specs" ? "active" : ""
                           }`}
-                        style={{ color: "black" }}
+                        style={{ color: "black", cursor: "pointer" }}
                         onClick={() => changeTab("Specs")}
-                        href="#"
                       >
-                        {lang === "en" ? "Compatibility" : "Съвместимост"}
+                        {lang === "en"
+                          ? "Compatibility"
+                          : "Съвместимост"}
                       </a>
                     </li>
                   </ul>
                 </div>
+
+                {/* ROBOTS */}
                 {data.robots && data.robots.length > 0 ? (
                   <ul>
                     {data.robots.map((robot, index) => (
-                      <li key={index}
+                      <li
+                        key={index}
                         onClick={() => navigate(`/robots/${robot.id}`)}
-                        style={{ cursor: 'pointer', color: 'black', textDecoration: 'underline' }}
-                      >{robot.model}</li>
+                        style={{
+                          cursor: "pointer",
+                          color: "black",
+                          textDecoration: "underline",
+                        }}
+                      >
+                        {robot.model}
+                      </li>
                     ))}
                   </ul>
                 ) : (
                   <p>No robots available.</p>
                 )}
               </div>
-              <div className="col-12"></div>
             </div>
           </div>
-        </>
+        </div>
       ) : null}
     </div>
   );

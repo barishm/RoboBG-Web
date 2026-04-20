@@ -10,8 +10,10 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import usePagination from "src/hooks/usePagination";
 import { NO_IMAGE, DEFAULT_ENTITIES_PER_PAGE } from "src/constants";
 import ConsumableForm from "src/features/cms-feature/components/ConsumableForm";
+import { useTranslation } from "react-i18next";
 
 const Consumables = () => {
+  const { t } = useTranslation()
   const lang = useSelector((state) => state.language.lang);
   const [filterByModels, setFilterByModels] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -135,7 +137,9 @@ const Consumables = () => {
               ))}
             </div>
           ) : null}
-          <Pagination Page={page} setPage={setPage} isLast={isLast} />
+          {data.count > DEFAULT_ENTITIES_PER_PAGE && (
+            <Pagination Page={page} setPage={setPage} isLast={isLast} />
+          )}
         </div>
         <div className="col-12 col-md-12 col-lg-3" style={{ marginTop: "48px", padding: "20px" }}>
           <ConsumableFilters onFilterChange={handleFilterChange} selectedModels={filterByModels} />

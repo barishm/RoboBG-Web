@@ -6,8 +6,10 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useLazyGetRobotByIdQuery } from "src/app/services/robotApiSlice";
 import { getRobotIdsFromUrl, addIdToUrl, removeIdFromUrl } from "src/utils/utils";
+import { useTranslation } from "react-i18next";
 
 const Compare = () => {
+  const { t } = useTranslation()
   const [robots, setRobots] = useState([]);
   const location = useLocation();
   const navigate = useNavigate();

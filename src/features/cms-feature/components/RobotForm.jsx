@@ -5,6 +5,7 @@ import { cleanFormValues } from "src/utils/utils";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next"
 
 const validationSchema = Yup.object({
     brand: Yup.string()
@@ -16,9 +17,9 @@ const validationSchema = Yup.object({
 });
 
 const RobotForm = ({ action = 'C', id = null }) => {
+    const { t } = useTranslation()
     const { accessToken } = useSelector((state) => state.auth);
     const isUpdate = action === 'U' && id;
-    const isCreate = action === 'C';
 
     const [createRobot, { isSuccess: isCreateSuccess, isError: isCreateError, error: createError }] = useCreateRobotMutation();
     const [updateRobot, { isSuccess: isUpdateSuccess, isError: isUpdateError, error: updateError }] = useUpdateRobotMutation();
@@ -246,9 +247,9 @@ const RobotForm = ({ action = 'C', id = null }) => {
     });
 
     // Always use "update" modal ID when action is 'U', even if id is null initially
-    const modalId = action === 'U' ? "update" : "create";
-    const modalTitle = action === 'U' ? "Edit Robot" : "Create Robot";
-    const submitButtonText = action === 'U' ? "Edit" : "Create";
+    const modalId = action === 'U' ? t("update") : t("create");
+    const modalTitle = action === 'U' ? t("Edit Robot") : t("Create Robot");
+    const submitButtonText = action === 'U' ? t("Edit") : t("Create");
     const submitButtonClass = action === 'U' ? "btn btn-primary" : "btn btn-success";
 
     // Show loading state in update mode when data is not yet loaded
@@ -823,7 +824,7 @@ const RobotForm = ({ action = 'C', id = null }) => {
                                 data-bs-dismiss="modal"
                                 onClick={() => { formik.resetForm() }}
                             >
-                                Close
+                                {t("close")}
                             </button>
                             <button type="button" className="btn btn-danger me-1" onClick={removeLinkField}><b>-</b></button>
                             <button type="button" className="btn btn-success" onClick={addLinkField}><b>+</b></button>
