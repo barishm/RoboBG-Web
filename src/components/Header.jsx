@@ -209,20 +209,7 @@ const Header = ({ setDashboardsActiveComponent }) => {
                 {lang === 'en' ? 'Contact us' : 'Контакти'}
               </a>
             </li>
-            {(role === 'ADMIN' || role === 'MODERATOR') && (
-              // <li className="nav-item">
-              //   <a
-              //     className="nav-link active"
-              //     aria-current="page"
-              //     style={{ cursor: 'pointer' }}
-              //     onClick={() => {
-              //       navigate('/dashboard');
-              //       closeCollapse();
-              //     }}
-              //   >
-              //     {lang === 'en' ? 'Dashboard' : 'Панел'}
-              //   </a>
-              // </li>
+            {/* {(role === 'ADMIN' || role === 'MODERATOR') && (
               <li className="nav-item" style={{alignContent:"center"}}>
               <div className="dropdown">
                 <button
@@ -240,11 +227,6 @@ const Header = ({ setDashboardsActiveComponent }) => {
                   <span>Dashboard</span>
                 </button>
                 <ul className="dropdown-menu">
-                <li>
-                    <button className="dropdown-item" onClick={() => navigateToDashboard("Manage Robots")}>
-                      {lang === 'en' ? 'Manage Robots' : 'Manage Robots'}
-                    </button>
-                  </li>
                   <li>
                     <button className="dropdown-item" onClick={() => navigateToDashboard("Manage Users")}>
                       {lang === 'en' ? 'Manage Users' : 'Manage Users'}
@@ -263,7 +245,7 @@ const Header = ({ setDashboardsActiveComponent }) => {
                 </ul>
               </div>
               </li>
-            )}
+            )} */}
           </ul>
           {username ? (
             <div className="dropdown d-none d-md-block">

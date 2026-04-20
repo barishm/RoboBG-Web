@@ -55,7 +55,7 @@ const CreateMostCompared = () => {
   return (
     <div
       className="modal fade"
-      id="create"
+      id="createMostCompared"
       tabIndex="-1"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
@@ -74,7 +74,7 @@ const CreateMostCompared = () => {
               onClick={resetMostComparedState}
             ></button>
           </div>
-          <div className="modal-body">
+          <div className="modal-body" style={{ textAlign: "left" }}>
             <div className="form-inputs">
               <div className="mb-3">
                 <label
