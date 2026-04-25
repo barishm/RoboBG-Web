@@ -35,6 +35,7 @@ i18next
                 suctionPower: "Suction Power",
                 consumables: "Consumables",
                 vacuumRobots: "Vacuum Robots",
+                noConsumablesAvailable: "No consumables available"
 
             }
         },
@@ -66,6 +67,7 @@ i18next
                 suctionPower: "Всмукателна мощност",
                 consumables: "Консумативи",
                 vacuumRobots: "Вакуумни роботи",
+                noConsumablesAvailable: "Няма налични консумативи"
             }
         }
     }

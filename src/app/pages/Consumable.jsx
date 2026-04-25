@@ -60,14 +60,7 @@ const Consumable = () => {
         <Loading />
       ) : data ? (
         <div
-          className={
-            screenSize > REMOVE_BORDER_AT ? "container mt-4" : "container"
-          }
-          style={
-            screenSize > REMOVE_BORDER_AT
-              ? {}
-              : { backgroundColor: "white" }
-          }
+          className="container my-4"
         >
           <div className="row justify-content-center">
             <div
@@ -94,12 +87,10 @@ const Consumable = () => {
               <div
                 className={
                   screenSize > REMOVE_BORDER_AT
-                    ? "rounded card p-sm-5 mb-5"
-                    : "p-sm-5 mb-5 mt-5"
+                    ? "container mt-4 card pt-5 px-5"
+                    : "container-fluid px-2"
                 }
-                style={{
-                  position: "relative",
-                }}
+                style={{ position: "relative" }}
               >
                 {/* ADMIN BUTTONS */}
                 {(role === "ADMIN" || role === "MODERATOR") && (
@@ -291,26 +282,36 @@ const Consumable = () => {
                   </ul>
                 </div>
 
-                {/* ROBOTS */}
-                {data.robots && data.robots.length > 0 ? (
-                  <ul>
-                    {data.robots.map((robot, index) => (
-                      <li
-                        key={index}
-                        onClick={() => navigate(`/robots/${robot.id}`)}
+                <ul className="list-unstyled mt-3">
+                  {data.robots.map((robot, index) => (
+                    <li
+                      key={robot.id}
+                      onClick={() => navigate(`/robots/${robot.id}`)}
+                      className="d-flex align-items-center py-2"
+                      style={{
+                        cursor: "pointer",
+                        borderBottom:
+                          index !== data.robots.length - 1 ? "1px solid #dee2e6" : "none",
+                      }}
+                    >
+                      <img
+                        src={robot.image || NO_IMAGE}
+                        alt={robot.model}
+                        className="rounded"
                         style={{
-                          cursor: "pointer",
-                          color: "black",
-                          textDecoration: "underline",
+                          width: "50px",
+                          height: "50px",
+                          objectFit: "cover",
+                          marginRight: "12px",
                         }}
-                      >
+                      />
+
+                      <span style={{ color: "black" }}>
                         {robot.model}
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p>No robots available.</p>
-                )}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
           </div>

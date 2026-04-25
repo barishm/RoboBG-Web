@@ -80,8 +80,7 @@ const Robot = () => {
           <UploadRobotImage RobotId={data.id} />
 
           <div
-            className={screenSize > REMOVE_BORDER_AT ? "container mt-4" : "container"}
-            style={screenSize > REMOVE_BORDER_AT ? {} : { backgroundColor: "white" }}
+            className="container my-4"
           >
             {/* CENTER EVERYTHING */}
             <div className="row justify-content-center">
@@ -109,12 +108,10 @@ const Robot = () => {
                 <div
                   className={
                     screenSize > REMOVE_BORDER_AT
-                      ? "rounded card p-sm-5 mb-5"
-                      : "p-sm-5 mb-5 mt-5"
+                      ? "container mt-4 card pt-5 px-5 pb-3"
+                      : "container-fluid px-2"
                   }
-                  style={{
-                    position: "relative",
-                  }}
+                  style={{ position: "relative" }}
                 >
                   {/* ADMIN BUTTONS */}
                   {(role === "ADMIN" || role === "MODERATOR") && (
