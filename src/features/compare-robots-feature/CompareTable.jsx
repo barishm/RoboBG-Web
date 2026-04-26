@@ -8,11 +8,10 @@ import { specsConfig } from './specsConfig';
 // Internal helper components
 const SectionHeader = ({ title, colSpan }) => {
   return (
-    <tr>
+    <tr className="table-primary border">
       <th></th>
       <td
         colSpan={colSpan}
-        style={{ backgroundColor: '#212529', color: '#F5F5F5' }}
       >
         {title}
       </td>
@@ -35,7 +34,6 @@ const SpecificationRow = ({ textKey, field, unit, renderRow, renderStringRow }) 
             data-bs-content={SpecsRenderer({ textKey: `${textKey}Desc` })}
             style={{ color: '#000000', cursor: 'pointer' }}
           >
-            <i className="fa-regular fa-circle-question fa-xs"></i>
           </a>
         </span>
       </th>
@@ -128,7 +126,7 @@ const CompareTable = ({ robots, onDeleteRobot }) => {
 
   return (
     <div
-      className={`${styles.comparisonContainer} rounded-4`}
+      className={`${styles.comparisonContainer}`}
       style={{
         overflowX: 'auto',
         marginBottom: '50px',
@@ -146,13 +144,11 @@ const CompareTable = ({ robots, onDeleteRobot }) => {
             <thead></thead>
             <tbody>
               {/* Model name row */}
-              <tr>
+              <tr className="table-primary border">
                 <th scope="row"></th>
                 {robots.map((item) => (
                   <td
                     key={item.id}
-                    className="border"
-                    style={{ backgroundColor: '#212529', color: '#F5F5F5' }}
                   >
                     {item.model}
                   </td>
@@ -224,7 +220,6 @@ const CompareTable = ({ robots, onDeleteRobot }) => {
                             })}
                             style={{ color: '#000000', cursor: 'pointer' }}
                           >
-                            <i className="fa-regular fa-circle-question fa-xs"></i>
                           </a>
                         </span>
                       </th>

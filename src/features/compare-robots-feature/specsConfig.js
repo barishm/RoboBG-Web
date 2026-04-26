@@ -8,7 +8,7 @@ export const specsConfig = [
   { textKey: 'voicePrompts', field: 'voicePrompts' },
 
   // Cleaning Features
-  { section: 'Cleaning Features' },
+  { section: '🧹 Cleaning Features' },
   { textKey: 'suctionPower', field: 'cleaningFeatures.suctionPower', unit: 'Pa' },
   { textKey: 'cleaningArea', field: 'cleaningFeatures.cleaningArea', unit: 'm²' },
   { textKey: 'dustbinCapacity', field: 'cleaningFeatures.dustbinCapacity', unit: 'ml' },
@@ -19,7 +19,7 @@ export const specsConfig = [
   { textKey: 'washableFilter', field: 'cleaningFeatures.washableFilter' },
 
   // Mopping Features
-  { section: 'Mopping Features' },
+  { section: '🧽 Mopping features' },
   { textKey: 'wetMopping', field: 'moppingFeatures.wetMopping' },
   { textKey: 'electricWaterFlowControl', field: 'moppingFeatures.electricWaterFlowControl' },
   { textKey: 'waterTankCapacity', field: 'moppingFeatures.waterTankCapacity', unit: 'ml' },
@@ -29,14 +29,14 @@ export const specsConfig = [
   { textKey: 'autoMopWashing', field: 'moppingFeatures.autoMopWashing' },
 
   // Battery
-  { section: 'Battery' },
+  { section: '🔋 Battery' },
   { textKey: 'batteryCapacity', field: 'battery.batteryCapacity', unit: 'mAh' },
   // { textKey: 'batteryLife', field: 'battery.batteryLife', unit: 'min' },
   // { textKey: 'chargingTime', field: 'battery.chargingTime', unit: 'min' },
   // { textKey: 'ratedPower', field: 'battery.ratedPower', unit: 'W' },
 
   // Control
-  { section: 'Control' },
+  { section: '⚙ Control' },
   // { textKey: 'scheduling', field: 'control.scheduling' },
   { textKey: 'wifiSmartphoneApp', field: 'control.wifiSmartphoneApp' },
   { textKey: 'wifiFrequencyBand', field: 'control.wifiFrequencyBand', unit: 'GHz' },
@@ -45,7 +45,7 @@ export const specsConfig = [
   { textKey: 'magneticVirtualWalls', field: 'control.magneticVirtualWalls' },
 
   // App Features
-  { section: 'App Features' },
+  { section: '📱App Features' },
   { textKey: 'realTimeTracking', field: 'appFeatures.realTimeTracking' },
   { textKey: 'digitalBlockedAreas', field: 'appFeatures.digitalBlockedAreas' },
   { textKey: 'zonedCleaning', field: 'appFeatures.zonedCleaning' },
@@ -54,7 +54,7 @@ export const specsConfig = [
   { textKey: 'noMopZones', field: 'appFeatures.noMopZones' },
 
   // Sensor
-  { section: 'Sensor' },
+  { section: '📡Sensor' },
   { textKey: 'carpetBoost', field: 'sensor.carpetBoost' },
   { textKey: 'cliffSensor', field: 'sensor.cliffSensor' },
 
