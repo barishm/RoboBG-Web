@@ -46,7 +46,7 @@ const AddRobotDropdown = ({ robots, onAddRobot }) => {
       className="mb-1 mt-5"
     >
       <input
-        className="form-control me-2"
+        className="form-control form-control-sm me-2"
         value={model}
         name="Model"
         list="datalistOptions"
@@ -58,7 +58,7 @@ const AddRobotDropdown = ({ robots, onAddRobot }) => {
         }
         onChange={(e) => setModel(e.target.value)}
       />
-      <button type="button" className="btn btn-primary" onClick={handleAdd}>
+      <button type="button" className="btn btn-sm btn-primary" onClick={handleAdd}>
         {lang === 'en' ? 'Add' : 'Добави'}
       </button>
       <datalist id="datalistOptions">
