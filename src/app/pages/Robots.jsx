@@ -140,28 +140,28 @@ const Robots = () => {
                         >
                           {t("price")}
                         </button>
-                      <ul className="dropdown-menu">
-                        {item.purchaseLinks && item.purchaseLinks.length > 0 ? (
-                          item.purchaseLinks.map((link) => (
-                            <li key={link.id}>
-                              <a
-                                className="dropdown-item"
-                                target="_blank"
-                                href={link.link}
-                                rel="noreferrer"
-                              >
-                                {link.name}
-                              </a>
+                        <ul className="dropdown-menu">
+                          {item.purchaseLinks && item.purchaseLinks.length > 0 ? (
+                            item.purchaseLinks.map((link) => (
+                              <li key={link.id}>
+                                <a
+                                  className="dropdown-item"
+                                  target="_blank"
+                                  href={link.link}
+                                  rel="noreferrer"
+                                >
+                                  {link.name}
+                                </a>
+                              </li>
+                            ))
+                          ) : (
+                            <li>
+                              <span className="dropdown-item disabled text-muted" aria-disabled="true">
+                                {t("noOffersAvailable")}
+                              </span>
                             </li>
-                          ))
-                        ) : (
-                          <li>
-                            <span className="dropdown-item disabled text-muted" aria-disabled="true">
-                              {t("noOffersAvailable")}
-                            </span>
-                          </li>
-                        )}
-                      </ul>
+                          )}
+                        </ul>
                       </div>
                       <div className="mt-1">
                         <i className="fa-regular fa-comments fa-sm"></i>{' '}
@@ -173,7 +173,7 @@ const Robots = () => {
               ))}
             </div>
           )}
-          {data.count > DEFAULT_ENTITIES_PER_PAGE && (
+          {filteredRobots.length >= DEFAULT_ENTITIES_PER_PAGE && (
             <Pagination Page={page} setPage={setPage} isLast={isLast} />
           )}
         </div>
