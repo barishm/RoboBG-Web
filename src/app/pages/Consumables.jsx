@@ -137,7 +137,7 @@ const Consumables = () => {
               ))}
             </div>
           ) : null}
-          {data.count > DEFAULT_ENTITIES_PER_PAGE && (
+          {filteredConsumables.length > DEFAULT_ENTITIES_PER_PAGE && (
             <Pagination Page={page} setPage={setPage} isLast={isLast} />
           )}
         </div>
