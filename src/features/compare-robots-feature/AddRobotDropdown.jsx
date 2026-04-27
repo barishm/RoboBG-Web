@@ -5,7 +5,7 @@ import { useGetAllRobotsQuery, useLazyGetRobotByIdQuery } from 'src/app/services
 const AddRobotDropdown = ({ robots, onAddRobot }) => {
   const [model, setModel] = useState('');
   const lang = useSelector((state) => state.language.lang);
-  const { data: allModels = { content: [] } } = useGetAllRobotsQuery();
+  const { data: allModels = [] } = useGetAllRobotsQuery();
   const [triggerAdd] = useLazyGetRobotByIdQuery();
 
   const handleAdd = async () => {
